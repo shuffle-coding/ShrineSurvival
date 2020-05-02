@@ -15,7 +15,7 @@ public class ShrineSurvivalButton extends Button {
 
     private final String RELEASED = "/Buttons/yellow_button_released.png";
     private final String PRESSED = "/Buttons/yellow_button_pressed.png";
-    private final String FONT = "/kenvector_future.ttf";
+    private final String FONT = "/Fonts/kenvector_future.ttf";
     private final String BUTTON_NAME;
 
 
@@ -73,21 +73,15 @@ public class ShrineSurvivalButton extends Button {
 
     private void initializeButtonListeners() {
 
-        setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    setButtonPressedStyle();
-                }
+        setOnMousePressed(event -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                setButtonPressedStyle();
             }
         });
 
-        setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    setButtonReleasedStyle();
-                }
+        setOnMouseReleased(event -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                setButtonReleasedStyle();
             }
         });
 
