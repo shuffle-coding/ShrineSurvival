@@ -28,4 +28,8 @@ public class ShrineSurvivalSubScene extends SubScene {
         root2.setBackground(background);
     }
 
+    public AnchorPane getPane() {
+        return (AnchorPane) this.getRoot();
+    }
+
 }

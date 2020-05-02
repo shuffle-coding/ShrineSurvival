@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
@@ -33,6 +32,10 @@ public class ShrineSurvivalButton extends Button {
             BackgroundPosition.CENTER,
             BackgroundSize.DEFAULT
     ));
+
+    public String getButtonName() {
+        return BUTTON_NAME;
+    }
 
     public ShrineSurvivalButton(String text, String button_name) {
         BUTTON_NAME = button_name;
