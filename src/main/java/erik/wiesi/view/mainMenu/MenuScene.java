@@ -1,6 +1,7 @@
 package erik.wiesi.view.mainMenu;
 
 import erik.wiesi.model.ShrineSurvivalButton;
+import erik.wiesi.model.ShrineSurvivalSubScene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
@@ -12,19 +13,23 @@ public class MenuScene {
 
     private AnchorPane mainPane;
     private final String BACKGROUND = "/Background/338101.png";
+    private Map<Integer, ShrineSurvivalButton> buttonMap = new HashMap<>();
 
     public MenuScene(AnchorPane mainPane) {
         this.mainPane = mainPane;
 
         createButtons();
         createBackground();
+        ShrineSurvivalSubScene subScene = new ShrineSurvivalSubScene();
+        subScene.setOpacity(0.5);
+        subScene.setLayoutX(mainPane.getWidth() / 2);
+        subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
+        mainPane.getChildren().add(subScene);
     }
 
     private void createButtons() {
 
         double buttonStartX = mainPane.getWidth() / 4;
-
-        Map<Integer, ShrineSurvivalButton> buttonMap = new HashMap<>();
 
         buttonMap.put(1, new ShrineSurvivalButton("how to play", "howToPlayButton"));
         buttonMap.put(2, new ShrineSurvivalButton("play solo", "playSoloButton"));
@@ -46,13 +51,13 @@ public class MenuScene {
     }
 
     private void createBackground() {
-        BackgroundImage background = new BackgroundImage(
+        Background background = new Background(new BackgroundImage(
                 new Image(getClass().getResource(BACKGROUND).toString(), 1920, 1080, false, false),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 null
-        );
-        mainPane.setBackground(new Background(background));
+        ));
+        mainPane.setBackground(background);
     }
 }
