@@ -1,7 +1,8 @@
 package erik.wiesi.view.mainMenu;
 
 import erik.wiesi.model.ShrineSurvivalButton;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +11,13 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MenuScene {
 
     private AnchorPane mainPane;
+    private final String BACKGROUND = "/Background/338101.png";
 
     public MenuScene(AnchorPane mainPane) {
         this.mainPane = mainPane;
 
         createButtons();
+        createBackground();
     }
 
     private void createButtons() {
@@ -37,12 +40,19 @@ public class MenuScene {
             mainPane.getChildren().add(b);
             b.setLayoutX(buttonStartX);
             b.setLayoutY(buttonStartY.get());
-            buttonStartY.updateAndGet(v -> new Double((double) (v + 70)));
+            buttonStartY.updateAndGet(v -> v + 70);
         });
 
     }
 
     private void createBackground() {
-
+        BackgroundImage background = new BackgroundImage(
+                new Image(getClass().getResource(BACKGROUND).toString(), 1920, 1080, false, false),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                null
+        );
+        mainPane.setBackground(new Background(background));
     }
 }

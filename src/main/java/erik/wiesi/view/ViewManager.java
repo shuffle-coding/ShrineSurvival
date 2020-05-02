@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 
 public class ViewManager {
 
-    private static final double WIDTH = 1600;
-    private static final double HEIGHT = 1200;
+    private static final double WIDTH = 1920;
+    private static final double HEIGHT = 1080;
     private AnchorPane mainPane;
     private Scene mainScene;
     private Stage mainStage;
