@@ -26,8 +26,10 @@ public class MenuScene {
         buttonMap.put(1, new ShrineSurvivalButton("how to play", "howToPlayButton"));
         buttonMap.put(2, new ShrineSurvivalButton("play solo", "playSoloButton"));
         buttonMap.put(3, new ShrineSurvivalButton("multiplayer", "multiplayerButton"));
-        buttonMap.put(4, new ShrineSurvivalButton("settings", "settingsButton"));
-        buttonMap.put(5, new ShrineSurvivalButton("exit", "exitButton"));
+        buttonMap.put(4, new ShrineSurvivalButton("scores", "scoresButton"));
+        buttonMap.put(5, new ShrineSurvivalButton("credits", "creditsButton"));
+        buttonMap.put(6, new ShrineSurvivalButton("settings", "settingsButton"));
+        buttonMap.put(7, new ShrineSurvivalButton("exit", "exitButton"));
 
         int totalSize = buttonMap.size() * 70;
         AtomicReference<Double> buttonStartY = new AtomicReference<>((mainPane.getHeight() / 2) - (totalSize / 2));
