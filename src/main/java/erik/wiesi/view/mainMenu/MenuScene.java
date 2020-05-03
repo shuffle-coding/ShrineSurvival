@@ -2,6 +2,7 @@ package erik.wiesi.view.mainMenu;
 
 import erik.wiesi.model.ShrineSurvivalButton;
 import erik.wiesi.model.ShrineSurvivalSubScene;
+import erik.wiesi.model.Sprite;
 import erik.wiesi.model.subScenes.*;
 import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
@@ -69,13 +70,11 @@ public class MenuScene {
         buttonMap.forEach(b -> b.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (b.getButtonName().contains("howToPlay") || b.getButtonName().contains("playmultiplayer") || b.getButtonName().contains("scores") || b.getButtonName().contains("credits") || b.getButtonName().contains("settings")) {
+                if (b.getButtonName().contains("howToPlay") || b.getButtonName().contains("playSolo") || b.getButtonName().contains("playmultiplayer") || b.getButtonName().contains("scores") || b.getButtonName().contains("credits") || b.getButtonName().contains("settings")) {
                     createSubScene(b.getButtonName());
                 } else if (b.getButtonName().contains("exit")) {
                     Stage stage = (Stage) b.getScene().getWindow();
                     stage.close();
-                } else if (b.getButtonName().contains("playSolo")) {
-                    System.out.println("Play Solo");
                 } else {
                     System.out.println("Nothing Happenend");
                 }
@@ -90,6 +89,10 @@ public class MenuScene {
             case "howToPlayButton":
                 subScene = new HowToPlaySubScene();
                 panelInfo = new PanelInfo("How to play");
+                break;
+            case "playSoloButton":
+                subScene = new PlaySoloSubScene();
+                panelInfo = new PanelInfo("Play Solo");
                 break;
             case "playmultiplayerButton":
                 subScene = new PlayMultiplayerSubScene();
