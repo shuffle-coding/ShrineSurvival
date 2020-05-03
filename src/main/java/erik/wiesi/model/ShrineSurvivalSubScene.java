@@ -1,12 +1,10 @@
 package erik.wiesi.model;
 
-import javafx.scene.Parent;
-import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
-public class ShrineSurvivalSubScene extends SubScene {
+public abstract class ShrineSurvivalSubScene extends SubScene {
 
     private final String FONT = "/Fonts/kenvector_future.ttf";
     private final String BACKGROUND = "/Background/yellow_panel.png";

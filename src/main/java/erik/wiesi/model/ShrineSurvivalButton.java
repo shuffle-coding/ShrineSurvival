@@ -19,7 +19,7 @@ public class ShrineSurvivalButton extends Button {
 
     private Background released = new Background(new BackgroundImage(
             new Image(getClass().getResource(RELEASED).toString()),
-            BackgroundRepeat.NO_REPEAT,         // TODO: Double BackgroundRepeat
+            BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT,
             BackgroundPosition.CENTER,
             BackgroundSize.DEFAULT

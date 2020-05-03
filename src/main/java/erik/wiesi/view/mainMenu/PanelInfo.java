@@ -12,8 +12,8 @@ public class PanelInfo extends Label {
 
     public PanelInfo(String text) {
         setPrefWidth(600);
-        setPrefHeight(400);
-        setPadding(new Insets(40,40,40,40));
+        setPrefHeight(100);
+        setPadding(new Insets(5,5,5,5));
         setText(text);
         setWrapText(true);
         setLabelFont();
@@ -21,7 +21,7 @@ public class PanelInfo extends Label {
 
     private void setLabelFont(){
         try {
-            setFont(Font.loadFont(getClass().getResource(FONT).openStream(), 23));
+            setFont(Font.loadFont(getClass().getResource(FONT).openStream(), 20));
         } catch (IOException e) {
             e.printStackTrace();
         }

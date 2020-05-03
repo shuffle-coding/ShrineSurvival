@@ -2,6 +2,8 @@ package erik.wiesi.view.mainMenu;
 
 import erik.wiesi.model.ShrineSurvivalButton;
 import erik.wiesi.model.ShrineSurvivalSubScene;
+import erik.wiesi.model.subScenes.*;
+import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -18,10 +20,8 @@ public class MenuScene {
     private final String BACKGROUND = "/Background/338101.png";
     private List<ShrineSurvivalButton> buttonMap = new ArrayList<>();
 
-    private ShrineSurvivalSubScene howToPlaySubScene;
-    private ShrineSurvivalSubScene coresSubScene;
-    private ShrineSurvivalSubScene creditsSubScene;
-    private ShrineSurvivalSubScene settingsSubScene;
+    private ShrineSurvivalSubScene subScene;
+    private PanelInfo panelInfo;
 
     public MenuScene(AnchorPane mainPane) {
         this.mainPane = mainPane;
@@ -56,7 +56,7 @@ public class MenuScene {
 
     private void createBackground() {
         Background background = new Background(new BackgroundImage(
-                new Image(getClass().getResource(BACKGROUND).toString(), 1920, 1080, false, false),
+                new Image(getClass().getResource(BACKGROUND).toString(), ViewManager.getWIDTH(), ViewManager.getHEIGHT(), false, false),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
@@ -69,89 +69,53 @@ public class MenuScene {
         buttonMap.forEach(b -> b.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                switch (b.getButtonName()) {
-                    case "howToPlayButton":
-                        createHowToPlaySubScene();
-                        break;
-                    case "playSoloButton":
-
-                        break;
-                    case "playmultiplayerButton":
-                        createPlayMultiplayerSubScene();
-                        break;
-                    case "scoresButton":
-                        createScoresSubScene();
-                        break;
-                    case "creditsButton":
-                        createCreditsSubScene();
-                        break;
-                    case "settingsButton":
-                        createSettingsSubScene();
-                        break;
-                    case "exitButton":
-                        Stage stage = (Stage) b.getScene().getWindow();
-                        stage.close();
-                        break;
-                    default:
-                        System.out.println("Nothing Happenend");
-
+                if (b.getButtonName().contains("howToPlay") || b.getButtonName().contains("playmultiplayer") || b.getButtonName().contains("scores") || b.getButtonName().contains("credits") || b.getButtonName().contains("settings")) {
+                    createSubScene(b.getButtonName());
+                } else if (b.getButtonName().contains("exit")) {
+                    Stage stage = (Stage) b.getScene().getWindow();
+                    stage.close();
+                } else if (b.getButtonName().contains("playSolo")) {
+                    System.out.println("Play Solo");
+                } else {
+                    System.out.println("Nothing Happenend");
                 }
             }
         }));
 
     }
 
-    public void createHowToPlaySubScene() {
-
-        ShrineSurvivalSubScene subScene = new ShrineSurvivalSubScene();
-        subScene.setOpacity(0.5);
+    private void createSubScene(String buttonName) {
+        mainPane.getChildren().remove(subScene);
+        switch (buttonName) {
+            case "howToPlayButton":
+                subScene = new HowToPlaySubScene();
+                panelInfo = new PanelInfo("How to play");
+                break;
+            case "playmultiplayerButton":
+                subScene = new PlayMultiplayerSubScene();
+                panelInfo = new PanelInfo("Multiplayer not supported yet");
+                break;
+            case "scoresButton":
+                subScene = new ScoresSubScene();
+                panelInfo = new PanelInfo("Scores");
+                break;
+            case "creditsButton":
+                subScene = new CreditsSubScene();
+                panelInfo = new PanelInfo("Credits");
+                break;
+            case "settingsButton":
+                subScene = new SettingsSubScene();
+                panelInfo = new PanelInfo("Settings");
+                break;
+            default:
+                System.out.println("No SubScene found");
+        }
+        subScene.setOpacity(0.75);
         subScene.setLayoutX(mainPane.getWidth() / 2);
         subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
-        PanelInfo panelInfo = new PanelInfo("test");
+        mainPane.getChildren().add(subScene);
         panelInfo.setLayoutX(40);
-        panelInfo.setLayoutY(60);
-        mainPane.getChildren().add(subScene);
+        panelInfo.setLayoutY(0);
         subScene.getPane().getChildren().add(panelInfo);
-
     }
-
-    public void createScoresSubScene() {
-
-        ShrineSurvivalSubScene subScene = new ShrineSurvivalSubScene();
-        subScene.setOpacity(0.5);
-        subScene.setLayoutX(mainPane.getWidth() / 2);
-        subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
-        mainPane.getChildren().add(subScene);
-    }
-
-    public void createCreditsSubScene() {
-
-        ShrineSurvivalSubScene subScene = new ShrineSurvivalSubScene();
-        subScene.setOpacity(0.5);
-        subScene.setLayoutX(mainPane.getWidth() / 2);
-        subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
-        mainPane.getChildren().add(subScene);
-
-    }
-
-    public void createSettingsSubScene() {
-
-        ShrineSurvivalSubScene subScene = new ShrineSurvivalSubScene();
-        subScene.setOpacity(0.5);
-        subScene.setLayoutX(mainPane.getWidth() / 2);
-        subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
-        mainPane.getChildren().add(subScene);
-
-    }
-
-    public void createPlayMultiplayerSubScene() {
-
-        ShrineSurvivalSubScene subScene = new ShrineSurvivalSubScene();
-        subScene.setOpacity(0.5);
-        subScene.setLayoutX(mainPane.getWidth() / 2);
-        subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
-        mainPane.getChildren().add(subScene);
-
-    }
-
 }
