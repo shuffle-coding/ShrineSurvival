@@ -7,5 +7,4 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
     private final String FONT = "/Fonts/kenvector_future.ttf";
 
 
-
 }

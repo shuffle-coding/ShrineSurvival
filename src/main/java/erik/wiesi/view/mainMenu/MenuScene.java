@@ -2,7 +2,6 @@ package erik.wiesi.view.mainMenu;
 
 import erik.wiesi.model.ShrineSurvivalButton;
 import erik.wiesi.model.ShrineSurvivalSubScene;
-import erik.wiesi.model.Sprite;
 import erik.wiesi.model.subScenes.*;
 import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
@@ -19,7 +18,7 @@ public class MenuScene {
 
     private AnchorPane mainPane;
     private final String BACKGROUND = "/Background/338101.png";
-    private List<ShrineSurvivalButton> buttonMap = new ArrayList<>();
+    private List<ShrineSurvivalButton> buttonList = new ArrayList<>();
 
     private ShrineSurvivalSubScene subScene;
     private PanelInfo panelInfo;
@@ -36,17 +35,17 @@ public class MenuScene {
 
         double buttonStartX = mainPane.getWidth() / 4;
 
-        buttonMap.add(new ShrineSurvivalButton("how to play", "howToPlayButton"));
-        buttonMap.add(new ShrineSurvivalButton("play solo", "playSoloButton"));
-        buttonMap.add(new ShrineSurvivalButton("multiplayer", "playmultiplayerButton"));
-        buttonMap.add(new ShrineSurvivalButton("scores", "scoresButton"));
-        buttonMap.add(new ShrineSurvivalButton("credits", "creditsButton"));
-        buttonMap.add(new ShrineSurvivalButton("settings", "settingsButton"));
-        buttonMap.add(new ShrineSurvivalButton("exit", "exitButton"));
+        buttonList.add(new ShrineSurvivalButton("how to play", "howToPlayButton"));
+        buttonList.add(new ShrineSurvivalButton("play solo", "playSoloButton"));
+        buttonList.add(new ShrineSurvivalButton("multiplayer", "playmultiplayerButton"));
+        buttonList.add(new ShrineSurvivalButton("scores", "scoresButton"));
+        buttonList.add(new ShrineSurvivalButton("credits", "creditsButton"));
+        buttonList.add(new ShrineSurvivalButton("settings", "settingsButton"));
+        buttonList.add(new ShrineSurvivalButton("exit", "exitButton"));
 
-        int totalSize = buttonMap.size() * 70;
+        int totalSize = buttonList.size() * 70;
         AtomicReference<Double> buttonStartY = new AtomicReference<>((mainPane.getHeight() / 2) - (totalSize / 2));
-        buttonMap.forEach(b -> {
+        buttonList.forEach(b -> {
             mainPane.getChildren().add(b);
             b.setLayoutX(buttonStartX);
             b.setLayoutY(buttonStartY.get());
@@ -67,7 +66,7 @@ public class MenuScene {
     }
 
     private void buttonActions() {
-        buttonMap.forEach(b -> b.setOnAction(new EventHandler<ActionEvent>() {
+        buttonList.forEach(b -> b.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (b.getButtonName().contains("howToPlay") || b.getButtonName().contains("playSolo") || b.getButtonName().contains("playmultiplayer") || b.getButtonName().contains("scores") || b.getButtonName().contains("credits") || b.getButtonName().contains("settings")) {
