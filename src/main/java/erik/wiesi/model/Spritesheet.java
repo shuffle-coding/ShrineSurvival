@@ -4,16 +4,16 @@ import javafx.scene.image.Image;
 import javafx.scene.canvas.Canvas;
 
 public class Spritesheet {
-    private final int DEFAULT_TILE_SIZE = 16;
-    private final int DEFAULT_MARGIN = 2;
+    private final double DEFAULT_TILE_SIZE = 17;
+    private final double DEFAULT_MARGIN = 0;
 
-    private int tilesize;
-    public int getTilesize() {
+    private double tilesize;
+    public double getTilesize() {
         return tilesize;
     }
 
-    private int margin;
-    public int getMargin() {
+    private double margin;
+    public double getMargin() {
         return margin;
     }
 
@@ -46,7 +46,7 @@ public class Spritesheet {
         double startX = x * (tilesize + margin);
         double startY = y * (tilesize + margin);
 
-        canvas.getGraphicsContext2D().drawImage(image, startX, startY, startX + tilesize, startY + tilesize, 0, 0, tilesize, tilesize);
+        canvas.getGraphicsContext2D().drawImage(image, startX, startY, tilesize, tilesize, 0, 0, tilesize, tilesize);
 
         return new Sprite(canvas);
     }

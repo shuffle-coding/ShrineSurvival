@@ -8,7 +8,6 @@ import erik.wiesi.model.subScenes.*;
 import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -39,7 +38,8 @@ public class MenuScene {
         Spritesheet charsheet = new Spritesheet(CHARSHEET);
         Sprite test = charsheet.getSprite(0, 0);
         mainPane.getChildren().add(test.getCanvas());
-        test.addSprite(charsheet, 4, 0);
+        test.addSprite(charsheet, 19, 0);
+        test.setScale(2);
         test.getCanvas().setLayoutX(1000);
         test.getCanvas().setLayoutY(1000);
     }
