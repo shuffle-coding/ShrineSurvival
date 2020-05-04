@@ -2,10 +2,13 @@ package erik.wiesi.view.mainMenu;
 
 import erik.wiesi.model.ShrineSurvivalButton;
 import erik.wiesi.model.ShrineSurvivalSubScene;
+import erik.wiesi.model.Sprite;
+import erik.wiesi.model.Spritesheet;
 import erik.wiesi.model.subScenes.*;
 import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -23,12 +26,22 @@ public class MenuScene {
     private ShrineSurvivalSubScene subScene;
     private PanelInfo panelInfo;
 
+    private final String CHARSHEET = "/SpriteSheets/roguelikeChar_transparent.png";
+    private final String TILESHEET = "/SpriteSheets/roguelikeSheet_transparent.png";
+
     public MenuScene(AnchorPane mainPane) {
         this.mainPane = mainPane;
 
         createButtons();
         createBackground();
         buttonActions();
+
+        Spritesheet charsheet = new Spritesheet(CHARSHEET);
+        Sprite test = charsheet.getSprite(0, 0);
+        mainPane.getChildren().add(test.getCanvas());
+        test.addSprite(charsheet, 4, 0);
+        test.getCanvas().setLayoutX(1000);
+        test.getCanvas().setLayoutY(1000);
     }
 
     private void createButtons() {
