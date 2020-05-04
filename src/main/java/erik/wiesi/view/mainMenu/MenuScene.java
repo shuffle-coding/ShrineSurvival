@@ -1,9 +1,6 @@
 package erik.wiesi.view.mainMenu;
 
-import erik.wiesi.model.ShrineSurvivalButton;
-import erik.wiesi.model.ShrineSurvivalSubScene;
-import erik.wiesi.model.Sprite;
-import erik.wiesi.model.Spritesheet;
+import erik.wiesi.model.*;
 import erik.wiesi.model.subScenes.*;
 import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
@@ -35,13 +32,6 @@ public class MenuScene {
         createBackground();
         buttonActions();
 
-        Spritesheet charsheet = new Spritesheet(CHARSHEET);
-        Sprite test = charsheet.getSprite(0, 0);
-        mainPane.getChildren().add(test.getCanvas());
-        test.addSprite(charsheet, 19, 0);
-        test.setScale(2);
-        test.getCanvas().setLayoutX(1000);
-        test.getCanvas().setLayoutY(1000);
     }
 
     private void createButtons() {
@@ -125,7 +115,6 @@ public class MenuScene {
             default:
                 System.out.println("No SubScene found");
         }
-        subScene.setOpacity(0.75);
         subScene.setLayoutX(mainPane.getWidth() / 2);
         subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
         mainPane.getChildren().add(subScene);

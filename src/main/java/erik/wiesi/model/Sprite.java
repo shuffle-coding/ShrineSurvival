@@ -1,36 +1,41 @@
 package erik.wiesi.model;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 public class Sprite {
-
     private Canvas canvas;
 
     public Sprite(Canvas canvas) {
         this.canvas = canvas;
+    }
+    public Sprite(Image image) {
+        this.canvas = CanvasHelper.imageToCanvas(image);
     }
 
     public Canvas getCanvas() {
         return this.canvas;
     }
 
-    public Canvas addSprite(Spritesheet spritesheet, int x, int y) {
+    public Sprite addSprite(Sprite sprite) {
+        double width = this.canvas.getWidth();
+        double height = this.canvas.getHeight();
 
-        double tilesize = spritesheet.getTilesize();
-        double margin = spritesheet.getMargin();
+        Image self = CanvasHelper.canvasToImage(canvas);
+        Image other = CanvasHelper.canvasToImage(sprite.canvas);
 
-        double startX = x * (tilesize + margin);
-        double startY = y * (tilesize + margin);
+        Canvas result = new Canvas(width, height);
+        GraphicsContext context = result.getGraphicsContext2D();
 
-        canvas.getGraphicsContext2D().drawImage(spritesheet.getImage(), startX, startY, tilesize, tilesize, 0, 0, tilesize, tilesize);
-        return canvas;
-    }
-    public Canvas setScale(int s) {
+        context.drawImage(self, 0,0, width, height);
+        context.drawImage(other, 0,0, width, height);
 
-        this.canvas.setScaleX(s);
-        this.canvas.setScaleY(s);
-
-        return canvas;
+        return new Sprite(result);
     }
 
+    public void setScale(int s) {
+        canvas.setScaleX(s);
+        canvas.setScaleY(s);
+    }
 }

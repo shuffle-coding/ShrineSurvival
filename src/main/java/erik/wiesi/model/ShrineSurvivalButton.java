@@ -16,6 +16,10 @@ public class ShrineSurvivalButton extends Button {
     private final String FONT = "/Fonts/kenvector_future.ttf";
     private final String BUTTON_NAME;
 
+    private double width = 190;
+    private double height = 49;
+    private double fontSize = 18;
+
 
     private Background released = new Background(new BackgroundImage(
             new Image(getClass().getResource(RELEASED).toString()),
@@ -36,6 +40,23 @@ public class ShrineSurvivalButton extends Button {
         return BUTTON_NAME;
     }
 
+    public ShrineSurvivalButton(String text, String button_name, double width, double height, double fontSize) {
+        BUTTON_NAME = button_name;
+
+        this.width = width;
+        this.height = height;
+        this.fontSize = fontSize;
+
+        setText(text);
+        setButtonFont(fontSize);
+
+        setBackground(released);
+
+        setPrefHeight(height);
+        setPrefWidth(width);
+        initializeButtonListeners();
+    }
+
     public ShrineSurvivalButton(String text, String button_name) {
         BUTTON_NAME = button_name;
 
@@ -44,8 +65,8 @@ public class ShrineSurvivalButton extends Button {
 
         setBackground(released);
 
-        setPrefHeight(49);
-        setPrefWidth(190);
+        setPrefHeight(height);
+        setPrefWidth(width);
         initializeButtonListeners();
     }
 
@@ -55,7 +76,15 @@ public class ShrineSurvivalButton extends Button {
 
     private void setButtonFont() {
         try {
-            setFont(Font.loadFont(getClass().getResource(FONT).openStream(), 18));
+            setFont(Font.loadFont(getClass().getResource(FONT).openStream(), fontSize));
+        } catch (IOException e) {
+            convertException(e);
+        }
+    }
+
+    private void setButtonFont(double FONT_SIZE) {
+        try {
+            setFont(Font.loadFont(getClass().getResource(FONT).openStream(), FONT_SIZE));
         } catch (IOException e) {
             convertException(e);
         }
