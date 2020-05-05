@@ -16,6 +16,11 @@ public class SpriteTest {
         return this.canvas;
     }
 
+    public void resetCanvas() {
+        canvas = null;
+        canvas = new Canvas(spritesheet.getTilesize(), spritesheet.getTilesize());
+    }
+
     public Canvas addSprite(int x, int y) {
 
         double tilesize = spritesheet.getTilesize();
@@ -24,7 +29,7 @@ public class SpriteTest {
         double startX = x * (tilesize + margin);
         double startY = y * (tilesize + margin);
 
-        if (x > 0) {
+        if (x > 1) {
             startX += margin;
         }
 

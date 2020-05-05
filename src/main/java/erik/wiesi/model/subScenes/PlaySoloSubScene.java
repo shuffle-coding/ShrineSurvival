@@ -1,39 +1,47 @@
 package erik.wiesi.model.subScenes;
 
-import erik.wiesi.model.ShrineSurvivalButton;
-import erik.wiesi.model.ShrineSurvivalSubScene;
-import erik.wiesi.model.SpriteTest;
-import erik.wiesi.model.SpritesheetTest;
+import erik.wiesi.model.*;
+import erik.wiesi.model.characterBuilder.Creator;
+import erik.wiesi.model.characterBuilder.Types;
+import erik.wiesi.model.characters.PlayerSprite;
+import erik.wiesi.view.mainMenu.PanelInfo;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-public class PlaySoloSubScene extends ShrineSurvivalSubScene{
+public class PlaySoloSubScene extends ShrineSurvivalSubScene {
 
 
+    private final SpritesheetTest CHARS = new SpritesheetTest("/SpriteSheets/roguelikeChar_transparent.png");
     private final String BACKGROUND = "/Background/blue_panel.png";
     private List<ShrineSurvivalButton> buttonList = new ArrayList<>();
+    Pane pane = this.getPane();
+    private SpriteTest previewSprite;
+    Creator body;
+    Creator head;
+    Creator top;
+    Creator pants;
+    Creator shoes;
 
     public PlaySoloSubScene() {
 
-        SpritesheetTest chars = new SpritesheetTest("/SpriteSheets/roguelikeChar_transparent.png");
-        SpriteTest test = new SpriteTest(chars);
-        test.addSprite(0,1);
-        test.addSprite(3, 1);
-        test.addSprite(4, 1);
-        test.addSprite(6, 1);
-        test.addSprite(20, 1);
-        test.addSprite(30, 1);
-        test.addSprite(50, 1);
-        this.getPane().getChildren().add(test.getCanvas());
-        test.setLayout(this.getPane().getWidth() / 4, this.getPane().getHeight() / 2);
-        test.setScale(12);
+        body = new Creator(Types.BODY);
+        head= new Creator(Types.HEAD);
+        top = new Creator(Types.TOP);
+        pants = new Creator(Types.PANTS);
+        shoes = new Creator(Types.SHOES);
 
+        previewSprite = new SpriteTest(CHARS);
         addButtons();
         addStartButton();
         buttonActions();
@@ -46,7 +54,6 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene{
 
         buttonList.add(new ShrineSurvivalButton("body next", "bodyNextButton"));
         buttonList.add(new ShrineSurvivalButton("head next", "headNextButton"));
-        buttonList.add(new ShrineSurvivalButton("beard next", "beardNextButton"));
         buttonList.add(new ShrineSurvivalButton("top next", "topNextButton"));
         buttonList.add(new ShrineSurvivalButton("pants next", "pantsNextButton"));
         buttonList.add(new ShrineSurvivalButton("shoes next", "shoesNextButton"));
@@ -64,7 +71,7 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene{
 
     private void addStartButton() {
         ShrineSurvivalButton start = new ShrineSurvivalButton("start", "startButton");
-        this.getPane().getChildren().add(start);
+        pane.getChildren().add(start);
         start.setLayoutX(this.getPane().getWidth() / 10);
         start.setLayoutY(this.getPane().getHeight() / 1.2);
     }
@@ -73,13 +80,47 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene{
         buttonList.forEach(b -> b.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (b.getButtonName().contains("howToPlay") || b.getButtonName().contains("playSolo") || b.getButtonName().contains("playmultiplayer") || b.getButtonName().contains("scores") || b.getButtonName().contains("credits") || b.getButtonName().contains("settings")) {
-                    createSubScene(b.getButtonName());
-                } else {
-                    System.out.println("Error");
-                }
+                buttonEvent(b.getButtonName());
             }
         }));
+
+    }
+
+    private void buttonEvent(String buttonName) {
+        pane.getChildren().removeAll(previewSprite.getCanvas());
+        previewSprite.resetCanvas();
+        switch (buttonName) {
+            case "bodyNextButton":
+                body.getNext();
+                break;
+            case "headNextButton":
+                head.getNext();
+                break;
+            case "topNextButton":
+                top.getNext();
+                break;
+            case "pantsNextButton":
+                pants.getNext();
+                break;
+            case "shoesNextButton":
+                shoes.getNext();
+                break;
+            case "classNextButton":
+                // TODO: Implementation
+                System.out.println("Not implemented Yet");
+                break;
+            default:
+                System.out.println("Error");
+        }
+
+        previewSprite.addSprite(body.getX(), body.getY());
+        previewSprite.addSprite(pants.getX(), pants.getY());
+        previewSprite.addSprite(shoes.getX(), shoes.getY());
+        previewSprite.addSprite(top.getX(), top.getY());
+        previewSprite.addSprite(head.getX(), head.getY());
+        pane.getChildren().add(previewSprite.getCanvas());
+        previewSprite.setLayout(this.getPane().getWidth() / 4, this.getPane().getHeight() / 2);
+        previewSprite.setScale(12);
 
     }
 
