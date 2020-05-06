@@ -3,17 +3,10 @@ package erik.wiesi.model.subScenes;
 import erik.wiesi.model.*;
 import erik.wiesi.model.characterBuilder.Creator;
 import erik.wiesi.model.characterBuilder.Types;
-import erik.wiesi.model.characters.PlayerSprite;
-import erik.wiesi.view.mainMenu.PanelInfo;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -22,11 +15,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public class PlaySoloSubScene extends ShrineSurvivalSubScene {
 
 
-    private final SpritesheetTest CHARS = new SpritesheetTest("/SpriteSheets/roguelikeChar_transparent.png");
+    private final Spritesheet CHARS = new Spritesheet("/SpriteSheets/roguelikeChar_transparent.png");
     private final String BACKGROUND = "/Background/blue_panel.png";
     private List<ShrineSurvivalButton> buttonList = new ArrayList<>();
     Pane pane = this.getPane();
-    private SpriteTest previewSprite;
+    private Sprite previewSprite;
     Creator body;
     Creator head;
     Creator top;
@@ -41,7 +34,7 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
         pants = new Creator(Types.PANTS);
         shoes = new Creator(Types.SHOES);
 
-        previewSprite = new SpriteTest(CHARS);
+        previewSprite = new Sprite(CHARS);
         addButtons();
         addStartButton();
         buttonActions();

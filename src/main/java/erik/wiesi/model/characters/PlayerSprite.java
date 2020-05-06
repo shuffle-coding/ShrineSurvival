@@ -1,11 +1,10 @@
 package erik.wiesi.model.characters;
 
-import erik.wiesi.model.SpriteTest;
-import erik.wiesi.model.SpritesheetTest;
+import erik.wiesi.model.Sprite;
 
 public class PlayerSprite {
 
-    private SpriteTest player;
+    private Sprite player;
 
     private int[] bodyModel;
     private int[] pants;
