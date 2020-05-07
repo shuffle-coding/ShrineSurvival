@@ -39,6 +39,14 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
         addStartButton();
         buttonActions();
 
+        previewSprite.addSprite(body.getX(), body.getY());
+        previewSprite.addSprite(pants.getX(), pants.getY());
+        previewSprite.addSprite(shoes.getX(), shoes.getY());
+        previewSprite.addSprite(top.getX(), top.getY());
+        previewSprite.addSprite(head.getX(), head.getY());
+        pane.getChildren().add(previewSprite.getCanvas());
+        previewSprite.setLayout(this.getPane().getWidth() / 4, this.getPane().getHeight() / 2);
+        previewSprite.setScale(12);
     }
 
     private void addButtons() {
@@ -117,6 +125,5 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
 
     }
 
-    //TODO: Actions for Character Editor Buttons
 
 }
