@@ -12,13 +12,20 @@ public class Sprite {
         canvas = new Canvas(spritesheet.getTilesize(), spritesheet.getTilesize());
     }
 
+    public Sprite(Spritesheet spritesheet, int x, int y) {
+        this.spritesheet = spritesheet;
+        canvas = new Canvas(x, y);
+    }
+
     public Canvas getCanvas() {
         return this.canvas;
     }
 
     public void resetCanvas() {
+        int x = (int) canvas.getWidth();
+        int y = (int) canvas.getHeight();
         canvas = null;
-        canvas = new Canvas(spritesheet.getTilesize(), spritesheet.getTilesize());
+        canvas = new Canvas(x, y);
     }
 
     public Canvas addSprite(int x, int y) {
@@ -34,6 +41,22 @@ public class Sprite {
         }
 
         canvas.getGraphicsContext2D().drawImage(spritesheet.getImage(), startX, startY, tilesize, tilesize, 0, 0, tilesize, tilesize);
+        return canvas;
+    }
+
+    public Canvas addSprite(int x, int y, int cx, int cy) {
+
+        double tilesize = spritesheet.getTilesize();
+        double margin = spritesheet.getMargin();
+
+        double startX = x * (tilesize + margin);
+        double startY = y * (tilesize + margin);
+
+        if (x > 1) {
+            startX += margin;
+        }
+
+        canvas.getGraphicsContext2D().drawImage(spritesheet.getImage(), startX, startY, tilesize, tilesize, cx, cy, tilesize, tilesize);
         return canvas;
     }
 

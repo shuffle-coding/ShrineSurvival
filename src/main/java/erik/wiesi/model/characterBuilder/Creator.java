@@ -20,6 +20,7 @@ public class Creator {
 
     public int getX() { return x; }
     public int getY() { return y; }
+    public int[] getXY() { return new int[]{x, y};}
 
     public int[] getNext() {
 

@@ -3,6 +3,8 @@ package erik.wiesi.model.subScenes;
 import erik.wiesi.model.*;
 import erik.wiesi.model.characterBuilder.Creator;
 import erik.wiesi.model.characterBuilder.Types;
+import erik.wiesi.model.characters.PlayerSprite;
+import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
@@ -72,6 +74,15 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
 
     private void addStartButton() {
         ShrineSurvivalButton start = new ShrineSurvivalButton("start", "startButton");
+
+        start.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                new PlayerSprite(CHARS, body.getXY(), pants.getXY(), shoes.getXY(), top.getXY(), head.getXY());
+                ViewManager.switchToPlaySoloScene();
+            }
+        });
+
         pane.getChildren().add(start);
         start.setLayoutX(this.getPane().getWidth() / 10);
         start.setLayoutY(this.getPane().getHeight() / 1.2);
