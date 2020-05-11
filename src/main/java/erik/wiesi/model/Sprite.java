@@ -52,11 +52,10 @@ public class Sprite {
         double startX = x * (tilesize + margin);
         double startY = y * (tilesize + margin);
 
-        if (x > 1) {
-            startX += margin;
-        }
+        double canvasX = cx * tilesize;
+        double canvasY = cy * tilesize;
 
-        canvas.getGraphicsContext2D().drawImage(spritesheet.getImage(), startX, startY, tilesize, tilesize, cx, cy, tilesize, tilesize);
+        canvas.getGraphicsContext2D().drawImage(spritesheet.getImage(), startX, startY, tilesize, tilesize, canvasX, canvasY, tilesize, tilesize);
         return canvas;
     }
 

@@ -1,6 +1,7 @@
 package erik.wiesi.view;
 
 import erik.wiesi.view.mainMenu.MenuScene;
+import erik.wiesi.view.playSolo.PlaySoloScene;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
