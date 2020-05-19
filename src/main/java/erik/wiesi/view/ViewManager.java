@@ -1,5 +1,6 @@
 package erik.wiesi.view;
 
+import erik.wiesi.model.characters.PlayerSprite;
 import erik.wiesi.view.mainMenu.MenuScene;
 import erik.wiesi.view.playSolo.PlaySoloScene;
 import javafx.scene.Scene;
@@ -35,12 +36,12 @@ public class ViewManager {
         new MenuScene(mainPane);
     }
 
-    public static void switchToPlaySoloScene() {
+    public static void switchToPlaySoloScene(PlayerSprite playerSprite) {
         mainPane = null;
         mainPane = new AnchorPane();
         Scene secScene = new Scene(mainPane, WIDTH, HEIGHT);
         mainStage.setScene(secScene);
-        new PlaySoloScene(mainPane);
+        new PlaySoloScene(mainPane, playerSprite);
     }
 
 }

@@ -61,8 +61,8 @@ public class Sprite {
 
     public Canvas setScale(int s) {
 
-        this.canvas.setScaleX(s);
-        this.canvas.setScaleY(s);
+        canvas.setScaleX(s);
+        canvas.setScaleY(s);
 
         return canvas;
     }

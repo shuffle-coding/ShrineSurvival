@@ -78,8 +78,7 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                new PlayerSprite(CHARS, body.getXY(), pants.getXY(), shoes.getXY(), top.getXY(), head.getXY());
-                ViewManager.switchToPlaySoloScene();
+                ViewManager.switchToPlaySoloScene(new PlayerSprite(CHARS, body.getXY(), pants.getXY(), shoes.getXY(), top.getXY(), head.getXY()));
             }
         });
 

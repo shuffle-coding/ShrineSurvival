@@ -2,6 +2,7 @@ package erik.wiesi.model.characters;
 
 import erik.wiesi.model.Sprite;
 import erik.wiesi.model.Spritesheet;
+import javafx.scene.canvas.Canvas;
 
 public class PlayerSprite {
 
@@ -25,6 +26,8 @@ public class PlayerSprite {
         this.head = head;
         this.leftHand = leftHand;
         this.rightHand = rightHand;
+        buildSprite();
+        addHands();
     }
 
     public PlayerSprite(Spritesheet spritesheet, int[] bodyModel, int[] pants, int[] shoes, int[] top, int[] head) {
@@ -34,6 +37,7 @@ public class PlayerSprite {
         this.shoes = shoes;
         this.top = top;
         this.head = head;
+        buildSprite();
     }
 
     private void buildSprite() {
@@ -43,9 +47,15 @@ public class PlayerSprite {
         player.addSprite(shoes[0], shoes[1]);
         player.addSprite(top[0], top[1]);
         player.addSprite(head[0], head[1]);
-        if (!(leftHand.length > 0) && !(rightHand.length > 0)) {
-            player.addSprite(leftHand[0], leftHand[1]);
-            player.addSprite(rightHand[0], rightHand[1]);
-        }
+    }
+
+    private void addHands() {
+        player.addSprite(leftHand[0], leftHand[1]);
+        player.addSprite(rightHand[0], rightHand[1]);
+
+    }
+
+    public Canvas getCanvas() {
+        return player.getCanvas();
     }
 }
