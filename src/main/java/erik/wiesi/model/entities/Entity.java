@@ -7,13 +7,12 @@ import java.util.UUID;
 
 public abstract class Entity {
 
-    private Canvas canvas;
+    Canvas canvas;
     private final UUID uuid;
     double health;                  // Initialized in Child Constructor
     double MOVEMENT_SPEED = 5;      // Default MOVEMENT_SPEED
 
-    public Entity (Canvas canvas) {
-        this.canvas = canvas;
+    public Entity () {
         this.uuid = UUID.randomUUID();
     }
 

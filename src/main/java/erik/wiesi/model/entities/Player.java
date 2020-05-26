@@ -7,7 +7,8 @@ public class Player extends Entity {
     private final String NAME;
 
     public Player(Canvas canvas, String name) {
-        super(canvas);
+        super();
+        this.canvas = canvas;
         this.health = 100;
         this.NAME = name;
     }

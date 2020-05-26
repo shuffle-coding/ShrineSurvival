@@ -6,7 +6,8 @@ import javafx.scene.canvas.Canvas;
 public class Enemy extends Entity{
 
     public Enemy(Canvas canvas, EnemyType enemyType) {
-        super(canvas);
+        super();
+        this.canvas = canvas;
         this.MOVEMENT_SPEED = enemyType.getMOVEMENT_SPEED();
         this.health = enemyType.getHEALTH();
     }
