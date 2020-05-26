@@ -1,29 +1,39 @@
 package erik.wiesi.model;
 
+import erik.wiesi.handler.Handler;
 import javafx.scene.canvas.Canvas;
 
 import java.util.UUID;
 
-public class Entity {
-
+public abstract class Entity {
 
     private Canvas canvas;
-    private double posX;
-    private double posY;
     private final UUID uuid;
+    private double health;
+    private double MOVEMENT_SPEED = 5;
 
-    public Entity (Canvas canvas, double posX, double posY) {
+    public Entity (Canvas canvas) {
         this.canvas = canvas;
-        this.posX = posX;
-        this.posY = posY;
         this.uuid = UUID.randomUUID();
+    }
+
+    public void movement(double dx, double dy) {
+        dx = dx * MOVEMENT_SPEED;
+        dy = dy * MOVEMENT_SPEED;
+        canvas.setTranslateX(canvas.getTranslateX() + dx);
+        canvas.setTranslateY(canvas.getTranslateY() + dy);
+    }
+
+    public void calculateHit(double hit) {
+        health -= hit;
+        if (health <= 0) {
+            Handler.death(this);
+        }
     }
 
     public void setCanvas(Canvas canvas) { this.canvas = canvas; }
 
     public Canvas getCanvas() { return canvas; }
-    public double getPosX() { return posX; }
-    public double getPosY() { return posY; }
     public UUID getUuid() { return uuid; }
 
 

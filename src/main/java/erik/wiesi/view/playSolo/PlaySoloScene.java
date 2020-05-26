@@ -5,8 +5,6 @@ import erik.wiesi.model.TileMap;
 import erik.wiesi.model.characters.PlayerSprite;
 import erik.wiesi.view.ViewManager;
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -21,8 +19,7 @@ public class PlaySoloScene{
     private List<Integer[]> sprites;
     private final int rescaleFactor = 2;
     private Player player;
-    private boolean goNorth, goSouth, goWest, goEast;
-    private final int MOVEMENT_SPEED = 2;
+    private boolean goUp, goDown, goLeft, goRight;
 
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
 
@@ -34,24 +31,24 @@ public class PlaySoloScene{
 
         mainPane.getScene().setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case UP:    goNorth = true; break;
-                case DOWN:  goSouth = true; break;
-                case LEFT:  goWest  = true; break;
-                case RIGHT: goEast  = true; break;
+                case UP:    goUp = true; break;
+                case DOWN:  goDown = true; break;
+                case LEFT:  goLeft = true; break;
+                case RIGHT: goRight = true; break;
             }
         });
 
         mainPane.getScene().setOnKeyReleased(event -> {
             switch (event.getCode()) {
-                case UP:    goNorth = false; break;
-                case DOWN:  goSouth = false; break;
-                case LEFT:  goWest  = false; break;
-                case RIGHT: goEast  = false; break;
+                case UP:    goUp = false; break;
+                case DOWN:  goDown = false; break;
+                case LEFT:  goLeft = false; break;
+                case RIGHT: goRight = false; break;
             }
         });
 
-        AnimationTimer test = new Loop();
-        test.start();
+        AnimationTimer gameLoop = new Loop();
+        gameLoop.start();
 
     }
 
@@ -60,6 +57,7 @@ public class PlaySoloScene{
         private long start = 0;
         private int fps = 0;
         private long delta;
+        private final int PRESSED = 1;
 
         @Override
         public void handle(long now) {
@@ -76,13 +74,12 @@ public class PlaySoloScene{
 
             int dx = 0, dy = 0;
 
-            if (goNorth) dy -= MOVEMENT_SPEED;
-            if (goSouth) dy += MOVEMENT_SPEED;
-            if (goEast)  dx += MOVEMENT_SPEED;
-            if (goWest)  dx -= MOVEMENT_SPEED;
+            if (goUp) dy -= PRESSED;
+            if (goDown) dy += PRESSED;
+            if (goRight)  dx += PRESSED;
+            if (goLeft)  dx -= PRESSED;
 
-            player.getCanvas().setTranslateX(player.getCanvas().getTranslateX() + dx);
-            player.getCanvas().setTranslateY(player.getCanvas().getTranslateY() + dy);
+            player.movement(dx, dy);
 
         }
     }
@@ -108,7 +105,7 @@ public class PlaySoloScene{
     }
 
     private void setPlayer(PlayerSprite playerSprite) {
-        this.player = new Player(playerSprite.getCanvas(), ViewManager.getWIDTH() / 2, ViewManager.getHEIGHT() / 2, "Klaus");
+        this.player = new Player(playerSprite.getCanvas(), "Klaus");
         mainPane.getChildren().add(player.getCanvas());
         player.getCanvas().setScaleX(rescaleFactor * 2);
         player.getCanvas().setScaleY(rescaleFactor * 2);
