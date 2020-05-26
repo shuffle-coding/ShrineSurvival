@@ -5,6 +5,8 @@ import erik.wiesi.model.TileMap;
 import erik.wiesi.model.characters.PlayerSprite;
 import erik.wiesi.view.ViewManager;
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ public class PlaySoloScene{
     private List<Integer[]> sprites;
     private final int rescaleFactor = 2;
     private Player player;
+    private boolean goNorth, goSouth, goWest, goEast;
+    private final int MOVEMENT_SPEED = 2;
 
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
 
@@ -28,6 +32,23 @@ public class PlaySoloScene{
         generateMap();
         setPlayer(playerSprite);
 
+        mainPane.getScene().setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:    goNorth = true; break;
+                case DOWN:  goSouth = true; break;
+                case LEFT:  goWest  = true; break;
+                case RIGHT: goEast  = true; break;
+            }
+        });
+
+        mainPane.getScene().setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case UP:    goNorth = false; break;
+                case DOWN:  goSouth = false; break;
+                case LEFT:  goWest  = false; break;
+                case RIGHT: goEast  = false; break;
+            }
+        });
 
         AnimationTimer test = new Loop();
         test.start();
@@ -35,10 +56,34 @@ public class PlaySoloScene{
     }
 
     private class Loop extends AnimationTimer {
-        
+
+        private long start = 0;
+        private int fps = 0;
+        private long delta;
+
         @Override
         public void handle(long now) {
-            // TODO: Gameloop
+            if (start <= 0) {
+                start = now;
+            }
+            delta = now - start;
+            fps++;
+            if ((delta / 1000000000) >= 1) {
+                start = 0;
+                System.out.println(fps);
+                fps = 0;
+            }
+
+            int dx = 0, dy = 0;
+
+            if (goNorth) dy -= MOVEMENT_SPEED;
+            if (goSouth) dy += MOVEMENT_SPEED;
+            if (goEast)  dx += MOVEMENT_SPEED;
+            if (goWest)  dx -= MOVEMENT_SPEED;
+
+            player.getCanvas().setTranslateX(player.getCanvas().getTranslateX() + dx);
+            player.getCanvas().setTranslateY(player.getCanvas().getTranslateY() + dy);
+
         }
     }
 
@@ -47,7 +92,6 @@ public class PlaySoloScene{
         sprites = new ArrayList<>();
         Integer[] tempInt = new Integer[]{3, 7};
         sprites.add(tempInt);
-
         Integer[] tempInt1 = new Integer[]{3, 10};
         sprites.add(tempInt1);
         Integer[] tempInt2 = new Integer[]{3, 16};
