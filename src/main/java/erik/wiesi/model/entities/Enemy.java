@@ -1,12 +1,9 @@
-package erik.wiesi.model;
+package erik.wiesi.model.entities;
 
 import erik.wiesi.statics.EnemyType;
 import javafx.scene.canvas.Canvas;
 
 public class Enemy extends Entity{
-
-    private final double MOVEMENT_SPEED;
-    private double health;
 
     public Enemy(Canvas canvas, EnemyType enemyType) {
         super(canvas);

@@ -1,4 +1,4 @@
-package erik.wiesi.model;
+package erik.wiesi.sprites;
 
 import javafx.scene.canvas.Canvas;
 
@@ -24,12 +24,12 @@ public class TileMap {
         this.spriteList = spriteList;
         this.rescaleFactor = rescaleFactor;
         sizeX = sizeX / rescaleFactor;
-        sizeY = (int) (sizeX * 9 / 16);
+        sizeY = sizeX * 9 / 16;
 
         spritesheet = new Spritesheet(spritesheetUrl);
         int tileSize = (int) spritesheet.getTilesize();
-        int totalX = (int) sizeX / tileSize;
-        int totalY = (int) sizeY / tileSize;
+        int totalX = sizeX / tileSize;
+        int totalY = sizeY / tileSize;
 
         tileMap = new HashMap<>();
 
@@ -57,8 +57,8 @@ public class TileMap {
 
         spritesheet = new Spritesheet(spritesheetUrl);
         int tileSize = (int) spritesheet.getTilesize();
-        int totalX = (int) sizeX / tileSize;
-        int totalY = (int) sizeY / tileSize;
+        int totalX = sizeX / tileSize;
+        int totalY = sizeY / tileSize;
 
         tileMap = new HashMap<>();
 

@@ -1,8 +1,8 @@
 package erik.wiesi.view.playSolo;
 
-import erik.wiesi.model.Player;
-import erik.wiesi.model.TileMap;
-import erik.wiesi.model.characters.PlayerSprite;
+import erik.wiesi.model.entities.Player;
+import erik.wiesi.sprites.TileMap;
+import erik.wiesi.sprites.PlayerSprite;
 import erik.wiesi.view.ViewManager;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.AnchorPane;

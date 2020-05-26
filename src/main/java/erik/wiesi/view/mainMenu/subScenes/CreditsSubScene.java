@@ -1,6 +1,4 @@
-package erik.wiesi.model.subScenes;
-
-import erik.wiesi.model.ShrineSurvivalSubScene;
+package erik.wiesi.view.mainMenu.subScenes;
 
 public class CreditsSubScene extends ShrineSurvivalSubScene {
 

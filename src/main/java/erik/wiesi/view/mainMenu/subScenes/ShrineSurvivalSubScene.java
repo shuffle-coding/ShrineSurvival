@@ -1,4 +1,4 @@
-package erik.wiesi.model;
+package erik.wiesi.view.mainMenu.subScenes;
 
 import javafx.scene.SubScene;
 import javafx.scene.image.Image;

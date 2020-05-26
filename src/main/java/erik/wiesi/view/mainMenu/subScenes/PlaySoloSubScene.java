@@ -1,9 +1,11 @@
-package erik.wiesi.model.subScenes;
+package erik.wiesi.view.mainMenu.subScenes;
 
 import erik.wiesi.model.*;
 import erik.wiesi.model.characterBuilder.Creator;
 import erik.wiesi.model.characterBuilder.Types;
-import erik.wiesi.model.characters.PlayerSprite;
+import erik.wiesi.sprites.PlayerSprite;
+import erik.wiesi.sprites.Sprite;
+import erik.wiesi.sprites.Spritesheet;
 import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -75,12 +77,7 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
     private void addStartButton() {
         ShrineSurvivalButton start = new ShrineSurvivalButton("start", "startButton");
 
-        start.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                ViewManager.switchToPlaySoloScene(new PlayerSprite(CHARS, body.getXY(), pants.getXY(), shoes.getXY(), top.getXY(), head.getXY()));
-            }
-        });
+        start.setOnAction(actionEvent -> ViewManager.switchToPlaySoloScene(new PlayerSprite(CHARS, body.getXY(), pants.getXY(), shoes.getXY(), top.getXY(), head.getXY())));
 
         pane.getChildren().add(start);
         start.setLayoutX(this.getPane().getWidth() / 10);
@@ -88,11 +85,8 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
     }
 
     private void buttonActions() {
-        buttonList.forEach(b -> b.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                buttonEvent(b.getButtonName());
-            }
+        buttonList.forEach(b -> b.setOnAction(actionEvent -> {
+            buttonEvent(b.getButtonName());
         }));
 
     }

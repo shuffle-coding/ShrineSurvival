@@ -1,6 +1,6 @@
-package erik.wiesi.model;
+package erik.wiesi.model.entities;
 
-import erik.wiesi.handler.Handler;
+import erik.wiesi.main.handler.Handler;
 import javafx.scene.canvas.Canvas;
 
 import java.util.UUID;
@@ -9,8 +9,8 @@ public abstract class Entity {
 
     private Canvas canvas;
     private final UUID uuid;
-    private double health;
-    private double MOVEMENT_SPEED = 5;
+    double health;                  // Initialized in Child Constructor
+    double MOVEMENT_SPEED = 5;      // Default MOVEMENT_SPEED
 
     public Entity (Canvas canvas) {
         this.canvas = canvas;
@@ -35,6 +35,5 @@ public abstract class Entity {
 
     public Canvas getCanvas() { return canvas; }
     public UUID getUuid() { return uuid; }
-
 
 }

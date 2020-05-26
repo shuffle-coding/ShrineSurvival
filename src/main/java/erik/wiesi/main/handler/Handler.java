@@ -1,6 +1,6 @@
-package erik.wiesi.handler;
+package erik.wiesi.main.handler;
 
-import erik.wiesi.model.Entity;
+import erik.wiesi.model.entities.Entity;
 
 public abstract class Handler {
 

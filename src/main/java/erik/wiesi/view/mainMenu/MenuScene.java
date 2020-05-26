@@ -1,7 +1,7 @@
 package erik.wiesi.view.mainMenu;
 
 import erik.wiesi.model.*;
-import erik.wiesi.model.subScenes.*;
+import erik.wiesi.view.mainMenu.subScenes.*;
 import erik.wiesi.view.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -69,17 +69,14 @@ public class MenuScene {
     }
 
     private void buttonActions() {
-        buttonList.forEach(b -> b.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (b.getButtonName().contains("howToPlay") || b.getButtonName().contains("playSolo") || b.getButtonName().contains("playmultiplayer") || b.getButtonName().contains("scores") || b.getButtonName().contains("credits") || b.getButtonName().contains("settings")) {
-                    createSubScene(b.getButtonName());
-                } else if (b.getButtonName().contains("exit")) {
-                    Stage stage = (Stage) b.getScene().getWindow();
-                    stage.close();
-                } else {
-                    System.out.println("Nothing Happenend");
-                }
+        buttonList.forEach(b -> b.setOnAction(actionEvent -> {
+            if (b.getButtonName().contains("howToPlay") || b.getButtonName().contains("playSolo") || b.getButtonName().contains("playmultiplayer") || b.getButtonName().contains("scores") || b.getButtonName().contains("credits") || b.getButtonName().contains("settings")) {
+                createSubScene(b.getButtonName());
+            } else if (b.getButtonName().contains("exit")) {
+                Stage stage = (Stage) b.getScene().getWindow();
+                stage.close();
+            } else {
+                System.out.println("Nothing Happenend");
             }
         }));
 

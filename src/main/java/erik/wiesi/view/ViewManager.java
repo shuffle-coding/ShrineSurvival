@@ -1,6 +1,6 @@
 package erik.wiesi.view;
 
-import erik.wiesi.model.characters.PlayerSprite;
+import erik.wiesi.sprites.PlayerSprite;
 import erik.wiesi.view.mainMenu.MenuScene;
 import erik.wiesi.view.playSolo.PlaySoloScene;
 import javafx.scene.Scene;

@@ -1,4 +1,4 @@
-package erik.wiesi.model;
+package erik.wiesi.sprites;
 
 import javafx.scene.canvas.Canvas;
 

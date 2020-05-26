@@ -1,7 +1,5 @@
-package erik.wiesi.model.characters;
+package erik.wiesi.sprites;
 
-import erik.wiesi.model.Sprite;
-import erik.wiesi.model.Spritesheet;
 import javafx.scene.canvas.Canvas;
 
 public class PlayerSprite {
