@@ -35,15 +35,10 @@ public class PlaySoloScene{
     }
 
     private class Loop extends AnimationTimer {
-        private int i = 0;
+        
         @Override
         public void handle(long now) {
-            player.getCanvas().setTranslateX(player.getPosX() + 1);
             // TODO: Gameloop
-
-            if (i >= 1e3) {
-                stop();
-            }
         }
     }
 
@@ -73,8 +68,8 @@ public class PlaySoloScene{
         mainPane.getChildren().add(player.getCanvas());
         player.getCanvas().setScaleX(rescaleFactor * 2);
         player.getCanvas().setScaleY(rescaleFactor * 2);
-        player.getCanvas().setTranslateX(player.getPosX());
-        player.getCanvas().setTranslateY(player.getPosY());
+        player.getCanvas().setTranslateX(0);
+        player.getCanvas().setTranslateY(0);
     }
 
 
