@@ -1,5 +1,7 @@
 package erik.wiesi.model.characterBuilder;
 
+import erik.wiesi.statics.Types;
+
 public class Creator {
 
     private int minX;
@@ -9,6 +11,9 @@ public class Creator {
     private int x;
     private int y;
 
+    /**
+     * @param types
+     */
     public Creator(Types types) {
         this.minX = types.getMinX();
         this.minY = types.getMinY();
@@ -22,6 +27,9 @@ public class Creator {
     public int getY() { return y; }
     public int[] getXY() { return new int[]{x, y};}
 
+    /**
+     * @return
+     */
     public int[] getNext() {
 
         if (y != maxY) {y++;} else if (x != maxX && y == maxY) {

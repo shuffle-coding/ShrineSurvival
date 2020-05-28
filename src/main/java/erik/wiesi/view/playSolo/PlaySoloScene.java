@@ -48,6 +48,7 @@ public class PlaySoloScene{
         });
 
         AnimationTimer gameLoop = new Loop();
+        System.out.println(player.getUuid());
         gameLoop.start();
 
     }
@@ -61,11 +62,14 @@ public class PlaySoloScene{
 
         @Override
         public void handle(long now) {
+
             if (start <= 0) {
                 start = now;
             }
+
             delta = now - start;
             fps++;
+
             if ((delta / 1000000000) >= 1) {
                 start = 0;
                 System.out.println(fps);
@@ -80,21 +84,17 @@ public class PlaySoloScene{
             if (goLeft)  dx -= PRESSED;
 
             player.movement(dx, dy);
-
         }
     }
 
 
     private void generateSpriteList() {
         sprites = new ArrayList<>();
-        Integer[] tempInt = new Integer[]{3, 7};
-        sprites.add(tempInt);
-        Integer[] tempInt1 = new Integer[]{3, 10};
-        sprites.add(tempInt1);
-        Integer[] tempInt2 = new Integer[]{3, 16};
-        sprites.add(tempInt2);
-        Integer[] tempInt3 = new Integer[]{3, 16};
-        sprites.add(tempInt3);
+        sprites.add(new Integer[]{3, 7});
+        sprites.add(new Integer[]{3, 10});
+        sprites.add(new Integer[]{3, 16});
+        sprites.add(new Integer[]{3, 16});
+        sprites.add(new Integer[]{3, 16});
     }
 
     private void generateMap() {
@@ -109,9 +109,8 @@ public class PlaySoloScene{
         mainPane.getChildren().add(player.getCanvas());
         player.getCanvas().setScaleX(rescaleFactor * 2);
         player.getCanvas().setScaleY(rescaleFactor * 2);
-        player.getCanvas().setTranslateX(0);
-        player.getCanvas().setTranslateY(0);
+        player.getCanvas().setTranslateX(ViewManager.getWIDTH() / 2);
+        player.getCanvas().setTranslateY(ViewManager.getHEIGHT() / 2);
     }
-
 
 }

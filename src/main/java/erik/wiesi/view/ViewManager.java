@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class ViewManager {
 
     private static final double WIDTH = 1600;
-    private static final double HEIGHT = WIDTH * 9 / 16;
+    private static final double HEIGHT = (WIDTH * 9 / 16) - 4;
     private static AnchorPane mainPane;
     private static Scene mainScene;
     private static Stage mainStage;
@@ -31,6 +31,8 @@ public class ViewManager {
         mainPane = new AnchorPane();
         mainScene = new Scene(mainPane, WIDTH, HEIGHT);
         mainStage = new Stage();
+        mainStage.setResizable(false);
+        mainStage.setTitle("Project Platinum Bee");
         mainStage.setScene(mainScene);
 
         new MenuScene(mainPane);

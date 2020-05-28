@@ -2,13 +2,11 @@ package erik.wiesi.view.mainMenu.subScenes;
 
 import erik.wiesi.model.*;
 import erik.wiesi.model.characterBuilder.Creator;
-import erik.wiesi.model.characterBuilder.Types;
+import erik.wiesi.statics.Types;
 import erik.wiesi.sprites.PlayerSprite;
 import erik.wiesi.sprites.Sprite;
 import erik.wiesi.sprites.Spritesheet;
 import erik.wiesi.view.ViewManager;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;

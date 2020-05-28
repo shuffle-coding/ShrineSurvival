@@ -1,4 +1,4 @@
-package erik.wiesi.model.characterBuilder;
+package erik.wiesi.statics;
 
 public enum Types {
 
@@ -14,6 +14,12 @@ public enum Types {
     private final int maxX;
     private final int maxY;
 
+    /**
+     * @param minX
+     * @param minY
+     * @param maxX
+     * @param maxY
+     */
     private Types(int minX, int minY, int maxX, int maxY) {
         this.minX = minX;
         this.minY = minY;
