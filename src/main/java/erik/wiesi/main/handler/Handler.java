@@ -16,20 +16,9 @@ public abstract class Handler {
 
     public static void startRound() {
         round++;
-        generateEnemies();
 
     }
 
-    private static void generateEnemies() {
-        enemies = new ArrayList<>();
-        switch (round) {
-            case 1, 2 -> {
-                //TODO: Add Enemies
-            } case 3, 4 -> {
-
-            }
-        }
-    }
 
     public static void death(Entity entity) {
         entity = null;

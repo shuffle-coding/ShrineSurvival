@@ -1,5 +1,6 @@
 package erik.wiesi.view.playSolo;
 
+import erik.wiesi.model.entities.Enemy;
 import erik.wiesi.model.entities.Player;
 import erik.wiesi.sprites.TileMap;
 import erik.wiesi.sprites.PlayerSprite;
@@ -9,6 +10,8 @@ import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PlaySoloScene{
 
@@ -20,6 +23,7 @@ public class PlaySoloScene{
     private final int rescaleFactor = 2;
     private Player player;
     private boolean goUp, goDown, goLeft, goRight;
+    private List<Enemy> enemyList = new ArrayList<>();
 
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
 
@@ -59,6 +63,12 @@ public class PlaySoloScene{
         private int fps = 0;
         private long delta;
         private final int PRESSED = 1;
+        private int roundCount = 0;
+        private int min, max;
+        private int randX, randY;
+        private final int VIEW_WIDTH = (int) ViewManager.getWIDTH();
+        private final int VIEW_HEIGHT = (int) ViewManager.getHEIGHT();
+        private double playerPosX, playerPosY;
 
         @Override
         public void handle(long now) {
@@ -76,14 +86,59 @@ public class PlaySoloScene{
                 fps = 0;
             }
 
+            if (enemyList.size() == 0) {
+                roundCount = 10;
+                min = roundCount;
+                max = (int) roundCount / 5 + min;
+
+                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+                for (int i = 0; i < randomNum; i++) {
+                    enemyList.add(i, new Enemy());
+                }
+                enemyList.forEach(e -> {
+
+                    setRandomBorderPos();
+                    mainPane.getChildren().add(e.getCanvas());
+                    e.getCanvas().setTranslateX(randX);
+                    e.getCanvas().setTranslateY(randY);
+                    e.getCanvas().setScaleX(rescaleFactor * 2);
+                    e.getCanvas().setScaleY(rescaleFactor * 2);
+                    System.out.println(e.getUuid());
+                });
+            }
+
             int dx = 0, dy = 0;
 
             if (goUp) dy -= PRESSED;
             if (goDown) dy += PRESSED;
             if (goRight)  dx += PRESSED;
             if (goLeft)  dx -= PRESSED;
-
             player.movement(dx, dy);
+
+            playerPosX = player.getCanvas().getTranslateX();
+            playerPosY = player.getCanvas().getTranslateY();
+            enemyList.forEach(e -> {
+                int ex = 0, ey = 0;
+                double enemyPosX = e.getCanvas().getTranslateX();
+                double enemyPosY = e.getCanvas().getTranslateY();
+                if (enemyPosX < playerPosX) ex += 1;
+                if (enemyPosX > playerPosX) ex -= 1;
+                if (enemyPosY < playerPosY) ey += 1;
+                if (enemyPosY > playerPosY) ey -= 1;
+                e.movement(ex, ey, player);
+            });
+        }
+
+        private void setRandomBorderPos() {
+            if (new Random().nextInt(2) < 1) {
+                if (new Random().nextInt(2) < 1) { randY = ThreadLocalRandom.current().nextInt(0, (VIEW_HEIGHT / 10)); }
+                else { randY = ThreadLocalRandom.current().nextInt(VIEW_HEIGHT - (VIEW_HEIGHT / 10), VIEW_HEIGHT); }
+                randX = ThreadLocalRandom.current().nextInt(VIEW_WIDTH);
+            } else {
+                if (new Random().nextInt(2) < 1) { randX = ThreadLocalRandom.current().nextInt(0, (VIEW_WIDTH / 10)); }
+                else { randX = ThreadLocalRandom.current().nextInt(VIEW_WIDTH - (VIEW_WIDTH / 10), VIEW_WIDTH); }
+                randY = ThreadLocalRandom.current().nextInt(VIEW_HEIGHT);
+            }
         }
     }
 
@@ -92,8 +147,6 @@ public class PlaySoloScene{
         sprites = new ArrayList<>();
         sprites.add(new Integer[]{3, 7});
         sprites.add(new Integer[]{3, 10});
-        sprites.add(new Integer[]{3, 16});
-        sprites.add(new Integer[]{3, 16});
         sprites.add(new Integer[]{3, 16});
     }
 

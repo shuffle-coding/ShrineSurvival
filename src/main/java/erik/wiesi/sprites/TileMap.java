@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TileMap {
 
@@ -33,12 +34,11 @@ public class TileMap {
 
         tileMap = new HashMap<>();
 
-        Random random = new Random();
-
         for (int y= 0; y < totalY ; y++) {
             for (int x = 0; x < totalX; x++) {
-                Integer[] tempKey = new Integer[] {x, y};
-                tileMap.put(tempKey, this.spriteList.get(random.nextInt(spriteList.size())));
+                int random = ThreadLocalRandom.current().nextInt(10);
+                if (random >= 2) random = 2;
+                tileMap.put(new Integer[] {x, y}, this.spriteList.get(random));
             }
 
         }
@@ -62,12 +62,11 @@ public class TileMap {
 
         tileMap = new HashMap<>();
 
-        Random random = new Random();
-
         for (int y= 0; y < totalY ; y++) {
             for (int x = 0; x < totalX; x++) {
-                Integer[] tempKey = new Integer[] {x, y};
-                tileMap.put(tempKey, this.spriteList.get(random.nextInt(spriteList.size())));
+                int random = ThreadLocalRandom.current().nextInt(10);
+                if (random >= 2) random = 2;
+                tileMap.put(new Integer[] {x, y}, this.spriteList.get(random));
             }
 
         }
