@@ -1,6 +1,8 @@
 package erik.wiesi.view.playSolo;
 
+import erik.wiesi.main.handler.Handler;
 import erik.wiesi.model.entities.Enemy;
+import erik.wiesi.model.entities.Entity;
 import erik.wiesi.model.entities.Player;
 import erik.wiesi.sprites.TileMap;
 import erik.wiesi.sprites.PlayerSprite;
@@ -23,7 +25,7 @@ public class PlaySoloScene{
     private final int rescaleFactor = 2;
     private Player player;
     private boolean goUp, goDown, goLeft, goRight;
-    private List<Enemy> enemyList = new ArrayList<>();
+    private List<Entity> enemyList = new ArrayList<>();
 
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
 
@@ -91,7 +93,8 @@ public class PlaySoloScene{
                 min = roundCount;
                 max = (int) roundCount / 5 + min;
 
-                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+//                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+                int randomNum = 1;
                 for (int i = 0; i < randomNum; i++) {
                     enemyList.add(i, new Enemy());
                 }
@@ -103,7 +106,6 @@ public class PlaySoloScene{
                     e.getCanvas().setTranslateY(randY);
                     e.getCanvas().setScaleX(rescaleFactor * 2);
                     e.getCanvas().setScaleY(rescaleFactor * 2);
-                    System.out.println(e.getUuid());
                 });
             }
 
@@ -113,7 +115,7 @@ public class PlaySoloScene{
             if (goDown) dy += PRESSED;
             if (goRight)  dx += PRESSED;
             if (goLeft)  dx -= PRESSED;
-            player.movement(dx, dy);
+            Handler.movement(player, dx, dy);
 
             playerPosX = player.getCanvas().getTranslateX();
             playerPosY = player.getCanvas().getTranslateY();
@@ -125,7 +127,7 @@ public class PlaySoloScene{
                 if (enemyPosX > playerPosX) ex -= 1;
                 if (enemyPosY < playerPosY) ey += 1;
                 if (enemyPosY > playerPosY) ey -= 1;
-                e.movement(ex, ey, player);
+                Handler.movement(e, ex, ey, player);
             });
         }
 

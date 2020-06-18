@@ -13,14 +13,14 @@ public class Enemy extends Entity{
         Sprite sprite = new Sprite(spritesheet);
         sprite.addSprite(1, 11);
         canvas = sprite.getCanvas();
-        this.MOVEMENT_SPEED = EnemyType.ZOMBIE.getMOVEMENT_SPEED();
-        this.health = EnemyType.ZOMBIE.getHEALTH();
+        this.MovementSpeed = (float) EnemyType.ZOMBIE.getMOVEMENT_SPEED();
+        this.health = (float) EnemyType.ZOMBIE.getHEALTH();
     }
 
     public Enemy(Canvas canvas, EnemyType enemyType) {
         super();
         this.canvas = canvas;
-        this.MOVEMENT_SPEED = enemyType.getMOVEMENT_SPEED();
-        this.health = enemyType.getHEALTH();
+        this.MovementSpeed = (float) enemyType.getMOVEMENT_SPEED();
+        this.health = (float) enemyType.getHEALTH();
     }
 }

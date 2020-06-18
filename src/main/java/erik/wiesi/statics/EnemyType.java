@@ -7,12 +7,12 @@ public enum EnemyType {
     GOBLIN(30, 1.7),
     BANDIT(100, 2.5);
 
-    private final double HEALTH;
-    private final double MOVEMENT_SPEED;
+    private final float HEALTH;
+    private final float MOVEMENT_SPEED;
 
-    private EnemyType(double health, double movementSpeed) {
+    private EnemyType(float health, double movementSpeed) {
         this.HEALTH = health;
-        this.MOVEMENT_SPEED = movementSpeed;
+        this.MOVEMENT_SPEED = (float) movementSpeed;
     }
 
     public double getHEALTH() { return HEALTH; }
