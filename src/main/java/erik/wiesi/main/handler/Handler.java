@@ -69,18 +69,16 @@ public abstract class Handler {
         if (deltaX > 0 && deltaX < sizeX){
             result[0] = -1;
             if (deltaY > 0 && deltaY < sizeY) { result[1] = -1;}
-            else if (deltaY < 0 && deltaY < sizeY * -1) { result[1] = 1; }
+            else if (deltaY < 0 && deltaY * -1 < sizeY) { result[1] = 1; }
             else {result[1] = 0;}
-            System.out.println(result[0] + "                  " + result[1]);
             return result;
-        } else if (deltaX < 0 && deltaX < sizeX * -1) {
+        } else if (deltaX < 0 && deltaX * -1 < sizeX) {
             result[0] = 1;
             if (deltaY > 0 && deltaY < sizeY) { result[1] = -1;}
-            else if (deltaY < 0 && deltaY < sizeY * -1) { result[1] = 1; }
+            else if (deltaY < 0 && deltaY * -1 < sizeY) { result[1] = 1; }
             else {result[1] = 0;}
-            System.out.println(result[0] + "                  " + result[1]);
             return result;
-        } else { return result = new int[] {0, 0}; }
+        } else { return new int[] {0, 0}; }
 
 //        return result;
 
