@@ -2,11 +2,10 @@ package erik.wiesi.main.handler;
 
 import erik.wiesi.model.entities.Enemy;
 import erik.wiesi.model.entities.Entity;
-import erik.wiesi.sprites.Sprite;
-import erik.wiesi.sprites.Spritesheet;
-import javafx.scene.canvas.Canvas;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Handler {
@@ -35,23 +34,25 @@ public abstract class Handler {
     }
 
     public static void movement(Entity entityMe, int dx, int dy, Entity other) {
-        int[] disallowed = intersect(entityMe, other);
+        int[] disallowed = new int[] {0, 0};
+        if (!Arrays.equals(entityMe.getDisallowed(), new int[] {0, 0})) {
+            return;
+        } else if (collisionDetect(entityMe, other)) {
+            disallowed = collisionDirection(entityMe, other);
+        }
         if (dx == disallowed[0]) dx = 0;
         if (dy == disallowed[1]) dy = 0;
         movement(entityMe, dx, dy);
     }
 
-    public static int[] intersect (Entity a, Entity b) {
+    public static boolean collisionDetect (Entity a, Entity b) {
         if (a.getCanvas().getBoundsInParent().intersects(b.getCanvas().getBoundsInParent())) {
-            return collisionDirection(a, b);
-        } else {
-            return new int[] {0, 0};
+            return true;
         }
+        return false;
     }
 
-    private static int[] collisionDirection (Entity entityMe, Entity entityOther) {
-
-
+    public static int[] collisionDirection (Entity entityMe, Entity entityOther) {
         double sizeAX = entityMe.getCanvas().getWidth() * entityMe.getCanvas().getScaleX();
         double sizeAY = entityMe.getCanvas().getHeight() * entityMe.getCanvas().getScaleY();
         double sizeBX = entityOther.getCanvas().getWidth() * entityOther.getCanvas().getScaleX();
@@ -79,22 +80,5 @@ public abstract class Handler {
             else {result[1] = 0;}
             return result;
         } else { return new int[] {0, 0}; }
-
-//        return result;
-
-//        if (deltaX < 0 && deltaX + 5 < (sizeAX + sizeBX) / 2) result[0] = 1;
-//        else if (deltaX > 0 && deltaX + 5 > (sizeAX + sizeBX) / 2) result[0] = -1;
-//        else result[0] = 0;
-//
-//        if (deltaY < 0 && deltaY + 5 < (sizeAY + sizeBY) / 2) result[1] = 1;
-//        else if (deltaY > 0 && deltaY + 5 > (sizeAY + sizeBY) / 2) result[1] = -1;
-//        else result[1] = 0;
-//        return result;
      }
-
-
-//    public static void death(Entity entity) {
-//        entity = null;
-//    }
-
 }

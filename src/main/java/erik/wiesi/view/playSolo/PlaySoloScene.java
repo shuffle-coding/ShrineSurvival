@@ -10,12 +10,14 @@ import erik.wiesi.view.ViewManager;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.AnchorPane;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PlaySoloScene{
+public class PlaySoloScene {
 
     private AnchorPane mainPane;
     private TileMap tileMap;
@@ -37,19 +39,35 @@ public class PlaySoloScene{
 
         mainPane.getScene().setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case UP:    goUp = true; break;
-                case DOWN:  goDown = true; break;
-                case LEFT:  goLeft = true; break;
-                case RIGHT: goRight = true; break;
+                case UP:
+                    goUp = true;
+                    break;
+                case DOWN:
+                    goDown = true;
+                    break;
+                case LEFT:
+                    goLeft = true;
+                    break;
+                case RIGHT:
+                    goRight = true;
+                    break;
             }
         });
 
         mainPane.getScene().setOnKeyReleased(event -> {
             switch (event.getCode()) {
-                case UP:    goUp = false; break;
-                case DOWN:  goDown = false; break;
-                case LEFT:  goLeft = false; break;
-                case RIGHT: goRight = false; break;
+                case UP:
+                    goUp = false;
+                    break;
+                case DOWN:
+                    goDown = false;
+                    break;
+                case LEFT:
+                    goLeft = false;
+                    break;
+                case RIGHT:
+                    goRight = false;
+                    break;
             }
         });
 
@@ -64,7 +82,6 @@ public class PlaySoloScene{
         private long start = 0;
         private int fps = 0;
         private long delta;
-        private final int PRESSED = 1;
         private int roundCount = 0;
         private int min, max;
         private int randX, randY;
@@ -89,12 +106,12 @@ public class PlaySoloScene{
             }
 
             if (enemyList.size() == 0) {
+//                roundCount++;
                 roundCount = 10;
                 min = roundCount;
                 max = (int) roundCount / 5 + min;
 
-//                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-                int randomNum = 1;
+                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
                 for (int i = 0; i < randomNum; i++) {
                     enemyList.add(i, new Enemy());
                 }
@@ -111,34 +128,61 @@ public class PlaySoloScene{
 
             int dx = 0, dy = 0;
 
-            if (goUp) dy -= PRESSED;
-            if (goDown) dy += PRESSED;
-            if (goRight)  dx += PRESSED;
-            if (goLeft)  dx -= PRESSED;
+            if (goUp) dy -= 1;
+            if (goDown) dy += 1;
+            if (goRight) dx += 1;
+            if (goLeft) dx -= 1;
             Handler.movement(player, dx, dy);
 
-            playerPosX = player.getCanvas().getTranslateX();
-            playerPosY = player.getCanvas().getTranslateY();
-            enemyList.forEach(e -> {
+//            playerPosX = player.getCanvas().getTranslateX();
+//            playerPosY = player.getCanvas().getTranslateY();
+//            enemyList.forEach(e -> {
+//                int ex = 0, ey = 0;
+//                double enemyPosX = e.getCanvas().getTranslateX();
+//                double enemyPosY = e.getCanvas().getTranslateY();
+//                if (enemyPosX < playerPosX) ex += 1;
+//                if (enemyPosX > playerPosX) ex -= 1;
+//                if (enemyPosY < playerPosY) ey += 1;
+//                if (enemyPosY > playerPosY) ey -= 1;
+//                Handler.movement(e, ex, ey, player);
+//            });
+
+            enemyList.forEach(me -> {
+                enemyList.forEach(other -> {
+                    if (!me.getUuid().equals(other.getUuid())) {
+                        if (Handler.collisionDetect(me, other) && Arrays.equals(me.getDisallowed(), new int[] {0, 0})) {
+                            me.setDisallowed(Handler.collisionDirection(me, other));
+                        }
+                    }
+                });
+                playerPosX = player.getCanvas().getTranslateX();
+                playerPosY = player.getCanvas().getTranslateY();
                 int ex = 0, ey = 0;
-                double enemyPosX = e.getCanvas().getTranslateX();
-                double enemyPosY = e.getCanvas().getTranslateY();
+                double enemyPosX = me.getCanvas().getTranslateX();
+                double enemyPosY = me.getCanvas().getTranslateY();
                 if (enemyPosX < playerPosX) ex += 1;
                 if (enemyPosX > playerPosX) ex -= 1;
                 if (enemyPosY < playerPosY) ey += 1;
                 if (enemyPosY > playerPosY) ey -= 1;
-                Handler.movement(e, ex, ey, player);
+                Handler.movement(me, ex, ey, player);
+                me.setDisallowed(new int[] {0, 0});
             });
         }
 
         private void setRandomBorderPos() {
             if (new Random().nextInt(2) < 1) {
-                if (new Random().nextInt(2) < 1) { randY = ThreadLocalRandom.current().nextInt(0, (VIEW_HEIGHT / 10)); }
-                else { randY = ThreadLocalRandom.current().nextInt(VIEW_HEIGHT - (VIEW_HEIGHT / 10), VIEW_HEIGHT); }
+                if (new Random().nextInt(2) < 1) {
+                    randY = ThreadLocalRandom.current().nextInt(0, (VIEW_HEIGHT / 10));
+                } else {
+                    randY = ThreadLocalRandom.current().nextInt(VIEW_HEIGHT - (VIEW_HEIGHT / 10), VIEW_HEIGHT);
+                }
                 randX = ThreadLocalRandom.current().nextInt(VIEW_WIDTH);
             } else {
-                if (new Random().nextInt(2) < 1) { randX = ThreadLocalRandom.current().nextInt(0, (VIEW_WIDTH / 10)); }
-                else { randX = ThreadLocalRandom.current().nextInt(VIEW_WIDTH - (VIEW_WIDTH / 10), VIEW_WIDTH); }
+                if (new Random().nextInt(2) < 1) {
+                    randX = ThreadLocalRandom.current().nextInt(0, (VIEW_WIDTH / 10));
+                } else {
+                    randX = ThreadLocalRandom.current().nextInt(VIEW_WIDTH - (VIEW_WIDTH / 10), VIEW_WIDTH);
+                }
                 randY = ThreadLocalRandom.current().nextInt(VIEW_HEIGHT);
             }
         }

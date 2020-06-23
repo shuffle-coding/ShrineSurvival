@@ -8,8 +8,8 @@ public class Player extends Entity {
 
     public Player(Canvas canvas, String name) {
         super();
-        this.canvas = canvas;
-        this.health = 100;
+        this.setCanvas(canvas);
+        this.setHealth(100);
         this.NAME = name;
     }
 

@@ -12,15 +12,15 @@ public class Enemy extends Entity{
         Spritesheet spritesheet = new Spritesheet("/SpriteSheets/roguelikeChar_transparent.png");
         Sprite sprite = new Sprite(spritesheet);
         sprite.addSprite(1, 11);
-        canvas = sprite.getCanvas();
-        this.MovementSpeed = (float) EnemyType.ZOMBIE.getMOVEMENT_SPEED();
-        this.health = (float) EnemyType.ZOMBIE.getHEALTH();
+        this.setCanvas(sprite.getCanvas());
+        this.setMovementSpeed((float) EnemyType.ZOMBIE.getMOVEMENT_SPEED());
+        this.setHealth((float) EnemyType.ZOMBIE.getHEALTH());
     }
 
     public Enemy(Canvas canvas, EnemyType enemyType) {
         super();
-        this.canvas = canvas;
-        this.MovementSpeed = (float) enemyType.getMOVEMENT_SPEED();
-        this.health = (float) enemyType.getHEALTH();
+        this.setCanvas(canvas);
+        this.setMovementSpeed((float) enemyType.getMOVEMENT_SPEED());
+        this.setHealth((float) enemyType.getHEALTH());
     }
 }
