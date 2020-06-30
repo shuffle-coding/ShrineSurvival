@@ -10,7 +10,6 @@ import erik.wiesi.view.ViewManager;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.AnchorPane;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -107,11 +106,12 @@ public class PlaySoloScene {
 
             if (enemyList.size() == 0) {
 //                roundCount++;
-                roundCount = 10;
-                min = roundCount;
-                max = (int) roundCount / 5 + min;
-
-                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+//                roundCount = 10;
+//                min = roundCount;
+//                max = (int) roundCount / 5 + min;
+//
+//                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+                int randomNum = 2;
                 for (int i = 0; i < randomNum; i++) {
                     enemyList.add(i, new Enemy());
                 }
@@ -155,6 +155,7 @@ public class PlaySoloScene {
                         }
                     }
                 });
+
                 playerPosX = player.getCanvas().getTranslateX();
                 playerPosY = player.getCanvas().getTranslateY();
                 int ex = 0, ey = 0;
