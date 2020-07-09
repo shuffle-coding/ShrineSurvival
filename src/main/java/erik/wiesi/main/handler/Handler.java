@@ -1,121 +1,89 @@
 package erik.wiesi.main.handler;
 
 import erik.wiesi.model.entities.Entity;
-import javafx.geometry.BoundingBox;
+import erik.wiesi.model.entities.Player;
+import javafx.geometry.Bounds;
 
-import java.util.Arrays;
+import java.util.List;
 
 public abstract class Handler {
 
-    public static void movement(Entity entityMe, float dx, float dy) {
+    private static List<Entity> entities;
+    private static Player player;
 
-        if (dx != 0 && dy != 0) {
-            float relative = (float) Math.sqrt(entityMe.getMovementSpeed() * entityMe.getMovementSpeed() / 2);
-            dx = dx * relative;
-            dy = dy * relative;
-        } else {
-            dx = dx * entityMe.getMovementSpeed();
-            dy = dy * entityMe.getMovementSpeed();
-        }
-
-        entityMe.getCanvas().setTranslateX(entityMe.getCanvas().getTranslateX() + dx);
-        entityMe.getCanvas().setTranslateY(entityMe.getCanvas().getTranslateY() + dy);
+    public static void setEntities(List<Entity> newEntities) {
+        entities = newEntities;
+    }
+    public static List<Entity> getEntities() {
+        return entities;
+    }
+    public static void setPlayer(Player playerChar) {
+        player = playerChar;
     }
 
-    public static void movement(Entity entityMe, int dx, int dy, Entity other) {
-
-        int[] disallowed = new int[] {0, 0};
-        if (!Arrays.equals(entityMe.getDisallowed(), new int[] {0, 0})) {
-            return;
-        } else if (collisionDetect(entityMe, other)) {
-            disallowed = collisionDirection(entityMe, other);
+    public static void movement(Entity entityMe, int dx, int dy) {
+        boolean[] disallowed = directionalCheck(entityMe, dx, dy);
+        if (disallowed[0]) {
+            dx = 0;
+        }
+        if (disallowed[1]) {
+            dy = 0;
         }
 
-        if (dx == 1 && disallowed[0] == 1) dx = 0;
-        if (dx == -1 && disallowed[0] == -1) dx = 0;
-        if (dy == 1 && disallowed[1] == 1) dy = 0;
-        if (dy == -1 && disallowed[1] == -1) dy = 0;
+        float speedX;
+        float speedY;
+        if (dx != 0 && dy != 0) {
+            float relative = (float) Math.sqrt(entityMe.getMovementSpeed() * entityMe.getMovementSpeed() / 2);
+            speedX = dx * relative;
+            speedY = dy * relative;
+        } else {
+            speedX = dx * entityMe.getMovementSpeed();
+            speedY = dy * entityMe.getMovementSpeed();
+        }
+
+        entityMe.getCanvas().setTranslateX(entityMe.getCanvas().getTranslateX() + speedX);
+        entityMe.getCanvas().setTranslateY(entityMe.getCanvas().getTranslateY() + speedY);
+    }
+
+    public static void movement(Entity entityMe, Entity other) {
+
+        double otherPosX = other.getCanvas().getBoundsInParent().getCenterX();
+        double otherPosY = other.getCanvas().getBoundsInParent().getCenterY();
+        int dx = 0, dy = 0;
+        double enemyPosX = entityMe.getCanvas().getBoundsInParent().getCenterX();
+        double enemyPosY = entityMe.getCanvas().getBoundsInParent().getCenterY();
+        if (enemyPosX < otherPosX) dx += 1;
+        if (enemyPosX > otherPosX) dx -= 1;
+        if (enemyPosY < otherPosY) dy += 1;
+        if (enemyPosY > otherPosY) dy -= 1;
+
         movement(entityMe, dx, dy);
     }
 
-    public static boolean collisionDetect (Entity a, Entity b) {
-        if (a.getCanvas().getBoundsInParent().intersects(b.getCanvas().getBoundsInParent())) {
-            return true;
-        }
-        return false;
+    private static boolean[] directionalCheck(Entity me, int dx, int dy) {
+        Bounds myBounds = me.getCanvas().getBoundsInParent();
+        boolean[] result = new boolean[] {false, false};
+
+        entities.stream().filter(entity -> entity.getUuid() != me.getUuid()).forEach(other -> {
+            Bounds otherBounds = other.getCanvas().getBoundsInParent();
+            if (myBounds.intersects(otherBounds)) {
+                if (!result[0]) {
+                if (dx == 1 && myBounds.getMaxX() - 3 <= otherBounds.getMinX()) {
+                        result[0] = true;
+                    } else if (dx == -1 && myBounds.getMinX() + 3 >= otherBounds.getMaxX()) {
+                        result[0] = true;
+                    }
+                }
+                if (!result[1]) {
+                    if (dy == 1 && myBounds.getMaxY() - 3 <= otherBounds.getMinY()) {
+                        result[1] = true;
+                    } else if (dy == -1 && myBounds.getMinY() + 3 >= otherBounds.getMaxY()) {
+                        result[1] = true;
+                    }
+                }
+            }
+        });
+        return result;
     }
 
-    public static int[] collisionDirection (Entity entityMe, Entity entityOther) {
-        double sizeAX = entityMe.getCanvas().getWidth() * entityMe.getCanvas().getScaleX();
-        double sizeAY = entityMe.getCanvas().getHeight() * entityMe.getCanvas().getScaleY();
-        double sizeBX = entityOther.getCanvas().getWidth() * entityOther.getCanvas().getScaleX();
-        double sizeBY = entityOther.getCanvas().getHeight() * entityOther.getCanvas().getScaleY();
-        double sizeX = (sizeAX + sizeBX + 10) / 2;
-        double sizeY = (sizeAY + sizeBY + 10) / 2;
-        double posAX = entityMe.getCanvas().getTranslateX() + (sizeAX / 2);
-        double posAY = entityMe.getCanvas().getTranslateY() + (sizeAY / 2);
-        double posBX = entityOther.getCanvas().getTranslateX() + (sizeBX / 2);
-        double posBY = entityOther.getCanvas().getTranslateY() + (sizeBY / 2);
-//        double deltaX = posAX - posBX;
-//        double deltaY = posAY - posBY;
-
-
-        double deltaX = posBX - posAX;
-        double deltaY = posBY - posAY;
-        int[] result = new int[] {0, 0};
-
-        float testX = (float) (deltaX / sizeX);
-        float testY = (float) (deltaY / sizeY);
-
-        if (testX > 0) {
-            if (testY > 0) {
-                if (testX > testY) result = new int[]{1, 0};
-                else if (testX < testY) result = new int[]{0, 1};
-            } else if (testY < 0) {
-                testY = testY * -1;
-                if (testX > testY) result = new int[]{1, 0};
-                else if (testX < testY) result = new int[]{0, -1};
-            } else {
-                result = new int[] {1, 0};
-            }
-        } else if (testX <= 0) {
-            if (testY > 0) {
-                if (testX > testY) result = new int[]{-1, 0};
-                else if (testX < testY) result = new int[]{0, 1};
-            } else if (testY < 0) {
-                testY = testY * -1;
-                if (testX > testY) result = new int[]{-1, 0};
-                else if (testX < testY) result = new int[]{0, -1};
-            } else {
-                result = new int[] {-1, 0};
-            }
-        } else {
-            if (testY > 0) {
-                if (testX < testY) result = new int[]{0, 1};
-            } else if (testY < 0) {
-                testY = testY * -1;
-                if (testX < testY) result = new int[]{0, -1};
-            } else {
-                result = new int[] {0, 0};
-            }
-        }
-
-
-
-//        if (deltaX > 0 && deltaX < sizeX) {
-//            result[0] = -1;
-//        } else if (deltaX < 0 && deltaX * -1 < sizeX) {
-//            result[0] = 1;
-//        } else {
-//            result[0] = 0;
-//        }
-//        if (deltaY > 0 && deltaY < sizeY) {
-//            result[1] = -1;
-//        } else if (deltaY < 0 && deltaY * -1 < sizeY) {
-//            result[1] = 1;
-//        } else {
-//            result[1] = 0;
-//        }
-        return result;
-     }
 }

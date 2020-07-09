@@ -104,19 +104,18 @@ public class PlaySoloScene {
                 fps = 0;
             }
 
-            if (enemyList.size() == 0) {
-//                roundCount++;
-//                roundCount = 10;
-//                min = roundCount;
-//                max = (int) roundCount / 5 + min;
-//
-//                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-                int randomNum = 2;
-                for (int i = 0; i < randomNum; i++) {
-                    enemyList.add(i, new Enemy());
-                }
-                enemyList.forEach(e -> {
+            if (enemyList.size() == 1) {
+                roundCount++;
+                roundCount = 10;
+                min = roundCount;
+                max = (int) roundCount / 5 + min;
 
+                int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+//                int randomNum = 2;
+                for (int i = 0; i < randomNum; i++) {
+                    enemyList.add(i + 1, new Enemy());
+                }
+                enemyList.stream().filter(entity -> entity.getUuid() != player.getUuid()).forEach(e -> {
                     setRandomBorderPos();
                     mainPane.getChildren().add(e.getCanvas());
                     e.getCanvas().setTranslateX(randX);
@@ -124,6 +123,7 @@ public class PlaySoloScene {
                     e.getCanvas().setScaleX(rescaleFactor * 2);
                     e.getCanvas().setScaleY(rescaleFactor * 2);
                 });
+                Handler.setEntities(enemyList);
             }
 
             int dx = 0, dy = 0;
@@ -134,39 +134,10 @@ public class PlaySoloScene {
             if (goLeft) dx -= 1;
             Handler.movement(player, dx, dy);
 
-//            playerPosX = player.getCanvas().getTranslateX();
-//            playerPosY = player.getCanvas().getTranslateY();
-//            enemyList.forEach(e -> {
-//                int ex = 0, ey = 0;
-//                double enemyPosX = e.getCanvas().getTranslateX();
-//                double enemyPosY = e.getCanvas().getTranslateY();
-//                if (enemyPosX < playerPosX) ex += 1;
-//                if (enemyPosX > playerPosX) ex -= 1;
-//                if (enemyPosY < playerPosY) ey += 1;
-//                if (enemyPosY > playerPosY) ey -= 1;
-//                Handler.movement(e, ex, ey, player);
-//            });
-
-            enemyList.forEach(me -> {
-                enemyList.forEach(other -> {
-                    if (!me.getUuid().equals(other.getUuid())) {
-                        if (Handler.collisionDetect(me, other) && Arrays.equals(me.getDisallowed(), new int[] {0, 0})) {
-                            me.setDisallowed(Handler.collisionDirection(me, other));
-                        }
-                    }
-                });
-
-                playerPosX = player.getCanvas().getTranslateX();
-                playerPosY = player.getCanvas().getTranslateY();
-                int ex = 0, ey = 0;
-                double enemyPosX = me.getCanvas().getTranslateX();
-                double enemyPosY = me.getCanvas().getTranslateY();
-                if (enemyPosX < playerPosX) ex += 1;
-                if (enemyPosX > playerPosX) ex -= 1;
-                if (enemyPosY < playerPosY) ey += 1;
-                if (enemyPosY > playerPosY) ey -= 1;
-                Handler.movement(me, ex, ey, player);
-                me.setDisallowed(new int[] {0, 0});
+            enemyList.forEach(entity -> {
+                if (entity.getUuid() != player.getUuid()) {
+                    Handler.movement(entity, player);
+                }
             });
         }
 
@@ -211,6 +182,8 @@ public class PlaySoloScene {
         player.getCanvas().setScaleY(rescaleFactor * 2);
         player.getCanvas().setTranslateX(ViewManager.getWIDTH() / 2);
         player.getCanvas().setTranslateY(ViewManager.getHEIGHT() / 2);
+        enemyList.add(0, player);
+        Handler.setPlayer(player);
     }
 
 }
