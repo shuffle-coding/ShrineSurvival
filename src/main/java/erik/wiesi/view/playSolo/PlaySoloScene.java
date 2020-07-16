@@ -25,7 +25,7 @@ public class PlaySoloScene {
     private List<Integer[]> sprites;
     private final int rescaleFactor = 2;
     private Player player;
-    private boolean goUp, goDown, goLeft, goRight;
+    private boolean goUp, goDown, goLeft, goRight, attackUp, attackDown, attackLeft, attackRight;
     private List<Entity> enemyList = new ArrayList<>();
 
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
@@ -35,6 +35,7 @@ public class PlaySoloScene {
         generateSpriteList();
         generateMap();
         setPlayer(playerSprite);
+        Handler.setMainPane(mainPane);
 
         mainPane.getScene().setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -49,6 +50,18 @@ public class PlaySoloScene {
                     break;
                 case RIGHT:
                     goRight = true;
+                    break;
+                case W:
+                    attackUp = true;
+                    break;
+                case S:
+                    attackDown = true;
+                    break;
+                case A:
+                    attackLeft = true;
+                    break;
+                case D:
+                    attackRight = true;
                     break;
             }
         });
@@ -66,6 +79,18 @@ public class PlaySoloScene {
                     break;
                 case RIGHT:
                     goRight = false;
+                    break;
+                case W:
+                    attackUp = false;
+                    break;
+                case S:
+                    attackDown = false;
+                    break;
+                case A:
+                    attackLeft = false;
+                    break;
+                case D:
+                    attackRight = false;
                     break;
             }
         });
@@ -127,12 +152,19 @@ public class PlaySoloScene {
             }
 
             int dx = 0, dy = 0;
-
             if (goUp) dy -= 1;
             if (goDown) dy += 1;
             if (goRight) dx += 1;
             if (goLeft) dx -= 1;
             Handler.movement(player, dx, dy);
+
+            int ax = 0, ay = 0;
+            if (attackLeft) ax = -1;
+            else if (attackRight) ax = 1;
+            if (attackUp) ay = -1;
+            else if (attackDown) ay = 1;
+            if (ax != 0 || ay != 0) Handler.attack(player, ax, ay);
+//            if (ax == 0 && ay == 0) Handler.removeWeapon(player); TODO: remove Weapon after shown for 1 sec
 
             enemyList.forEach(entity -> {
                 if (entity.getUuid() != player.getUuid()) {

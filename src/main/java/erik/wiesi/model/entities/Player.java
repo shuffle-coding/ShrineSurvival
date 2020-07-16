@@ -1,6 +1,8 @@
 package erik.wiesi.model.entities;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
+
 
 public class Player extends Entity {
 
