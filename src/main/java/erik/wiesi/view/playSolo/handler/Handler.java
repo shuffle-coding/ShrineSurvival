@@ -108,9 +108,7 @@ public abstract class Handler {
         }
 
         int angle = 0;
-        if (attackX == 0 && attackY == -1) {
-            angle = 0;
-        } else if (attackX == 1 && attackY == -1) {
+        if (attackX == 1 && attackY == -1) {
             angle = 45;
         } else if (attackX == 1 && attackY == 0) {
             angle = 90;
@@ -124,8 +122,6 @@ public abstract class Handler {
             angle = 270;
         } else if (attackX == -1 && attackY == -1) {
             angle = 315;
-        } else {
-            System.out.println("Error, no Attack Input");
         }
 
         mainPane.getChildren().add(weapon);
@@ -140,7 +136,7 @@ public abstract class Handler {
         try {
             mainPane.getChildren().remove(me.getWeapon());
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -166,18 +162,19 @@ public abstract class Handler {
     public static void attack(Entity me) {
         Bounds weapon = me.getWeapon().getBoundsInParent();
 
-        entities = entities.stream().map(entity -> {
-            if (!entity.equals(me) &&weapon.intersects(entity.getCanvas().getBoundsInParent())) {
+        entities = entities.stream().peek(entity -> {
+            if (!entity.equals(me) && weapon.intersects(entity.getCanvas().getBoundsInParent())) {
                 dealDamage(me, entity);
             }
-            return entity;
         }).filter(e -> e.getHealth() > 0).collect(Collectors.toList());
     }
 
     private static void dealDamage(Entity attacker, Entity defender) {
-        defender.setHealth(defender.getHealth() - attacker.getWeaponDamage());
-        if (defender.getHealth() <= 0) {
-            mainPane.getChildren().remove(defender.getCanvas());
+        if ((System.currentTimeMillis() - defender.getLatestDamage()) >= 200) {
+            defender.setHealth(defender.getHealth() - attacker.getWeaponDamage());
+            if (defender.getHealth() <= 0) {
+                mainPane.getChildren().remove(defender.getCanvas());
+            }
         }
     }
 }

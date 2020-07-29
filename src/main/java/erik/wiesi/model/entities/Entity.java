@@ -16,11 +16,13 @@ public abstract class Entity {
     private int[] disallowed;
     private ImageView weapon;
     private float weaponDamage = 10;
+    private long latestDamage;
 
     public Entity () {
         this.uuid = UUID.randomUUID();
         disallowed = new int[] {0,0};
         weapon = new ImageView(new Image(getClass().getResource("/SpriteSheets/SingleSprites/sword.png").toString()));
+        latestDamage = System.currentTimeMillis();
     }
 
     public void setCanvas(Canvas canvas) {
@@ -33,6 +35,7 @@ public abstract class Entity {
         this.movementSpeed = movementSpeed;
     }
     public void setHealth(float health) {
+        latestDamage = System.currentTimeMillis();
         this.health = health;
     }
     public void setWeapon(ImageView weapon) {
@@ -61,6 +64,9 @@ public abstract class Entity {
     }
     public float getWeaponDamage() {
         return weaponDamage;
+    }
+    public long getLatestDamage() {
+        return latestDamage;
     }
 
     @Override
