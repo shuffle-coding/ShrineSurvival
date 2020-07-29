@@ -1,6 +1,6 @@
 package erik.wiesi.view.playSolo;
 
-import erik.wiesi.main.handler.Handler;
+import erik.wiesi.view.playSolo.handler.Handler;
 import erik.wiesi.model.entities.Enemy;
 import erik.wiesi.model.entities.Entity;
 import erik.wiesi.model.entities.Player;
@@ -110,10 +110,10 @@ public class PlaySoloScene {
         private int randX, randY;
         private final int VIEW_WIDTH = (int) ViewManager.getWIDTH();
         private final int VIEW_HEIGHT = (int) ViewManager.getHEIGHT();
-        private double playerPosX, playerPosY;
         private boolean attack = false;
         private int attackCounter = 0;
         private int attackX, attackY;
+        private long deltaAttack;
 
         @Override
         public void handle(long now) {
@@ -133,12 +133,10 @@ public class PlaySoloScene {
 
             if (enemyList.size() == 1) {
                 roundCount++;
-                roundCount = 10;
                 min = roundCount;
                 max = (int) roundCount / 5 + min;
 
                 int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-//                int randomNum = 2;
                 for (int i = 0; i < randomNum; i++) {
                     enemyList.add(i + 1, new Enemy());
                 }
@@ -152,6 +150,7 @@ public class PlaySoloScene {
                 });
                 Handler.setEntities(enemyList);
             }
+            enemyList = Handler.getEntities();
 
             int dx = 0, dy = 0;
             if (goUp) dy -= 1;
@@ -173,7 +172,7 @@ public class PlaySoloScene {
                 attackX = ax;
                 attackY = ay;
                 Handler.drawWeapon(player, ax, ay);
-            } else if (attack && (attackCounter >= 60 || ax == 0 && ay == 0)) {
+            } else if (attack && attackCounter >= 60) {
                 Handler.removeWeapon(player);
                 attack = false;
                 attackX = 0;
@@ -186,7 +185,7 @@ public class PlaySoloScene {
 
 
             enemyList.forEach(entity -> {
-                if (entity.getUuid() != player.getUuid()) {
+                if (!entity.equals(player)) {
                     Handler.movement(entity, player);
                 }
             });

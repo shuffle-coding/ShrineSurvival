@@ -7,6 +7,8 @@ import javafx.scene.canvas.Canvas;
 
 public class Enemy extends Entity{
 
+    private int value;
+
     public Enemy() {
         super();
         Spritesheet spritesheet = new Spritesheet("/SpriteSheets/roguelikeChar_transparent.png");
@@ -15,6 +17,7 @@ public class Enemy extends Entity{
         this.setCanvas(sprite.getCanvas());
         this.setMovementSpeed((float) EnemyType.ZOMBIE.getMOVEMENT_SPEED());
         this.setHealth((float) EnemyType.ZOMBIE.getHEALTH());
+        value = (int) (200 - (getHealth() / getMovementSpeed()));
     }
 
     public Enemy(Canvas canvas, EnemyType enemyType) {

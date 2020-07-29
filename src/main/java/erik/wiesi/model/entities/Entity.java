@@ -1,10 +1,10 @@
 package erik.wiesi.model.entities;
 
-import erik.wiesi.main.handler.Handler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Entity {
@@ -63,4 +63,11 @@ public abstract class Entity {
         return weaponDamage;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entity entity = (Entity) o;
+        return getUuid().equals(entity.getUuid());
+    }
 }

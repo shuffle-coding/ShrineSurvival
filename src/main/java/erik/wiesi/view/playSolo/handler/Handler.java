@@ -1,13 +1,13 @@
-package erik.wiesi.main.handler;
+package erik.wiesi.view.playSolo.handler;
 
 import erik.wiesi.model.entities.Entity;
 import erik.wiesi.model.entities.Player;
 import javafx.geometry.Bounds;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Handler {
 
@@ -166,18 +166,18 @@ public abstract class Handler {
     public static void attack(Entity me) {
         Bounds weapon = me.getWeapon().getBoundsInParent();
 
-        entities.stream().filter(e -> e.getUuid() != player.getUuid()).forEach(e -> {
-            if (weapon.intersects(e.getCanvas().getBoundsInParent())) {
-                dealDamage(e);
+        entities = entities.stream().map(entity -> {
+            if (!entity.equals(me) &&weapon.intersects(entity.getCanvas().getBoundsInParent())) {
+                dealDamage(me, entity);
             }
-        });
+            return entity;
+        }).filter(e -> e.getHealth() > 0).collect(Collectors.toList());
     }
 
-    private static void dealDamage(Entity me) {
-        me.setHealth(me.getHealth() - player.getWeaponDamage());
-        if (me.getHealth() <= 0) {
-            entities.remove(me);
-            mainPane.getChildren().remove(me.getCanvas());
+    private static void dealDamage(Entity attacker, Entity defender) {
+        defender.setHealth(defender.getHealth() - attacker.getWeaponDamage());
+        if (defender.getHealth() <= 0) {
+            mainPane.getChildren().remove(defender.getCanvas());
         }
     }
 }
