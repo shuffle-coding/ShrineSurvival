@@ -15,6 +15,7 @@ public abstract class Entity {
     private float movementSpeed = 5;      // Default MOVEMENT_SPEED
     private int[] disallowed;
     private ImageView weapon;
+    private float weaponDamage = 10;
 
     public Entity () {
         this.uuid = UUID.randomUUID();
@@ -37,6 +38,9 @@ public abstract class Entity {
     public void setWeapon(ImageView weapon) {
         this.weapon = weapon;
     }
+    public void setWeaponDamage(float weaponDamage) {
+        this.weaponDamage = weaponDamage;
+    }
     public Canvas getCanvas() {
         return canvas;
     }
@@ -46,13 +50,17 @@ public abstract class Entity {
     public float getMovementSpeed() {
         return movementSpeed;
     }
+    public float getHealth() {
+        return health;
+    }
     public int[] getDisallowed() {
         return disallowed;
     }
     public ImageView getWeapon() {
         return weapon;
     }
-
-
+    public float getWeaponDamage() {
+        return weaponDamage;
+    }
 
 }

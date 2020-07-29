@@ -11,7 +11,6 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -112,6 +111,9 @@ public class PlaySoloScene {
         private final int VIEW_WIDTH = (int) ViewManager.getWIDTH();
         private final int VIEW_HEIGHT = (int) ViewManager.getHEIGHT();
         private double playerPosX, playerPosY;
+        private boolean attack = false;
+        private int attackCounter = 0;
+        private int attackX, attackY;
 
         @Override
         public void handle(long now) {
@@ -159,12 +161,29 @@ public class PlaySoloScene {
             Handler.movement(player, dx, dy);
 
             int ax = 0, ay = 0;
+
             if (attackLeft) ax = -1;
             else if (attackRight) ax = 1;
             if (attackUp) ay = -1;
             else if (attackDown) ay = 1;
-            if (ax != 0 || ay != 0) Handler.attack(player, ax, ay);
-//            if (ax == 0 && ay == 0) Handler.removeWeapon(player); TODO: remove Weapon after shown for 1 sec
+
+            if (!attack && (ax != 0 || ay != 0)) {
+                attack = true;
+                attackCounter = 0;
+                attackX = ax;
+                attackY = ay;
+                Handler.drawWeapon(player, ax, ay);
+            } else if (attack && (attackCounter >= 60 || ax == 0 && ay == 0)) {
+                Handler.removeWeapon(player);
+                attack = false;
+                attackX = 0;
+                attackY = 0;
+            } else if (attack) {
+                Handler.redrawWeapon(player, attackX, attackY);
+                Handler.attack(player);
+                attackCounter++;
+            }
+
 
             enemyList.forEach(entity -> {
                 if (entity.getUuid() != player.getUuid()) {

@@ -93,7 +93,7 @@ public abstract class Handler {
         return result;
     }
 
-    public static void attack(Entity me, int attackX, int attackY) {
+    public static void drawWeapon(Entity me, int attackX, int attackY) {
         ImageView weapon = me.getWeapon();
         int radius = 60;
         double radiusAngled = Math.sqrt(2 * (radius * radius)) / 2;
@@ -136,12 +136,48 @@ public abstract class Handler {
         weapon.setScaleY(2);
     }
 
-//    public static void removeWeapon(Entity me) {
-//        if ()
-//        try {
-//            mainPane.getChildren().remove(me.getWeapon());
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-//    }
+    public static void removeWeapon(Entity me) {
+        try {
+            mainPane.getChildren().remove(me.getWeapon());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void redrawWeapon(Entity me, int attackX, int attackY) {
+        ImageView weapon = me.getWeapon();
+        int radius = 60;
+        double radiusAngled = Math.sqrt(2 * (radius * radius)) / 2;
+        double weaponPosX = me.getCanvas().getBoundsInParent().getCenterX();
+        double weaponPosY = me.getCanvas().getBoundsInParent().getCenterY();
+        if (attackX != 0 && attackY != 0) {
+            weaponPosX += radiusAngled * attackX;
+            weaponPosY += radiusAngled * attackY;
+        } else {
+            weaponPosX += radius * attackX;
+            weaponPosY += radius * attackY;
+        }
+        weapon.setTranslateX(weaponPosX - (weapon.getImage().getWidth() / 2));
+        weapon.setTranslateY(weaponPosY - (weapon.getImage().getWidth() / 2));
+        weapon.setScaleX(2);
+        weapon.setScaleY(2);
+    }
+
+    public static void attack(Entity me) {
+        Bounds weapon = me.getWeapon().getBoundsInParent();
+
+        entities.stream().filter(e -> e.getUuid() != player.getUuid()).forEach(e -> {
+            if (weapon.intersects(e.getCanvas().getBoundsInParent())) {
+                dealDamage(e);
+            }
+        });
+    }
+
+    private static void dealDamage(Entity me) {
+        me.setHealth(me.getHealth() - player.getWeaponDamage());
+        if (me.getHealth() <= 0) {
+            entities.remove(me);
+            mainPane.getChildren().remove(me.getCanvas());
+        }
+    }
 }
