@@ -8,7 +8,9 @@ import erik.wiesi.sprites.TileMap;
 import erik.wiesi.sprites.PlayerSprite;
 import erik.wiesi.view.ViewManager;
 import javafx.animation.AnimationTimer;
+import javafx.animation.PathTransition;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Arc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,9 +113,9 @@ public class PlaySoloScene {
         private final int VIEW_WIDTH = (int) ViewManager.getWIDTH();
         private final int VIEW_HEIGHT = (int) ViewManager.getHEIGHT();
         private boolean attack = false;
-        private int attackCounter = 0;
-        private int attackX, attackY;
-        private long deltaAttack;
+        private long attackStart;
+        private PathTransition attackArc = null;
+        private long attackPause = 0;
 
         @Override
         public void handle(long now) {
@@ -166,21 +168,17 @@ public class PlaySoloScene {
             if (attackUp) ay = -1;
             else if (attackDown) ay = 1;
 
-            if (!attack && (ax != 0 || ay != 0)) {
+            if (!attack && (ax != 0 || ay != 0) && ((now - attackPause) / 1000000) >= 200 ) {
+                attackStart = now;
                 attack = true;
-                attackCounter = 0;
-                attackX = ax;
-                attackY = ay;
-                Handler.drawWeapon(player, ax, ay);
-            } else if (attack && attackCounter >= 60) {
+                attackArc =  Handler.drawWeapon(player, ax, ay, 200);
+            } else if (attack && ((now - attackStart) / 1000000) >= 200) {
                 Handler.removeWeapon(player);
                 attack = false;
-                attackX = 0;
-                attackY = 0;
+                attackPause = now;
             } else if (attack) {
-                Handler.redrawWeapon(player, attackX, attackY);
+//                Handler.repositionWeapon(player, attackArc);
                 Handler.attack(player);
-                attackCounter++;
             }
 
 

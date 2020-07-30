@@ -2,9 +2,13 @@ package erik.wiesi.view.playSolo.handler;
 
 import erik.wiesi.model.entities.Entity;
 import erik.wiesi.model.entities.Player;
+import javafx.animation.PathTransition;
+import javafx.animation.RotateTransition;
 import javafx.geometry.Bounds;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Arc;
+import javafx.util.Duration;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,43 +97,50 @@ public abstract class Handler {
         return result;
     }
 
-    public static void drawWeapon(Entity me, int attackX, int attackY) {
+    public static PathTransition drawWeapon(Entity me, int attackX, int attackY, int shownTime) {
         ImageView weapon = me.getWeapon();
         int radius = 60;
-        double radiusAngled = Math.sqrt(2 * (radius * radius)) / 2;
-        double weaponPosX = me.getCanvas().getBoundsInParent().getCenterX();
-        double weaponPosY = me.getCanvas().getBoundsInParent().getCenterY();
-        if (attackX != 0 && attackY != 0) {
-            weaponPosX += radiusAngled * attackX;
-            weaponPosY += radiusAngled * attackY;
-        } else {
-            weaponPosX += radius * attackX;
-            weaponPosY += radius * attackY;
-        }
 
-        int angle = 0;
+        int angleStart = 0;
         if (attackX == 1 && attackY == -1) {
-            angle = 45;
+            angleStart = 45;
         } else if (attackX == 1 && attackY == 0) {
-            angle = 90;
+            angleStart = 90;
         } else if (attackX == 1 && attackY == 1) {
-            angle = 135;
+            angleStart = 135;
         } else if (attackX == 0 && attackY == 1) {
-            angle = 180;
+            angleStart = 180;
         } else if (attackX == -1 && attackY == 1) {
-            angle = 225;
+            angleStart = 225;
         } else if (attackX == -1 && attackY == 0) {
-            angle = 270;
+            angleStart = 270;
         } else if (attackX == -1 && attackY == -1) {
-            angle = 315;
+            angleStart = 315;
         }
+        angleStart += 30;
+        int angleEnd = angleStart - 60;
+
+        Arc path = new Arc(me.getCanvas().getBoundsInParent().getCenterX(), me.getCanvas().getBoundsInParent().getCenterY(), radius, radius, -angleStart + 90, 60);
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(shownTime));
+        pathTransition.setPath(path);
+        pathTransition.setNode(weapon);
+        pathTransition.setCycleCount(1);
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+
+        RotateTransition rotateTransition = new RotateTransition();
+        rotateTransition.setDuration(Duration.millis(shownTime));
+        rotateTransition.setNode(weapon);
+        rotateTransition.setFromAngle(angleStart);
+        rotateTransition.setToAngle(angleEnd);
 
         mainPane.getChildren().add(weapon);
-        weapon.setTranslateX(weaponPosX - (weapon.getImage().getWidth() / 2));
-        weapon.setTranslateY(weaponPosY - (weapon.getImage().getWidth() / 2));
-        weapon.setRotate(angle);
         weapon.setScaleX(2);
         weapon.setScaleY(2);
+        pathTransition.playFromStart();
+        rotateTransition.playFromStart();
+        return pathTransition;
     }
 
     public static void removeWeapon(Entity me) {
@@ -140,23 +151,9 @@ public abstract class Handler {
         }
     }
 
-    public static void redrawWeapon(Entity me, int attackX, int attackY) {
-        ImageView weapon = me.getWeapon();
-        int radius = 60;
-        double radiusAngled = Math.sqrt(2 * (radius * radius)) / 2;
-        double weaponPosX = me.getCanvas().getBoundsInParent().getCenterX();
-        double weaponPosY = me.getCanvas().getBoundsInParent().getCenterY();
-        if (attackX != 0 && attackY != 0) {
-            weaponPosX += radiusAngled * attackX;
-            weaponPosY += radiusAngled * attackY;
-        } else {
-            weaponPosX += radius * attackX;
-            weaponPosY += radius * attackY;
-        }
-        weapon.setTranslateX(weaponPosX - (weapon.getImage().getWidth() / 2));
-        weapon.setTranslateY(weaponPosY - (weapon.getImage().getWidth() / 2));
-        weapon.setScaleX(2);
-        weapon.setScaleY(2);
+    public static void repositionWeapon(Entity me, PathTransition pathTransition) {
+        pathTransition.getPath().setTranslateX(me.getCanvas().getBoundsInParent().getCenterX());
+        pathTransition.getPath().setTranslateY(me.getCanvas().getBoundsInParent().getCenterY());
     }
 
     public static void attack(Entity me) {
