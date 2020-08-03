@@ -3,8 +3,6 @@ package erik.wiesi.view.mainMenu;
 import erik.wiesi.model.*;
 import erik.wiesi.view.mainMenu.subScenes.*;
 import erik.wiesi.view.ViewManager;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -20,7 +18,7 @@ public class MenuScene {
     private List<ShrineSurvivalButton> buttonList = new ArrayList<>();
 
     private ShrineSurvivalSubScene subScene;
-    private PanelInfo panelInfo;
+    private InfoPanel infoPanel;
 
     private final String CHARSHEET = "/SpriteSheets/roguelikeChar_transparent.png";
     private final String TILESHEET = "/SpriteSheets/roguelikeSheet_transparent.png";
@@ -87,27 +85,27 @@ public class MenuScene {
         switch (buttonName) {
             case "howToPlayButton":
                 subScene = new HowToPlaySubScene();
-                panelInfo = new PanelInfo("How to play");
+                infoPanel = new InfoPanel("How to play");
                 break;
             case "playSoloButton":
                 subScene = new PlaySoloSubScene();
-                panelInfo = new PanelInfo("Play Solo");
+                infoPanel = new InfoPanel("Play Solo");
                 break;
             case "playmultiplayerButton":
                 subScene = new PlayMultiplayerSubScene();
-                panelInfo = new PanelInfo("Multiplayer not supported yet");
+                infoPanel = new InfoPanel("Multiplayer not supported yet");
                 break;
             case "scoresButton":
                 subScene = new ScoresSubScene();
-                panelInfo = new PanelInfo("Scores");
+                infoPanel = new InfoPanel("Scores");
                 break;
             case "creditsButton":
                 subScene = new CreditsSubScene();
-                panelInfo = new PanelInfo("Credits");
+                infoPanel = new InfoPanel("Credits");
                 break;
             case "settingsButton":
                 subScene = new SettingsSubScene();
-                panelInfo = new PanelInfo("Settings");
+                infoPanel = new InfoPanel("Settings");
                 break;
             default:
                 System.out.println("No SubScene found");
@@ -115,8 +113,8 @@ public class MenuScene {
         subScene.setLayoutX(mainPane.getWidth() / 2);
         subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
         mainPane.getChildren().add(subScene);
-        panelInfo.setLayoutX(40);
-        panelInfo.setLayoutY(0);
-        subScene.getPane().getChildren().add(panelInfo);
+        infoPanel.setLayoutX(40);
+        infoPanel.setLayoutY(0);
+        subScene.getPane().getChildren().add(infoPanel);
     }
 }

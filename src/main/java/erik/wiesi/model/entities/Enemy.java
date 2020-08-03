@@ -8,6 +8,9 @@ import javafx.scene.canvas.Canvas;
 public class Enemy extends Entity{
 
     private int value;
+    public int getValue() {
+        return value;
+    }
 
     public Enemy() {
         super();
@@ -16,7 +19,7 @@ public class Enemy extends Entity{
         sprite.addSprite(1, 11);
         this.setCanvas(sprite.getCanvas());
         this.setMovementSpeed((float) EnemyType.ZOMBIE.getMOVEMENT_SPEED());
-        this.setHealth((float) EnemyType.ZOMBIE.getHEALTH());
+        this.setHealth(EnemyType.ZOMBIE.getHEALTH());
         value = (int) (200 - (getHealth() / getMovementSpeed()));
     }
 
@@ -24,6 +27,6 @@ public class Enemy extends Entity{
         super();
         this.setCanvas(canvas);
         this.setMovementSpeed((float) enemyType.getMOVEMENT_SPEED());
-        this.setHealth((float) enemyType.getHEALTH());
+        this.setHealth(enemyType.getHEALTH());
     }
 }

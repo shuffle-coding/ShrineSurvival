@@ -11,11 +11,11 @@ public abstract class Entity {
 
     private Canvas canvas;
     private final UUID uuid;
-    private float health;                  // Initialized in Child Constructor
+    private int health;                  // Initialized in Child Constructor
     private float movementSpeed = 5;      // Default MOVEMENT_SPEED
     private int[] disallowed;
     private ImageView weapon;
-    private float weaponDamage = 10;
+    private int weaponDamage = 10;
     private long latestDamage;
 
     public Entity () {
@@ -34,14 +34,14 @@ public abstract class Entity {
     public void setMovementSpeed(float movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
-    public void setHealth(float health) {
+    public void setHealth(int health) {
         latestDamage = System.currentTimeMillis();
         this.health = health;
     }
     public void setWeapon(ImageView weapon) {
         this.weapon = weapon;
     }
-    public void setWeaponDamage(float weaponDamage) {
+    public void setWeaponDamage(int weaponDamage) {
         this.weaponDamage = weaponDamage;
     }
     public Canvas getCanvas() {
@@ -53,7 +53,7 @@ public abstract class Entity {
     public float getMovementSpeed() {
         return movementSpeed;
     }
-    public float getHealth() {
+    public int getHealth() {
         return health;
     }
     public int[] getDisallowed() {
@@ -62,7 +62,7 @@ public abstract class Entity {
     public ImageView getWeapon() {
         return weapon;
     }
-    public float getWeaponDamage() {
+    public int getWeaponDamage() {
         return weaponDamage;
     }
     public long getLatestDamage() {

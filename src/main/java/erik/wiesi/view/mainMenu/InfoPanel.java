@@ -6,15 +6,23 @@ import javafx.scene.text.Font;
 
 import java.io.IOException;
 
-public class PanelInfo extends Label {
+public class InfoPanel extends Label {
 
     private final String FONT = "/Fonts/kenvector_future.ttf";
 
-    public PanelInfo(String text) {
+    public InfoPanel(String text) {
         setPrefWidth(600);
         setPrefHeight(100);
         setPadding(new Insets(5,5,5,5));
         setText(text);
+        setWrapText(true);
+        setLabelFont();
+    }
+
+    public InfoPanel() {
+        setPrefWidth(600);
+        setPrefHeight(100);
+        setPadding(new Insets(5,5,5,5));
         setWrapText(true);
         setLabelFont();
     }

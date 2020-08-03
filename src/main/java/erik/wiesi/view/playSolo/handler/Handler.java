@@ -1,7 +1,10 @@
 package erik.wiesi.view.playSolo.handler;
 
+import erik.wiesi.model.entities.Enemy;
 import erik.wiesi.model.entities.Entity;
 import erik.wiesi.model.entities.Player;
+import erik.wiesi.view.playSolo.PlaySoloScene;
+import erik.wiesi.view.playSolo.Score;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.geometry.Bounds;
@@ -22,15 +25,19 @@ public abstract class Handler {
     public static void setEntities(List<Entity> newEntities) {
         entities = newEntities;
     }
+
     public static List<Entity> getEntities() {
         return entities;
     }
+
     public static void setPlayer(Player playerChar) {
         player = playerChar;
     }
+
     public static void setMainPane(AnchorPane pane) {
         mainPane = pane;
     }
+
     public static void movement(Entity me, int dx, int dy) {
         boolean[] disallowed = directionalCheck(me, dx, dy);
         if (disallowed[0]) {
@@ -73,13 +80,16 @@ public abstract class Handler {
     private static boolean[] directionalCheck(Entity me, int dx, int dy) {
         Bounds myBounds = me.getCanvas().getBoundsInParent();
         float mySafetyBounds = (float) (me.getMovementSpeed() * 3.5);
-        boolean[] result = new boolean[] {false, false};
+        boolean[] result = new boolean[]{false, false};
 
-        entities.stream().filter(entity -> entity.getUuid() != me.getUuid()).forEach(other -> {
+        entities.stream().filter(entity -> !entity.equals(me)).forEach(other -> {
             Bounds otherBounds = other.getCanvas().getBoundsInParent();
             if (myBounds.intersects(otherBounds)) {
+                if (other.equals(player)) {
+                    dealDamage(me);
+                }
                 if (!result[0]) {
-                if (dx == 1 && myBounds.getMaxX() - mySafetyBounds <= otherBounds.getMinX()) {
+                    if (dx == 1 && myBounds.getMaxX() - mySafetyBounds <= otherBounds.getMinX()) {
                         result[0] = true;
                     } else if (dx == -1 && myBounds.getMinX() + mySafetyBounds >= otherBounds.getMaxX()) {
                         result[0] = true;
@@ -97,7 +107,7 @@ public abstract class Handler {
         return result;
     }
 
-    public static PathTransition drawWeapon(Entity me, int attackX, int attackY, int shownTime) {
+    public static void drawWeapon(Entity me, int attackX, int attackY, int shownTime) {
         ImageView weapon = me.getWeapon();
         int radius = 60;
 
@@ -140,7 +150,6 @@ public abstract class Handler {
         weapon.setScaleY(2);
         pathTransition.playFromStart();
         rotateTransition.playFromStart();
-        return pathTransition;
     }
 
     public static void removeWeapon(Entity me) {
@@ -151,26 +160,32 @@ public abstract class Handler {
         }
     }
 
-    public static void repositionWeapon(Entity me, PathTransition pathTransition) {
-        pathTransition.getPath().setTranslateX(me.getCanvas().getBoundsInParent().getCenterX());
-        pathTransition.getPath().setTranslateY(me.getCanvas().getBoundsInParent().getCenterY());
-    }
-
-    public static void attack(Entity me) {
+    public static void attack(Entity me, Score score) {
         Bounds weapon = me.getWeapon().getBoundsInParent();
 
         entities = entities.stream().peek(entity -> {
             if (!entity.equals(me) && weapon.intersects(entity.getCanvas().getBoundsInParent())) {
-                dealDamage(me, entity);
+                dealDamage(me, entity, score);
             }
         }).filter(e -> e.getHealth() > 0).collect(Collectors.toList());
     }
 
-    private static void dealDamage(Entity attacker, Entity defender) {
+    private static void dealDamage(Entity attacker, Entity defender, Score score) {
         if ((System.currentTimeMillis() - defender.getLatestDamage()) >= 200) {
             defender.setHealth(defender.getHealth() - attacker.getWeaponDamage());
             if (defender.getHealth() <= 0) {
                 mainPane.getChildren().remove(defender.getCanvas());
+                if (defender instanceof Enemy) {
+                    score.addScore(((Enemy) defender).getValue());
+                }
+            }
+        }
+    }
+    private static void dealDamage(Entity attacker) {
+        if ((System.currentTimeMillis() - player.getLatestDamage()) >= 1000) {
+            player.setHealth(player.getHealth() - attacker.getWeaponDamage());
+            if (player.getHealth() <= 0) {
+                PlaySoloScene.gameOver();
             }
         }
     }

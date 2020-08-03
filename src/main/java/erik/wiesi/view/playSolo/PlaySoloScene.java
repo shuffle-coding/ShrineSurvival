@@ -1,5 +1,8 @@
 package erik.wiesi.view.playSolo;
 
+import erik.wiesi.model.ShrineSurvivalButton;
+import erik.wiesi.view.mainMenu.InfoPanel;
+import erik.wiesi.view.mainMenu.subScenes.ShrineSurvivalSubScene;
 import erik.wiesi.view.playSolo.handler.Handler;
 import erik.wiesi.model.entities.Enemy;
 import erik.wiesi.model.entities.Entity;
@@ -8,30 +11,33 @@ import erik.wiesi.sprites.TileMap;
 import erik.wiesi.sprites.PlayerSprite;
 import erik.wiesi.view.ViewManager;
 import javafx.animation.AnimationTimer;
-import javafx.animation.PathTransition;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Arc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PlaySoloScene {
 
-    private AnchorPane mainPane;
+    private static AnchorPane mainPane;
     private TileMap tileMap;
 
     private final String SPRITESHEET = "/SpriteSheets/roguelikeSheet_transparent.png";
+    private final String panelBackground = "/Background/yellow_panel.png";
+    private static Score score;
     private List<Integer[]> sprites;
     private final int rescaleFactor = 2;
     private Player player;
     private boolean goUp, goDown, goLeft, goRight, attackUp, attackDown, attackLeft, attackRight;
-    private List<Entity> enemyList = new ArrayList<>();
+    private List<Entity> entities = new ArrayList<>();
+    private InfoPanel healthBar;
+    private static AnimationTimer gameLoop;
 
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
 
-        this.mainPane = mainPane;
+        PlaySoloScene.mainPane = mainPane;
 
         generateSpriteList();
         generateMap();
@@ -95,11 +101,31 @@ public class PlaySoloScene {
                     break;
             }
         });
-
-        AnimationTimer gameLoop = new Loop();
+        ImageView scorePanel = new ImageView(new Image(getClass().getResource(panelBackground).toString(), 150, 100, false, false));
+        ImageView healthPanel = new ImageView(new Image(getClass().getResource(panelBackground).toString(), 150, 50, false, false));
+        healthBar = new InfoPanel(Integer.toString(player.getHealth()));
+        score = new Score();
+        mainPane.getChildren().add(scorePanel);
+        scorePanel.setLayoutX(1400);
+        scorePanel.setLayoutY(50);
+        mainPane.getChildren().add(healthPanel);
+        healthPanel.setLayoutX(50);
+        healthPanel.setLayoutY(50);
+        mainPane.getChildren().add(score.getScorePanel());
+        score.getScorePanel().setLayoutX(1420);
+        score.getScorePanel().setLayoutY(50);
+        score.getScorePanel().setPrefSize(100, 50);
+        mainPane.getChildren().add(score.getWavesPanel());
+        score.getWavesPanel().setLayoutX(1420);
+        score.getWavesPanel().setLayoutY(100);
+        score.getWavesPanel().setPrefSize(120,  50);
+        mainPane.getChildren().add(healthBar);
+        healthBar.setLayoutX(70);
+        healthBar.setLayoutY(50);
+        healthBar.setPrefSize(120, 50);
+        gameLoop = new Loop();
         System.out.println(player.getUuid());
         gameLoop.start();
-
     }
 
     private class Loop extends AnimationTimer {
@@ -109,12 +135,12 @@ public class PlaySoloScene {
         private long delta;
         private int roundCount = 0;
         private int min, max;
+        private final int maxEnemies = 30;
         private int randX, randY;
         private final int VIEW_WIDTH = (int) ViewManager.getWIDTH();
         private final int VIEW_HEIGHT = (int) ViewManager.getHEIGHT();
         private boolean attack = false;
         private long attackStart;
-        private PathTransition attackArc = null;
         private long attackPause = 0;
 
         @Override
@@ -133,16 +159,20 @@ public class PlaySoloScene {
                 fps = 0;
             }
 
-            if (enemyList.size() == 1) {
+            if (entities.size() == 1) {
                 roundCount++;
                 min = roundCount;
-                max = (int) roundCount / 5 + min;
+                max = (roundCount / 5) + min;
+                score.addWave();
 
                 int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-                for (int i = 0; i < randomNum; i++) {
-                    enemyList.add(i + 1, new Enemy());
+                if (randomNum > maxEnemies) {
+                    randomNum = maxEnemies;
                 }
-                enemyList.stream().filter(entity -> entity.getUuid() != player.getUuid()).forEach(e -> {
+                for (int i = 0; i < randomNum; i++) {
+                    entities.add(i + 1, new Enemy());
+                }
+                entities.stream().filter(entity -> entity.getUuid() != player.getUuid()).forEach(e -> {
                     setRandomBorderPos();
                     mainPane.getChildren().add(e.getCanvas());
                     e.getCanvas().setTranslateX(randX);
@@ -150,9 +180,9 @@ public class PlaySoloScene {
                     e.getCanvas().setScaleX(rescaleFactor * 2);
                     e.getCanvas().setScaleY(rescaleFactor * 2);
                 });
-                Handler.setEntities(enemyList);
+                Handler.setEntities(entities);
             }
-            enemyList = Handler.getEntities();
+            entities = Handler.getEntities();
 
             int dx = 0, dy = 0;
             if (goUp) dy -= 1;
@@ -171,22 +201,23 @@ public class PlaySoloScene {
             if (!attack && (ax != 0 || ay != 0) && ((now - attackPause) / 1000000) >= 200 ) {
                 attackStart = now;
                 attack = true;
-                attackArc =  Handler.drawWeapon(player, ax, ay, 200);
+                Handler.drawWeapon(player, ax, ay, 200);
             } else if (attack && ((now - attackStart) / 1000000) >= 200) {
                 Handler.removeWeapon(player);
                 attack = false;
                 attackPause = now;
             } else if (attack) {
-//                Handler.repositionWeapon(player, attackArc);
-                Handler.attack(player);
+                Handler.attack(player, score);
             }
 
 
-            enemyList.forEach(entity -> {
+            entities.forEach(entity -> {
                 if (!entity.equals(player)) {
                     Handler.movement(entity, player);
                 }
             });
+
+            healthBar.setText(Integer.toString(player.getHealth()));
         }
 
         private void setRandomBorderPos() {
@@ -230,8 +261,36 @@ public class PlaySoloScene {
         player.getCanvas().setScaleY(rescaleFactor * 2);
         player.getCanvas().setTranslateX(ViewManager.getWIDTH() / 2);
         player.getCanvas().setTranslateY(ViewManager.getHEIGHT() / 2);
-        enemyList.add(0, player);
+        entities.add(0, player);
         Handler.setPlayer(player);
+    }
+
+    public static void gameOver() {
+        gameLoop.stop();
+        ShrineSurvivalSubScene gameEnd = new ShrineSurvivalSubScene();
+        mainPane.getChildren().add(gameEnd);
+        gameEnd.setLayoutX((ViewManager.getWIDTH() / 2) - (gameEnd.getWidth() / 2));
+        gameEnd.setLayoutY((ViewManager.getHEIGHT() / 2) - (gameEnd.getHeight() / 2));
+        gameEnd.setOpacity(0.7);
+        Map<InfoPanel, InfoPanel> panels = new HashMap<>();
+        panels.put(new InfoPanel("Score: "), new InfoPanel(Integer.toString(score.getScore())));
+        panels.put(new InfoPanel("Wave: "), new InfoPanel(Integer.toString(score.getWaves())));
+        panels.put(new InfoPanel("Defeated Enemies: "), new InfoPanel(Integer.toString(score.getDefeatedEnemies())));
+
+        int totalSize = panels.size() * 70;
+        AtomicReference<Double> panelStartY = new AtomicReference<>((mainPane.getHeight() / 2) - (totalSize / 2));
+        panels.forEach((panel, value) -> {
+            double panelStartX = (ViewManager.getWIDTH() / 3) - (panel.getWidth() / 2);
+            double valueStartX = (ViewManager.getWIDTH() / 1.8) - (value.getWidth() / 2);
+            mainPane.getChildren().add(panel);
+            mainPane.getChildren().add(value);
+            panel.setLayoutX(panelStartX);
+            panel.setLayoutY(panelStartY.get());
+            value.setLayoutX(valueStartX);
+            value.setLayoutY(panelStartY.get());
+            panelStartY.updateAndGet(v -> v + 70);
+        });
+
     }
 
 }
