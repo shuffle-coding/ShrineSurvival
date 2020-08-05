@@ -2,7 +2,7 @@ package erik.wiesi.view.playSolo;
 
 import erik.wiesi.model.ShrineSurvivalButton;
 import erik.wiesi.view.mainMenu.InfoPanel;
-import erik.wiesi.view.mainMenu.subScenes.ShrineSurvivalSubScene;
+import erik.wiesi.model.ShrineSurvivalSubScene;
 import erik.wiesi.view.playSolo.handler.Handler;
 import erik.wiesi.model.entities.Enemy;
 import erik.wiesi.model.entities.Entity;
@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PlaySoloScene {
@@ -34,6 +35,7 @@ public class PlaySoloScene {
     private List<Entity> entities = new ArrayList<>();
     private InfoPanel healthBar;
     private static AnimationTimer gameLoop;
+    private static long gameStart;
 
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
 
@@ -125,6 +127,7 @@ public class PlaySoloScene {
         healthBar.setPrefSize(120, 50);
         gameLoop = new Loop();
         System.out.println(player.getUuid());
+        gameStart = System.currentTimeMillis();
         gameLoop.start();
     }
 
@@ -267,12 +270,20 @@ public class PlaySoloScene {
 
     public static void gameOver() {
         gameLoop.stop();
-        ShrineSurvivalSubScene gameEnd = new ShrineSurvivalSubScene();
-        mainPane.getChildren().add(gameEnd);
-        gameEnd.setLayoutX((ViewManager.getWIDTH() / 2) - (gameEnd.getWidth() / 2));
-        gameEnd.setLayoutY((ViewManager.getHEIGHT() / 2) - (gameEnd.getHeight() / 2));
-        gameEnd.setOpacity(0.7);
+        long gameLengthNano = System.currentTimeMillis() - gameStart;
+        long gameLengthSeconds = TimeUnit.SECONDS.convert(gameLengthNano, TimeUnit.NANOSECONDS);
+        int gameLengthMinutes = Integer.valueOf((int) TimeUnit.MINUTES.convert(gameLengthSeconds, TimeUnit.SECONDS));
+        // TODO: calc remaining Seconds
+
+
+        ShrineSurvivalSubScene gameEndPanel = new ShrineSurvivalSubScene();
+        mainPane.getChildren().add(gameEndPanel);
+        gameEndPanel.setLayoutX((ViewManager.getWIDTH() / 2) - (gameEndPanel.getWidth() / 2));
+        gameEndPanel.setLayoutY((ViewManager.getHEIGHT() / 2) - (gameEndPanel.getHeight() / 2));
+        gameEndPanel.setOpacity(0.7);
         Map<InfoPanel, InfoPanel> panels = new HashMap<>();
+
+        panels.put(new InfoPanel("Time Played:"), new InfoPanel())
         panels.put(new InfoPanel("Score: "), new InfoPanel(Integer.toString(score.getScore())));
         panels.put(new InfoPanel("Wave: "), new InfoPanel(Integer.toString(score.getWaves())));
         panels.put(new InfoPanel("Defeated Enemies: "), new InfoPanel(Integer.toString(score.getDefeatedEnemies())));
@@ -290,7 +301,11 @@ public class PlaySoloScene {
             value.setLayoutY(panelStartY.get());
             panelStartY.updateAndGet(v -> v + 70);
         });
-
+        ShrineSurvivalButton backToMenu = new ShrineSurvivalButton("Back To Menu", "backToMenuButton");
+        mainPane.getChildren().add(backToMenu);
+        System.out.println(backToMenu.getWidth());
+        backToMenu.setLayoutX((ViewManager.getWIDTH() / 2) - (backToMenu.getPrefWidth() / 2));
+        backToMenu.setLayoutY(ViewManager.getHEIGHT() / 8 * 6);
+        backToMenu.setOnAction(actionEvent -> ViewManager.switchToMenuScene());
     }
-
 }

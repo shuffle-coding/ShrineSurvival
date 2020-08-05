@@ -41,9 +41,17 @@ public class ViewManager {
     public static void switchToPlaySoloScene(PlayerSprite playerSprite) {
         mainPane = null;
         mainPane = new AnchorPane();
-        Scene secScene = new Scene(mainPane, WIDTH, HEIGHT);
-        mainStage.setScene(secScene);
+        Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
+        mainStage.setScene(scene);
         new PlaySoloScene(mainPane, playerSprite);
+    }
+
+    public static void switchToMenuScene() {
+        mainPane = null;
+        mainPane = new AnchorPane();
+        Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
+        mainStage.setScene(scene);
+        new MenuScene(mainPane);
     }
 
 }
