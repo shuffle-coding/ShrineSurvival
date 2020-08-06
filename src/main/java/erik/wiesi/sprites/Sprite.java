@@ -5,7 +5,7 @@ import javafx.scene.canvas.Canvas;
 public class Sprite {
 
     private Canvas canvas;
-    private Spritesheet spritesheet;
+    private final Spritesheet spritesheet;
 
     public Sprite(Spritesheet spritesheet) {
         this.spritesheet = spritesheet;

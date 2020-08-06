@@ -6,7 +6,6 @@ import javafx.scene.layout.*;
 
 public class ShrineSurvivalSubScene extends SubScene {
 
-    private final String FONT = "/Fonts/kenvector_future.ttf";
     private final String BACKGROUND = "/Background/yellow_panel.png";
 
     public ShrineSurvivalSubScene() {

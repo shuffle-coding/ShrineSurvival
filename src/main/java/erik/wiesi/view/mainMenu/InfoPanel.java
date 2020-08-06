@@ -19,17 +19,17 @@ public class InfoPanel extends Label {
         setLabelFont();
     }
 
-    public InfoPanel() {
-        setPrefWidth(600);
-        setPrefHeight(100);
-        setPadding(new Insets(5,5,5,5));
-        setWrapText(true);
-        setLabelFont();
-    }
-
-    private void setLabelFont(){
+    private void setLabelFont() {
         try {
             setFont(Font.loadFont(getClass().getResource(FONT).openStream(), 20));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setFontSize(int fontSize) {
+        try {
+            setFont(Font.loadFont(getClass().getResource(FONT).openStream(), fontSize));
         } catch (IOException e) {
             e.printStackTrace();
         }

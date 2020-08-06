@@ -21,26 +21,16 @@ public class ShrineSurvivalButton extends Button {
     private double fontSize = 18;
 
 
-    private Background released = new Background(new BackgroundImage(
-            new Image(getClass().getResource(RELEASED).toString()),
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.CENTER,
-            BackgroundSize.DEFAULT
-    ));
-    private Background pressed = new Background(new BackgroundImage(
-            new Image(getClass().getResource(PRESSED).toString()),
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.CENTER,
-            BackgroundSize.DEFAULT
-    ));
+    private Background released;
+    private Background pressed;
 
     public String getButtonName() {
         return BUTTON_NAME;
     }
 
     public ShrineSurvivalButton(String text, String button_name, double width, double height, double fontSize) {
+        setBackground();
+
         BUTTON_NAME = button_name;
 
         this.width = width;
@@ -58,6 +48,8 @@ public class ShrineSurvivalButton extends Button {
     }
 
     public ShrineSurvivalButton(String text, String button_name) {
+        setBackground();
+
         BUTTON_NAME = button_name;
 
         setText(text);
@@ -68,6 +60,28 @@ public class ShrineSurvivalButton extends Button {
         setPrefHeight(height);
         setPrefWidth(width);
         initializeButtonListeners();
+    }
+
+    private void setBackground() {
+
+        try {
+            released = new Background(new BackgroundImage(
+                    new Image(getClass().getResource(RELEASED).toString()),
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT
+            ));
+            pressed = new Background(new BackgroundImage(
+                    new Image(getClass().getResource(PRESSED).toString()),
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT
+            ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void convertException(Exception e) {

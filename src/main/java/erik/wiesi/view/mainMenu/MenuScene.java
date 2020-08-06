@@ -13,15 +13,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MenuScene {
 
-    private AnchorPane mainPane;
+    private final AnchorPane mainPane;
     private final String BACKGROUND = "/Background/338101.png";
-    private List<ShrineSurvivalButton> buttonList = new ArrayList<>();
+    private final List<ShrineSurvivalButton> buttonList = new ArrayList<>();
 
     private ShrineSurvivalSubScene subScene;
     private InfoPanel infoPanel;
-
-    private final String CHARSHEET = "/SpriteSheets/roguelikeChar_transparent.png";
-    private final String TILESHEET = "/SpriteSheets/roguelikeSheet_transparent.png";
 
     public MenuScene(AnchorPane mainPane) {
         this.mainPane = mainPane;
@@ -56,13 +53,19 @@ public class MenuScene {
     }
 
     private void createBackground() {
-        Background background = new Background(new BackgroundImage(
-                new Image(getClass().getResource(BACKGROUND).toString(), ViewManager.getWIDTH(), ViewManager.getHEIGHT(), false, false),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                null
-        ));
+        Background background = null;
+        try {
+            background = new Background(new BackgroundImage(
+                    new Image(getClass().getResource(BACKGROUND).toString(), ViewManager.getWIDTH(), ViewManager.getHEIGHT(), false, false),
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    null
+            ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         mainPane.setBackground(background);
     }
 
@@ -83,32 +86,31 @@ public class MenuScene {
     private void createSubScene(String buttonName) {
         mainPane.getChildren().remove(subScene);
         switch (buttonName) {
-            case "howToPlayButton":
+            case "howToPlayButton" -> {
                 subScene = new HowToPlaySubScene();
                 infoPanel = new InfoPanel("How to play");
-                break;
-            case "playSoloButton":
+            }
+            case "playSoloButton" -> {
                 subScene = new PlaySoloSubScene();
                 infoPanel = new InfoPanel("Play Solo");
-                break;
-            case "playmultiplayerButton":
+            }
+            case "playmultiplayerButton" -> {
                 subScene = new PlayMultiplayerSubScene();
-                infoPanel = new InfoPanel("Multiplayer not supported yet");
-                break;
-            case "scoresButton":
+                infoPanel = new InfoPanel("Multiplayer");
+            }
+            case "scoresButton" -> {
                 subScene = new ScoresSubScene();
                 infoPanel = new InfoPanel("Scores");
-                break;
-            case "creditsButton":
+            }
+            case "creditsButton" -> {
                 subScene = new CreditsSubScene();
                 infoPanel = new InfoPanel("Credits");
-                break;
-            case "settingsButton":
+            }
+            case "settingsButton" -> {
                 subScene = new SettingsSubScene();
                 infoPanel = new InfoPanel("Settings");
-                break;
-            default:
-                System.out.println("No SubScene found");
+            }
+            default -> System.out.println("No SubScene found");
         }
         subScene.setLayoutX(mainPane.getWidth() / 2);
         subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));

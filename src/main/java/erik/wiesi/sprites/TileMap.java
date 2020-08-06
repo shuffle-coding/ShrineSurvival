@@ -5,15 +5,14 @@ import javafx.scene.canvas.Canvas;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TileMap {
 
-    private Map<Integer[], Integer[]> tileMap;
-    private List<Integer[]> spriteList;
-    private Spritesheet spritesheet;
-    private Sprite sprite;
+    private final Map<Integer[], Integer[]> tileMap;
+    private final List<Integer[]> spriteList;
+    private final Spritesheet spritesheet;
+    private final Sprite sprite;
     private int rescaleFactor = 1;
 
     private int sizeX = 1600;

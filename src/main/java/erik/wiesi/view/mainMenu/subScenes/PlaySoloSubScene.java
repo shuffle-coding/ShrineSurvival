@@ -18,10 +18,9 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
 
 
     private final Spritesheet CHARS = new Spritesheet("/SpriteSheets/roguelikeChar_transparent.png");
-    private final String BACKGROUND = "/Background/blue_panel.png";
-    private List<ShrineSurvivalButton> buttonList = new ArrayList<>();
+    private final List<ShrineSurvivalButton> buttonList = new ArrayList<>();
     Pane pane = this.getPane();
-    private Sprite previewSprite;
+    private final Sprite previewSprite;
     Creator body;
     Creator head;
     Creator top;
@@ -60,7 +59,7 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
         buttonList.add(new ShrineSurvivalButton("top next", "topNextButton"));
         buttonList.add(new ShrineSurvivalButton("pants next", "pantsNextButton"));
         buttonList.add(new ShrineSurvivalButton("shoes next", "shoesNextButton"));
-        buttonList.add(new ShrineSurvivalButton("class next", "classNextButton"));
+//        buttonList.add(new ShrineSurvivalButton("class next", "classNextButton"));
 
         int totalSize = buttonList.size() * 70;
         AtomicReference<Double> buttonStartY = new AtomicReference<>((this.getPane().getHeight() / 2) - (totalSize / 2));
@@ -83,37 +82,24 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
     }
 
     private void buttonActions() {
-        buttonList.forEach(b -> b.setOnAction(actionEvent -> {
-            buttonEvent(b.getButtonName());
-        }));
+        buttonList.forEach(b -> b.setOnAction(actionEvent -> buttonEvent(b.getButtonName())));
 
     }
 
     private void buttonEvent(String buttonName) {
         pane.getChildren().removeAll(previewSprite.getCanvas());
         previewSprite.resetCanvas();
+        //            case "classNextButton":
+        //                TODO: Implementation
+        //                System.out.println("Not implemented Yet");
+        //                break;
         switch (buttonName) {
-            case "bodyNextButton":
-                body.getNext();
-                break;
-            case "headNextButton":
-                head.getNext();
-                break;
-            case "topNextButton":
-                top.getNext();
-                break;
-            case "pantsNextButton":
-                pants.getNext();
-                break;
-            case "shoesNextButton":
-                shoes.getNext();
-                break;
-            case "classNextButton":
-                // TODO: Implementation
-                System.out.println("Not implemented Yet");
-                break;
-            default:
-                System.out.println("Error");
+            case "bodyNextButton" -> body.getNext();
+            case "headNextButton" -> head.getNext();
+            case "topNextButton" -> top.getNext();
+            case "pantsNextButton" -> pants.getNext();
+            case "shoesNextButton" -> shoes.getNext();
+            default -> System.out.println("Error");
         }
 
         previewSprite.addSprite(body.getX(), body.getY());

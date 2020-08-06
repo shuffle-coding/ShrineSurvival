@@ -6,12 +6,12 @@ public class Spritesheet {
     private final double DEFAULT_TILE_SIZE = 16;
     private final double DEFAULT_MARGIN = 1;
 
-    private double tilesize;
+    private final double tilesize;
     public double getTilesize() {
         return tilesize;
     }
 
-    private double margin;
+    private final double margin;
     public double getMargin() {
         return margin;
     }

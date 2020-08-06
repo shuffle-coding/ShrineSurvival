@@ -4,10 +4,10 @@ import erik.wiesi.statics.Types;
 
 public class Creator {
 
-    private int minX;
-    private int minY;
-    private int maxX;
-    private int maxY;
+    private final int minX;
+    private final int minY;
+    private final int maxX;
+    private final int maxY;
     private int x;
     private int y;
 

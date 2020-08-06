@@ -4,7 +4,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Entity {
@@ -13,9 +12,9 @@ public abstract class Entity {
     private final UUID uuid;
     private int health;                  // Initialized in Child Constructor
     private float movementSpeed = 5;      // Default MOVEMENT_SPEED
-    private int[] disallowed;
-    private ImageView weapon;
-    private int weaponDamage = 10;
+    private final int[] disallowed;
+    private final ImageView weapon;
+    private final int weaponDamage = 10;
     private long latestDamage;
 
     public Entity () {
@@ -28,9 +27,6 @@ public abstract class Entity {
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
-    public void setDisallowed(int[] disallowed) {
-        this.disallowed = new int[] {disallowed[0], disallowed[1]};
-    }
     public void setMovementSpeed(float movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
@@ -38,12 +34,12 @@ public abstract class Entity {
         latestDamage = System.currentTimeMillis();
         this.health = health;
     }
-    public void setWeapon(ImageView weapon) {
-        this.weapon = weapon;
-    }
-    public void setWeaponDamage(int weaponDamage) {
-        this.weaponDamage = weaponDamage;
-    }
+//    public void setWeapon(ImageView weapon) {
+//        this.weapon = weapon;
+//    }
+//    public void setWeaponDamage(int weaponDamage) {
+//        this.weaponDamage = weaponDamage;
+//    }
     public Canvas getCanvas() {
         return canvas;
     }
@@ -56,9 +52,9 @@ public abstract class Entity {
     public int getHealth() {
         return health;
     }
-    public int[] getDisallowed() {
-        return disallowed;
-    }
+//    public int[] getDisallowed() {
+//        return disallowed;
+//    }
     public ImageView getWeapon() {
         return weapon;
     }

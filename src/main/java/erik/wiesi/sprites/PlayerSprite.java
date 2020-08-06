@@ -6,16 +6,16 @@ public class PlayerSprite {
 
     private Sprite player;
 
-    private int[] bodyModel;
-    private int[] pants;
-    private int[] shoes;
-    private int[] top;
-    private int[] head;
-    private int[] leftHand;
-    private int[] rightHand;
+    private final int[] bodyModel;
+    private final int[] pants;
+    private final int[] shoes;
+    private final int[] top;
+    private final int[] head;
+//    private int[] leftHand;
+//    private int[] rightHand;
     Spritesheet spritesheet;
 
-    public PlayerSprite(Spritesheet spritesheet, int[] bodyModel, int[] pants, int[] shoes, int[] top, int[] head, int[] leftHand, int[] rightHand) {
+    /* public PlayerSprite(Spritesheet spritesheet, int[] bodyModel, int[] pants, int[] shoes, int[] top, int[] head, int[] leftHand, int[] rightHand) {
         this.spritesheet = spritesheet;
         this.bodyModel = bodyModel;
         this.pants = pants;
@@ -26,7 +26,7 @@ public class PlayerSprite {
         this.rightHand = rightHand;
         buildSprite();
         addHands();
-    }
+    } */
 
     public PlayerSprite(Spritesheet spritesheet, int[] bodyModel, int[] pants, int[] shoes, int[] top, int[] head) {
         this.spritesheet = spritesheet;
@@ -47,13 +47,16 @@ public class PlayerSprite {
         player.addSprite(head[0], head[1]);
     }
 
-    private void addHands() {
+    /* private void addHands() {
         player.addSprite(leftHand[0], leftHand[1]);
         player.addSprite(rightHand[0], rightHand[1]);
 
-    }
+    } */
 
     public Canvas getCanvas() {
         return player.getCanvas();
     }
+
+//    public String toJSON() {
+//    }
 }

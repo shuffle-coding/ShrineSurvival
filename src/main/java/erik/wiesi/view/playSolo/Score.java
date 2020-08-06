@@ -5,10 +5,12 @@ import erik.wiesi.view.mainMenu.InfoPanel;
 public class Score {
 
     private Integer score;
-    private InfoPanel scorePanel;
+    private final InfoPanel scorePanel;
     private int defeatedEnemies;
     private Integer waves;
-    private InfoPanel wavesPanel;
+    private final InfoPanel wavesPanel;
+    private final long startTime;
+    private long playtime;
 
     public Score() {
         score = 0;
@@ -16,8 +18,12 @@ public class Score {
         defeatedEnemies = 0;
         waves = 0;
         wavesPanel = new InfoPanel("Wave " + waves.toString());
+        startTime = System.currentTimeMillis();
     }
 
+    public void setPlaytime() {
+        playtime = System.currentTimeMillis() - startTime;
+    }
     public int getScore() {
         return score;
     }
@@ -32,6 +38,9 @@ public class Score {
     }
     public InfoPanel getWavesPanel() {
         return wavesPanel;
+    }
+    public long getPlayTime() {
+        return playtime;
     }
     public void addWave() {
         waves++;

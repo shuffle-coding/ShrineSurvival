@@ -17,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PlaySoloScene {
@@ -30,77 +29,46 @@ public class PlaySoloScene {
     private static Score score;
     private List<Integer[]> sprites;
     private final int rescaleFactor = 2;
+    private final PlayerSprite playerSprite;
     private Player player;
     private boolean goUp, goDown, goLeft, goRight, attackUp, attackDown, attackLeft, attackRight;
     private List<Entity> entities = new ArrayList<>();
-    private InfoPanel healthBar;
+    private final InfoPanel healthBar;
     private static AnimationTimer gameLoop;
-    private static long gameStart;
 
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
 
         PlaySoloScene.mainPane = mainPane;
 
+        this.playerSprite = playerSprite;
         generateSpriteList();
         generateMap();
-        setPlayer(playerSprite);
+        setPlayer();
         Handler.setMainPane(mainPane);
 
         mainPane.getScene().setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case UP:
-                    goUp = true;
-                    break;
-                case DOWN:
-                    goDown = true;
-                    break;
-                case LEFT:
-                    goLeft = true;
-                    break;
-                case RIGHT:
-                    goRight = true;
-                    break;
-                case W:
-                    attackUp = true;
-                    break;
-                case S:
-                    attackDown = true;
-                    break;
-                case A:
-                    attackLeft = true;
-                    break;
-                case D:
-                    attackRight = true;
-                    break;
+                case UP -> goUp = true;
+                case DOWN -> goDown = true;
+                case LEFT -> goLeft = true;
+                case RIGHT -> goRight = true;
+                case W -> attackUp = true;
+                case S -> attackDown = true;
+                case A -> attackLeft = true;
+                case D -> attackRight = true;
             }
         });
 
         mainPane.getScene().setOnKeyReleased(event -> {
             switch (event.getCode()) {
-                case UP:
-                    goUp = false;
-                    break;
-                case DOWN:
-                    goDown = false;
-                    break;
-                case LEFT:
-                    goLeft = false;
-                    break;
-                case RIGHT:
-                    goRight = false;
-                    break;
-                case W:
-                    attackUp = false;
-                    break;
-                case S:
-                    attackDown = false;
-                    break;
-                case A:
-                    attackLeft = false;
-                    break;
-                case D:
-                    attackRight = false;
-                    break;
+                case UP -> goUp = false;
+                case DOWN -> goDown = false;
+                case LEFT -> goLeft = false;
+                case RIGHT -> goRight = false;
+                case W -> attackUp = false;
+                case S -> attackDown = false;
+                case A -> attackLeft = false;
+                case D -> attackRight = false;
             }
         });
         ImageView scorePanel = new ImageView(new Image(getClass().getResource(panelBackground).toString(), 150, 100, false, false));
@@ -127,7 +95,6 @@ public class PlaySoloScene {
         healthBar.setPrefSize(120, 50);
         gameLoop = new Loop();
         System.out.println(player.getUuid());
-        gameStart = System.currentTimeMillis();
         gameLoop.start();
     }
 
@@ -257,7 +224,7 @@ public class PlaySoloScene {
         tileMap.getSprite().setLayoutY(ViewManager.getHEIGHT() / (rescaleFactor * rescaleFactor));
     }
 
-    private void setPlayer(PlayerSprite playerSprite) {
+    private void setPlayer() {
         this.player = new Player(playerSprite.getCanvas(), "Klaus");
         mainPane.getChildren().add(player.getCanvas());
         player.getCanvas().setScaleX(rescaleFactor * 2);
@@ -270,24 +237,22 @@ public class PlaySoloScene {
 
     public static void gameOver() {
         gameLoop.stop();
-        long gameLengthNano = System.currentTimeMillis() - gameStart;
-        long gameLengthSeconds = TimeUnit.SECONDS.convert(gameLengthNano, TimeUnit.NANOSECONDS);
-        int gameLengthMinutes = Integer.valueOf((int) TimeUnit.MINUTES.convert(gameLengthSeconds, TimeUnit.SECONDS));
-        // TODO: calc remaining Seconds
-
+        score.setPlaytime();
+        long gameLengthMillis = score.getPlayTime();
+        int gameLengthMinutes = (int) gameLengthMillis / 60000;
+        int gameLengthSeconds = (int) (gameLengthMillis / 1000) % 60;
 
         ShrineSurvivalSubScene gameEndPanel = new ShrineSurvivalSubScene();
         mainPane.getChildren().add(gameEndPanel);
         gameEndPanel.setLayoutX((ViewManager.getWIDTH() / 2) - (gameEndPanel.getWidth() / 2));
         gameEndPanel.setLayoutY((ViewManager.getHEIGHT() / 2) - (gameEndPanel.getHeight() / 2));
         gameEndPanel.setOpacity(0.7);
-        Map<InfoPanel, InfoPanel> panels = new HashMap<>();
 
-        panels.put(new InfoPanel("Time Played:"), new InfoPanel())
+        Map<InfoPanel, InfoPanel> panels = new HashMap<>();
+        panels.put(new InfoPanel("Time Played:"), new InfoPanel(gameLengthMinutes + ":" + gameLengthSeconds));
         panels.put(new InfoPanel("Score: "), new InfoPanel(Integer.toString(score.getScore())));
         panels.put(new InfoPanel("Wave: "), new InfoPanel(Integer.toString(score.getWaves())));
         panels.put(new InfoPanel("Defeated Enemies: "), new InfoPanel(Integer.toString(score.getDefeatedEnemies())));
-
         int totalSize = panels.size() * 70;
         AtomicReference<Double> panelStartY = new AtomicReference<>((mainPane.getHeight() / 2) - (totalSize / 2));
         panels.forEach((panel, value) -> {
@@ -301,11 +266,16 @@ public class PlaySoloScene {
             value.setLayoutY(panelStartY.get());
             panelStartY.updateAndGet(v -> v + 70);
         });
+        InfoPanel title = new InfoPanel("Score:");
+        mainPane.getChildren().add(title);
+        title.setPrefWidth(150);
+        title.setLayoutX((ViewManager.getWIDTH() / 2) - (title.getPrefWidth() / 2));
+        title.setLayoutY(ViewManager.getHEIGHT() / 8 * 1.8);
+        title.setFontSize(30);
         ShrineSurvivalButton backToMenu = new ShrineSurvivalButton("Back To Menu", "backToMenuButton");
         mainPane.getChildren().add(backToMenu);
-        System.out.println(backToMenu.getWidth());
         backToMenu.setLayoutX((ViewManager.getWIDTH() / 2) - (backToMenu.getPrefWidth() / 2));
-        backToMenu.setLayoutY(ViewManager.getHEIGHT() / 8 * 6);
+        backToMenu.setLayoutY(ViewManager.getHEIGHT() / 8 * 5.8);
         backToMenu.setOnAction(actionEvent -> ViewManager.switchToMenuScene());
     }
 }
