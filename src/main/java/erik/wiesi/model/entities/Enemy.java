@@ -8,10 +8,18 @@ import javafx.scene.canvas.Canvas;
 public class Enemy extends Entity{
 
     private int value;
+
+    /**
+     * Returns Score of the this Enemy
+     * @return returns Score Value of this Enemy
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Constructs new Enemy with Default Values
+     */
     public Enemy() {
         super();
         Spritesheet spritesheet = new Spritesheet("/SpriteSheets/roguelikeChar_transparent.png");
@@ -23,6 +31,11 @@ public class Enemy extends Entity{
         value = (int) (200 - (getHealth() / getMovementSpeed()));
     }
 
+    /**
+     * Generates new custom Enemy with given Canvas and EnemyType like "ZOMBIE, ORC, ..."
+     * @param canvas sets Canvas for this Enemy
+     * @param enemyType EnemyType for specified Enemy
+     */
     public Enemy(Canvas canvas, EnemyType enemyType) {
         super();
         this.setCanvas(canvas);

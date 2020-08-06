@@ -12,7 +12,8 @@ public class Creator {
     private int y;
 
     /**
-     * @param types
+     * Generates Bodypart given by Enum
+     * @param types Bodypart Enum
      */
     public Creator(Types types) {
         this.minX = types.getMinX();
@@ -23,12 +24,27 @@ public class Creator {
         y= minY;
     }
 
+    /**
+     * Returns the X Value of the singular Sprite on the Spritesheet
+     * @return X Value of Spritesheet
+     */
     public int getX() { return x; }
+
+    /**
+     * Returns the Y Value of the singular Sprite on the Spritesheet
+     * @return Y Value of Spritesheet
+     */
     public int getY() { return y; }
+
+    /**
+     * Returns an int Array of the given X and Y Values on The Spritesheet
+     * @return Array of X and Y Value of Spritesheet
+     */
     public int[] getXY() { return new int[]{x, y};}
 
     /**
-     * @return
+     * Gets the next X and Y Values of this Type
+     * @return returns next Values of X and Y Values of Spritesheet
      */
     public int[] getNext() {
 

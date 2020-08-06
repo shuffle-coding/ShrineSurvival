@@ -20,14 +20,17 @@ public class ShrineSurvivalButton extends Button {
     private double height = 49;
     private double fontSize = 18;
 
-
     private Background released;
     private Background pressed;
 
-    public String getButtonName() {
-        return BUTTON_NAME;
-    }
-
+    /**
+     * Construct Custom Button with Default Backgrounds
+     * @param text Shown String on Button
+     * @param button_name Name of this Button
+     * @param width Specified Width of this Button
+     * @param height Specified Height of this Button
+     * @param fontSize Specified Fontsize of this Button
+     */
     public ShrineSurvivalButton(String text, String button_name, double width, double height, double fontSize) {
         setBackground();
 
@@ -47,6 +50,11 @@ public class ShrineSurvivalButton extends Button {
         initializeButtonListeners();
     }
 
+    /**
+     * Constructs new Default Button
+     * @param text Specifies String shown on this Button
+     * @param button_name Specifies Name of this Button
+     */
     public ShrineSurvivalButton(String text, String button_name) {
         setBackground();
 
@@ -114,6 +122,13 @@ public class ShrineSurvivalButton extends Button {
         setBackground(released);
         setPrefHeight(49);
         setLayoutY(getLayoutY() - 4);
+    }
+
+    /**
+     * @return returns Button's Name
+     */
+    public String getButtonName() {
+        return BUTTON_NAME;
     }
 
     private void initializeButtonListeners() {
