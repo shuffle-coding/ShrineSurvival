@@ -13,10 +13,10 @@ public class HowToPlaySubScene extends ShrineSurvivalSubScene {
     public HowToPlaySubScene() {
 
         List<InfoPanel> text = new ArrayList<>();
-        text.add(new InfoPanel("Start Game by clicking SoloGame"));
+        text.add(new InfoPanel("Start Game with Play Solo Button"));
         text.add(new InfoPanel("Choose your Character"));
         text.add(new InfoPanel("press start"));
-        text.add(new InfoPanel("Move with Arrowkeys"));
+        text.add(new InfoPanel("Move with Arrow Keys"));
         text.add(new InfoPanel("Attack with W, A, S, D"));
 
         int totalSize = text.size() * 70;
