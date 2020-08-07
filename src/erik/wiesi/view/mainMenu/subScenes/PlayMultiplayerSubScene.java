@@ -10,6 +10,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayMultiplayerSubScene extends ShrineSurvivalSubScene {
 
+    /**
+     * Creats new {@link PlayMultiplayerSubScene}
+     * Text is Predefined in this Constructor
+     */
     public PlayMultiplayerSubScene() {
         List<InfoPanel> text = new ArrayList<>();
         text.add(new InfoPanel("Multiplayer"));

@@ -10,6 +10,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class CreditsSubScene extends ShrineSurvivalSubScene {
 
+    /**
+     * Creats new {@link CreditsSubScene}
+     * Text is Predefined in this Constructor
+     */
     public CreditsSubScene() {
 
         List<InfoPanel> text = new ArrayList<>();

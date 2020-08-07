@@ -10,6 +10,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class SettingsSubScene extends ShrineSurvivalSubScene {
 
+    /**
+     * Creats new {@link SettingsSubScene}
+     * Text is Predefined in this Constructor
+     */
     public SettingsSubScene() {
 
         List<InfoPanel> text = new ArrayList<>();
