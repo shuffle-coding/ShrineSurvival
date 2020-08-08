@@ -92,10 +92,6 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
     private void buttonEvent(String buttonName) {
         pane.getChildren().removeAll(previewSprite.getCanvas());
         previewSprite.resetCanvas();
-        //            case "classNextButton":
-        //                TODO: Implementation
-        //                System.out.println("Not implemented Yet");
-        //                break;
         switch (buttonName) {
             case "bodyNextButton" -> body.getNext();
             case "headNextButton" -> head.getNext();

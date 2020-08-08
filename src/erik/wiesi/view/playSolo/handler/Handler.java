@@ -1,8 +1,10 @@
 package erik.wiesi.view.playSolo.handler;
 
+import com.google.gson.GsonBuilder;
 import erik.wiesi.model.entities.Enemy;
 import erik.wiesi.model.entities.Entity;
 import erik.wiesi.model.entities.Player;
+import erik.wiesi.sprites.PlayerSprite;
 import erik.wiesi.view.playSolo.PlaySoloScene;
 import erik.wiesi.view.playSolo.Score;
 import javafx.animation.PathTransition;
@@ -13,8 +15,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Arc;
 import javafx.util.Duration;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.google.gson.Gson;
 
 public abstract class Handler {
 
@@ -238,5 +242,15 @@ public abstract class Handler {
                 PlaySoloScene.gameOver();
             }
         }
+    }
+
+    public static void sendData(PlayerSprite playerSprite, Score score) {
+//        Connection con = new DatabaseConnection().getConnection();
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithoutExposeAnnotation();
+        Gson gson = builder.create();
+        String json = gson.toJson(playerSprite);
+        System.out.println(json);
     }
 }

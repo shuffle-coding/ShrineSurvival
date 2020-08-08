@@ -4,5 +4,6 @@ module erik.wiesi {
     requires javafx.graphics;
     requires mysql.connector.java;
     requires java.sql;
+    requires com.google.gson;
     exports erik.wiesi.main;
 }

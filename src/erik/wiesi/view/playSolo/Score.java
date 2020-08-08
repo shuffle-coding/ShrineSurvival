@@ -1,6 +1,9 @@
 package erik.wiesi.view.playSolo;
 
 import erik.wiesi.view.mainMenu.InfoPanel;
+import erik.wiesi.view.playSolo.handler.DatabaseConnection;
+
+import java.sql.Connection;
 
 public class Score {
 

@@ -84,8 +84,6 @@ public class TileMap {
 
         }
 
-        spriteList.forEach(i -> System.out.println(i[0] + " + " + i[1]));
-
         sprite = new Sprite(spritesheet, sizeX, sizeY);
         tileMap.forEach((key, value) -> sprite.addSprite(value[0], value[1], key[0], key[1]));
 

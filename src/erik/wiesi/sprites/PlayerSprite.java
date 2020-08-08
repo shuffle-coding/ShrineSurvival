@@ -13,7 +13,6 @@ public class PlayerSprite {
     private final int[] head;
 //    private int[] leftHand;
 //    private int[] rightHand;
-    private Spritesheet spritesheet;
 
     /* public PlayerSprite(Spritesheet spritesheet, int[] bodyModel, int[] pants, int[] shoes, int[] top, int[] head, int[] leftHand, int[] rightHand) {
         this.spritesheet = spritesheet;
@@ -38,16 +37,11 @@ public class PlayerSprite {
      * @param head int[x, y] Values  for Head referencing {@link Spritesheet} X and Y counter from top left, starting with 0
      */
     public PlayerSprite(Spritesheet spritesheet, int[] bodyModel, int[] pants, int[] shoes, int[] top, int[] head) {
-        this.spritesheet = spritesheet;
         this.bodyModel = bodyModel;
         this.pants = pants;
         this.shoes = shoes;
         this.top = top;
         this.head = head;
-        buildSprite();
-    }
-
-    private void buildSprite() {
         player = new Sprite(spritesheet);
         player.addSprite(bodyModel[0], bodyModel[1]);
         player.addSprite(pants[0], pants[1]);
@@ -69,6 +63,23 @@ public class PlayerSprite {
         return player.getCanvas();
     }
 
-//    public String toJSON() {
-//    }
+    public int[] getBodyModel() {
+        return bodyModel;
+    }
+
+    public int[] getPants() {
+        return pants;
+    }
+
+    public int[] getShoes() {
+        return shoes;
+    }
+
+    public int[] getTop() {
+        return top;
+    }
+
+    public int[] getHead() {
+        return head;
+    }
 }

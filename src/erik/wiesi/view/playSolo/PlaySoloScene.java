@@ -29,7 +29,7 @@ public class PlaySoloScene {
     private static Score score;
     private List<Integer[]> sprites;
     private final int rescaleFactor = 2;
-    private final PlayerSprite playerSprite;
+    private static PlayerSprite playerSprite;
     private Player player;
     private boolean goUp, goDown, goLeft, goRight, attackUp, attackDown, attackLeft, attackRight;
     private List<Entity> entities = new ArrayList<>();
@@ -38,13 +38,13 @@ public class PlaySoloScene {
 
     /**
      * @param mainPane AnchorPane to be drawn at
-     * @param playerSprite Generated PlayerSprite chosen by Player
+     * @param playerModel Generated PlayerSprite chosen by Player
      */
-    public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
+    public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerModel) {
 
         PlaySoloScene.mainPane = mainPane;
 
-        this.playerSprite = playerSprite;
+        playerSprite = playerModel;
         generateSpriteList();
         generateMap();
         setPlayer();
@@ -98,7 +98,6 @@ public class PlaySoloScene {
         healthBar.setLayoutY(50);
         healthBar.setPrefSize(120, 50);
         gameLoop = new Loop();
-        System.out.println(player.getUuid());
         gameLoop.start();
     }
 
@@ -253,6 +252,8 @@ public class PlaySoloScene {
         long gameLengthMillis = score.getPlayTime();
         int gameLengthMinutes = (int) gameLengthMillis / 60000;
         int gameLengthSeconds = (int) (gameLengthMillis / 1000) % 60;
+
+        Handler.sendData(playerSprite, score);
 
         ShrineSurvivalSubScene gameEndPanel = new ShrineSurvivalSubScene();
         mainPane.getChildren().add(gameEndPanel);
