@@ -15,18 +15,31 @@ public class ViewManager {
     private static Scene mainScene;
     private static Stage mainStage;
 
+    /**
+     * @return returns MainStage
+     */
     public Stage getMainStage() {
         return mainStage;
     }
 
+    /**
+     * @return returns total Width of this Window
+     */
     public static double getWIDTH() { return WIDTH; }
 
+    /**
+     * @return returns total Height of this Window
+     */
     public static double getHEIGHT() { return HEIGHT; }
 
+    /**
+     * @return returns Main AnchorPane to be drawn at
+     */
     public AnchorPane getMainPane() { return mainPane; }
 
-    public Scene getMainScene() { return mainScene; }
-
+    /**
+     * Creats new ViewManager Builds AnchorPane, Stage and Scene
+     */
     public ViewManager() {
         mainPane = new AnchorPane();
         mainScene = new Scene(mainPane, WIDTH, HEIGHT);
@@ -38,6 +51,11 @@ public class ViewManager {
         new MenuScene(mainPane);
     }
 
+    /**
+     * Switches to PlaySoloScene,
+     * needs PlayerSprite to be shown in Game
+     * @param playerSprite Player's chosen PlayerSprite
+     */
     public static void switchToPlaySoloScene(PlayerSprite playerSprite) {
         mainPane = null;
         mainPane = new AnchorPane();
@@ -46,6 +64,9 @@ public class ViewManager {
         new PlaySoloScene(mainPane, playerSprite);
     }
 
+    /**
+     * Switches back to the Menu Scene
+     */
     public static void switchToMenuScene() {
         mainPane = null;
         mainPane = new AnchorPane();

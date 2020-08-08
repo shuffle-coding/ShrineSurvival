@@ -16,8 +16,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class PlaySoloSubScene extends ShrineSurvivalSubScene {
 
-    // TODO: JavaDoc
-
     private final Spritesheet CHARS = new Spritesheet("/SpriteSheets/roguelikeChar_transparent.png");
     private final List<ShrineSurvivalButton> buttonList = new ArrayList<>();
     Pane pane = this.getPane();
@@ -28,6 +26,10 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
     Creator pants;
     Creator shoes;
 
+    /**
+     * Creats new PlaySoloSubScene
+     * Character Builder Included
+     */
     public PlaySoloSubScene() {
 
         body = new Creator(Types.BODY);
