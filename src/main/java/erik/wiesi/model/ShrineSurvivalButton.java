@@ -100,7 +100,7 @@ public class ShrineSurvivalButton extends Button {
         try {
             setFont(Font.loadFont(getClass().getResource(FONT).openStream(), fontSize));
         } catch (IOException e) {
-            convertException(e);
+            e.printStackTrace();
         }
     }
 
@@ -108,7 +108,7 @@ public class ShrineSurvivalButton extends Button {
         try {
             setFont(Font.loadFont(getClass().getResource(FONT).openStream(), FONT_SIZE));
         } catch (IOException e) {
-            convertException(e);
+            e.printStackTrace();
         }
     }
 

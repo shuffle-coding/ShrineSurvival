@@ -22,22 +22,42 @@ public abstract class Handler {
     private static Player player;
     private static AnchorPane mainPane;
 
+    /**
+     * Refreshes the List of Entities inside the Handler
+     * @param newEntities List of all Entities
+     */
     public static void setEntities(List<Entity> newEntities) {
         entities = newEntities;
     }
 
+    /**
+     * @return returns List of all Entities
+     */
     public static List<Entity> getEntities() {
         return entities;
     }
 
+    /**
+     * Player has to be set to check if Entity is Player or not
+     * @param playerChar sets Player
+     */
     public static void setPlayer(Player playerChar) {
         player = playerChar;
     }
 
+    /**
+     * @param pane sets the AnchorPane as mainPane to be drawn at
+     */
     public static void setMainPane(AnchorPane pane) {
         mainPane = pane;
     }
 
+    /**
+     * This method lets you move an Entity in a specific direction
+     * @param me entity to be moved
+     * @param dx X direction to be moved (+1 is Right / -1 is Left) with full Speed
+     * @param dy Y direction to be moved (+1 is Down / -1 is Up) with full Speed
+     */
     public static void movement(Entity me, int dx, int dy) {
         boolean[] disallowed = directionalCheck(me, dx, dy);
         if (disallowed[0]) {
@@ -62,6 +82,11 @@ public abstract class Handler {
         me.getCanvas().setTranslateY(me.getCanvas().getTranslateY() + speedY);
     }
 
+    /**
+     * This method lets you move an Entity towards another Entity
+     * @param me Entity to be moved
+     * @param other Entity to be moved towards at
+     */
     public static void movement(Entity me, Entity other) {
 
         double otherPosX = other.getCanvas().getBoundsInParent().getCenterX();
@@ -77,6 +102,14 @@ public abstract class Handler {
         movement(me, dx, dy);
     }
 
+    /**
+     * Checks if Direction to be moved is clear
+     * returns locked Directions as boolean Array[X, Y]
+     * @param me Entity that moves
+     * @param dx X direction to be moved (+1 is Right / -1 is Left) with full Speed
+     * @param dy Y direction to be moved (+1 is Down / -1 is Up) with full Speed
+     * @return return boolean[X, Y] if direction shall be locked or not
+     */
     private static boolean[] directionalCheck(Entity me, int dx, int dy) {
         Bounds myBounds = me.getCanvas().getBoundsInParent();
         float mySafetyBounds = (float) (me.getMovementSpeed() * 3.5);
@@ -107,6 +140,14 @@ public abstract class Handler {
         return result;
     }
 
+    /**
+     * This method gets the Weapon from the Entity class and attack in a specific direction depending on the
+     * 2 directional parameters
+     * @param me Reference Entity, from this Entity will be drawn
+     * @param attackX X direction to be attacked at relatively to the Entity (+1 is Right / -1 is Left)
+     * @param attackY Y direction to be attacked at relatively to the Entity (+1 is Down / -1 is Up)
+     * @param shownTime Duration in Milliseconds for the Weapon to be shown
+     */
     public static void drawWeapon(Entity me, int attackX, int attackY, int shownTime) {
         ImageView weapon = me.getWeapon();
         int radius = 60;
@@ -152,6 +193,10 @@ public abstract class Handler {
         rotateTransition.playFromStart();
     }
 
+    /**
+     * Removes the Weapon from the mainPane
+     * @param me Entity of the Weapon to be removed
+     */
     public static void removeWeapon(Entity me) {
         try {
             mainPane.getChildren().remove(me.getWeapon());
@@ -160,6 +205,11 @@ public abstract class Handler {
         }
     }
 
+    /**
+     * Calculates Damage and score
+     * @param me Entity that attacks
+     * @param score Score of the Game
+     */
     public static void attack(Entity me, Score score) {
         Bounds weapon = me.getWeapon().getBoundsInParent();
 

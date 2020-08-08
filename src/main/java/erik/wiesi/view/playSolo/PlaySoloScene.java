@@ -36,6 +36,10 @@ public class PlaySoloScene {
     private final InfoPanel healthBar;
     private static AnimationTimer gameLoop;
 
+    /**
+     * @param mainPane AnchorPane to be drawn at
+     * @param playerSprite Generated PlayerSprite chosen by Player
+     */
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerSprite) {
 
         PlaySoloScene.mainPane = mainPane;
@@ -113,6 +117,10 @@ public class PlaySoloScene {
         private long attackStart;
         private long attackPause = 0;
 
+        /**
+         * Handler of the Gameloop, refreshes as often as possible but not more often as the frequency of the monitor
+         * @param now gets System Time in nanoseconds, does not need to be specified
+         */
         @Override
         public void handle(long now) {
 
@@ -235,6 +243,10 @@ public class PlaySoloScene {
         Handler.setPlayer(player);
     }
 
+    /**
+     * Generated Scene at the end of the Game
+     * Shows Score and changes to menuScene with button press
+     */
     public static void gameOver() {
         gameLoop.stop();
         score.setPlaytime();
