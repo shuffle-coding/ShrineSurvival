@@ -227,9 +227,9 @@ public class PlaySoloScene {
 
     private void generateMap() {
         tileMap = new TileMap(SPRITESHEET, sprites, rescaleFactor);
-        mainPane.getChildren().add(tileMap.getSprite());
-        tileMap.getSprite().setLayoutX(ViewManager.getWIDTH() / (rescaleFactor * rescaleFactor));
-        tileMap.getSprite().setLayoutY(ViewManager.getHEIGHT() / (rescaleFactor * rescaleFactor));
+        mainPane.getChildren().add(tileMap.getCanvas());
+        tileMap.getCanvas().setLayoutX(ViewManager.getWIDTH() / (rescaleFactor * rescaleFactor));
+        tileMap.getCanvas().setLayoutY(ViewManager.getHEIGHT() / (rescaleFactor * rescaleFactor));
     }
 
     private void setPlayer() {

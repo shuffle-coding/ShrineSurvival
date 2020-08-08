@@ -25,7 +25,7 @@ public class ShrineSurvivalButton extends Button {
 
     /**
      * Construct Custom Button with Default Backgrounds
-     * @param text Shown String on Button
+     * @param text Shown String on this Button
      * @param button_name Name of this Button
      * @param width Specified Width of this Button
      * @param height Specified Height of this Button
@@ -125,7 +125,7 @@ public class ShrineSurvivalButton extends Button {
     }
 
     /**
-     * @return returns Button's Name
+     * @return returns this Button's Name
      */
     public String getButtonName() {
         return BUTTON_NAME;

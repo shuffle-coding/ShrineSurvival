@@ -8,15 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class CreditsSubScene extends ShrineSurvivalSubScene {
+public class SettingsSubScene extends ShrineSurvivalSubScene {
 
-    public CreditsSubScene() {
+    /**
+     * Creats new {@link SettingsSubScene}
+     * Text is Predefined in this Constructor
+     */
+    public SettingsSubScene() {
 
         List<InfoPanel> text = new ArrayList<>();
-        text.add(new InfoPanel("Assets made by:"));
-        text.add(new InfoPanel("\t KENNEY.NL"));
-        text.add(new InfoPanel("Coded by:"));
-        text.add(new InfoPanel("\t Erik Wiesinger"));
+        text.add(new InfoPanel("Not"));
+        text.add(new InfoPanel("implemented"));
+        text.add(new InfoPanel("yet!"));
 
         int totalSize = text.size() * 70;
         AtomicReference<Double> panelStartY = new AtomicReference<>((getPane().getHeight() / 2) - (totalSize / 2));

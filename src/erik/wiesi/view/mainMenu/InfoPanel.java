@@ -10,6 +10,11 @@ public class InfoPanel extends Label {
 
     private final String FONT = "/Fonts/kenvector_future.ttf";
 
+    /**
+     * Creats new {@link InfoPanel} with Predefined Parameters for:
+     * PrefWidth, PrefHeight, Padding
+     * @param text String shown on this {@link InfoPanel}
+     */
     public InfoPanel(String text) {
         setPrefWidth(600);
         setPrefHeight(100);
@@ -27,6 +32,10 @@ public class InfoPanel extends Label {
         }
     }
 
+    /**
+     * Method for Changing the Font Size on this {@link InfoPanel}
+     * @param fontSize new Font Size for this {@link InfoPanel}
+     */
     public void setFontSize(int fontSize) {
         try {
             setFont(Font.loadFont(getClass().getResource(FONT).openStream(), fontSize));

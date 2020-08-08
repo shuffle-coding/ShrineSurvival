@@ -8,16 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class HowToPlaySubScene extends ShrineSurvivalSubScene {
+public class CreditsSubScene extends ShrineSurvivalSubScene {
 
-    public HowToPlaySubScene() {
+    /**
+     * Creats new {@link CreditsSubScene}
+     * Text is Predefined in this Constructor
+     */
+    public CreditsSubScene() {
 
         List<InfoPanel> text = new ArrayList<>();
-        text.add(new InfoPanel("Start Game by clicking SoloGame"));
-        text.add(new InfoPanel("Choose your Character"));
-        text.add(new InfoPanel("press start"));
-        text.add(new InfoPanel("Move with Arrowkeys"));
-        text.add(new InfoPanel("Attack with W, A, S, D"));
+        text.add(new InfoPanel("Assets made by:"));
+        text.add(new InfoPanel("\t KENNEY.NL"));
+        text.add(new InfoPanel("Coded by:"));
+        text.add(new InfoPanel("\t Erik Wiesinger"));
 
         int totalSize = text.size() * 70;
         AtomicReference<Double> panelStartY = new AtomicReference<>((getPane().getHeight() / 2) - (totalSize / 2));

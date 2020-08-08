@@ -13,7 +13,7 @@ public class PlayerSprite {
     private final int[] head;
 //    private int[] leftHand;
 //    private int[] rightHand;
-    Spritesheet spritesheet;
+    private Spritesheet spritesheet;
 
     /* public PlayerSprite(Spritesheet spritesheet, int[] bodyModel, int[] pants, int[] shoes, int[] top, int[] head, int[] leftHand, int[] rightHand) {
         this.spritesheet = spritesheet;
@@ -28,6 +28,15 @@ public class PlayerSprite {
         addHands();
     } */
 
+    /**
+     * Constructs new {@link PlayerSprite} with given parameters and builds it as a new {@link Sprite}
+     * @param spritesheet {@link Spritesheet} as reference for the other parameters
+     * @param bodyModel int[x, y] Values for Body Model referencing {@link Spritesheet} X and Y counter from top left, starting with 0
+     * @param pants int[x, y] Values  for Pants referencing {@link Spritesheet} X and Y counter from top left, starting with 0
+     * @param shoes int[x, y] Values  for Shoes referencing {@link Spritesheet} X and Y counter from top left, starting with 0
+     * @param top int[x, y] Values  for Top referencing {@link Spritesheet} X and Y counter from top left, starting with 0
+     * @param head int[x, y] Values  for Head referencing {@link Spritesheet} X and Y counter from top left, starting with 0
+     */
     public PlayerSprite(Spritesheet spritesheet, int[] bodyModel, int[] pants, int[] shoes, int[] top, int[] head) {
         this.spritesheet = spritesheet;
         this.bodyModel = bodyModel;
@@ -53,6 +62,9 @@ public class PlayerSprite {
 
     } */
 
+    /**
+     * @return returns Canvas of this {@link PlayerSprite}
+     */
     public Canvas getCanvas() {
         return player.getCanvas();
     }

@@ -20,6 +20,10 @@ public class MenuScene {
     private ShrineSurvivalSubScene subScene;
     private InfoPanel infoPanel;
 
+    /**
+     * Creats new {@link MenuScene} on given {@link AnchorPane}
+     * @param mainPane {@link AnchorPane} to be drawn at
+     */
     public MenuScene(AnchorPane mainPane) {
         this.mainPane = mainPane;
 

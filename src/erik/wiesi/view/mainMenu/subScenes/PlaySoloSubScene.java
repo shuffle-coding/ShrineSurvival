@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class PlaySoloSubScene extends ShrineSurvivalSubScene {
 
+    // TODO: JavaDoc
 
     private final Spritesheet CHARS = new Spritesheet("/SpriteSheets/roguelikeChar_transparent.png");
     private final List<ShrineSurvivalButton> buttonList = new ArrayList<>();

@@ -19,6 +19,14 @@ public class TileMap {
     private int sizeY;
 
 
+    /**
+     * Creats new {@link TileMap} based on Stage Resolution of 1600x900
+     * Creats a single Sprite with CanvasSize of the this Resolution and adds new Tiles as new Sprites to this Canvas
+     * Rescale able with rescaleFactor parameter
+     * @param spritesheetUrl String for {@link Spritesheet} used for creating this {@link TileMap}
+     * @param spriteList List of Integer[] for X and Y counters on this {@link Spritesheet}
+     * @param rescaleFactor defines a scaling for this {@link TileMap}
+     */
     public TileMap(String spritesheetUrl, List<Integer[]> spriteList, int rescaleFactor) {
 
         this.spriteList = spriteList;
@@ -49,6 +57,12 @@ public class TileMap {
 
     }
 
+    /**
+     * Creats new {@link TileMap} based on Stage Resolution of 1600x900
+     * Creats a single Sprite with CanvasSize of the this Resolution and adds new Tiles as new Sprites to this Canvas
+     * @param spritesheetUrl String for {@link Spritesheet} used for creating this {@link TileMap}
+     * @param spriteList List of Integer[] for X and Y counters on this {@link Spritesheet}
+     */
     public TileMap(String spritesheetUrl, List<Integer[]> spriteList) {
 
         this.spriteList = spriteList;
@@ -77,11 +91,10 @@ public class TileMap {
 
     }
 
-    public Map<Integer[], Integer[]> getTileMap() {
-        return tileMap;
-    }
-
-    public Canvas getSprite() {
+    /**
+     * @return returns this Map's Canvas
+     */
+    public Canvas getCanvas() {
         return sprite.getCanvas();
     }
 

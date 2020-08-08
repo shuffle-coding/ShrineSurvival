@@ -8,14 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SettingsSubScene extends ShrineSurvivalSubScene {
+public class HowToPlaySubScene extends ShrineSurvivalSubScene {
 
-    public SettingsSubScene() {
+    /**
+     * Creats new {@link HowToPlaySubScene}
+     * Text is Predefined in this Constructor
+     */
+    public HowToPlaySubScene() {
 
         List<InfoPanel> text = new ArrayList<>();
-        text.add(new InfoPanel("Not"));
-        text.add(new InfoPanel("implemented"));
-        text.add(new InfoPanel("yet!"));
+        text.add(new InfoPanel("Start Game with Play Solo Button"));
+        text.add(new InfoPanel("Choose your Character"));
+        text.add(new InfoPanel("press start"));
+        text.add(new InfoPanel("Move with Arrow Keys"));
+        text.add(new InfoPanel("Attack with W, A, S, D"));
 
         int totalSize = text.size() * 70;
         AtomicReference<Double> panelStartY = new AtomicReference<>((getPane().getHeight() / 2) - (totalSize / 2));

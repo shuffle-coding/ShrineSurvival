@@ -8,6 +8,10 @@ public class ShrineSurvivalSubScene extends SubScene {
 
     private final String BACKGROUND = "/Background/yellow_panel.png";
 
+    /**
+     * Constructs new SubScene
+     * Default Background is defined in this Class
+     */
     public ShrineSurvivalSubScene() {
         super(new AnchorPane(), 600, 600);
         prefHeight(600);
@@ -25,6 +29,9 @@ public class ShrineSurvivalSubScene extends SubScene {
         root2.setBackground(background);
     }
 
+    /**
+     * @return returns this SubScene's AnchorPane
+     */
     public AnchorPane getPane() {
         return (AnchorPane) this.getRoot();
     }
