@@ -92,10 +92,6 @@ public class ShrineSurvivalButton extends Button {
         }
     }
 
-    private void convertException(Exception e) {
-        throw new RuntimeException(e.getMessage(), e);
-    }
-
     private void setButtonFont() {
         try {
             setFont(Font.loadFont(getClass().getResource(FONT).openStream(), fontSize));
