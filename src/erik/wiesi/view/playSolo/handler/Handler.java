@@ -247,10 +247,7 @@ public abstract class Handler {
     public static void sendData(PlayerSprite playerSprite, Score score) {
 //        Connection con = new DatabaseConnection().getConnection();
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.excludeFieldsWithoutExposeAnnotation();
-        Gson gson = builder.create();
-        String json = gson.toJson(playerSprite);
-        System.out.println(json);
+//        String json = playerSprite.toJSON();
+//        System.out.println(json);
     }
 }

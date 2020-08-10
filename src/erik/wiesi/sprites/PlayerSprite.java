@@ -1,10 +1,13 @@
 package erik.wiesi.sprites;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 import javafx.scene.canvas.Canvas;
 
 public class PlayerSprite {
 
-    private Sprite player;
+    private transient Sprite player;
 
     private final int[] bodyModel;
     private final int[] pants;
@@ -63,23 +66,7 @@ public class PlayerSprite {
         return player.getCanvas();
     }
 
-    public int[] getBodyModel() {
-        return bodyModel;
-    }
-
-    public int[] getPants() {
-        return pants;
-    }
-
-    public int[] getShoes() {
-        return shoes;
-    }
-
-    public int[] getTop() {
-        return top;
-    }
-
-    public int[] getHead() {
-        return head;
+    public String toJSON() {
+        return new Gson().toJson(this);
     }
 }

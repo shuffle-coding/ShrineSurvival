@@ -243,7 +243,7 @@ public class PlaySoloScene {
     }
 
     /**
-     * Generated Scene at the end of the Game
+     * Generated Panel at the end of the Game
      * Shows Score and changes to menuScene with button press
      */
     public static void gameOver() {
@@ -253,7 +253,7 @@ public class PlaySoloScene {
         int gameLengthMinutes = (int) gameLengthMillis / 60000;
         int gameLengthSeconds = (int) (gameLengthMillis / 1000) % 60;
 
-        Handler.sendData(playerSprite, score);
+//        Handler.sendData(playerSprite, score);
 
         ShrineSurvivalSubScene gameEndPanel = new ShrineSurvivalSubScene();
         mainPane.getChildren().add(gameEndPanel);

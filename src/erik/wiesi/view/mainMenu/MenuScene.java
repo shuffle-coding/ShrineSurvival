@@ -47,6 +47,7 @@ public class MenuScene {
 
         int totalSize = buttonList.size() * 70;
         AtomicReference<Double> buttonStartY = new AtomicReference<>((mainPane.getHeight() / 2) - (totalSize / 2));
+
         buttonList.forEach(b -> {
             mainPane.getChildren().add(b);
             b.setLayoutX(buttonStartX);
