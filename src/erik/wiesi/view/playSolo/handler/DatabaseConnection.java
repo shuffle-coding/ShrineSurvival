@@ -9,7 +9,7 @@ public class DatabaseConnection {
     public DatabaseConnection() {
         String url= "jdbc:mysql://localhost:3306/";
         String dbName = "shrinesurvival";
-        String driver = "com.mysql.jdbc.Driver";
+        String driver = "com.mysql.cj.jdbc.Driver";
         String userName = "root";
         String password = "";
         try {

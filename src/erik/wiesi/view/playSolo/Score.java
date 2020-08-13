@@ -1,12 +1,10 @@
 package erik.wiesi.view.playSolo;
 
 import erik.wiesi.view.mainMenu.InfoPanel;
-import erik.wiesi.view.playSolo.handler.DatabaseConnection;
-
-import java.sql.Connection;
 
 public class Score {
 
+    private String name;
     private Integer score;
     private final InfoPanel scorePanel;
     private int defeatedEnemies;
@@ -32,6 +30,20 @@ public class Score {
      */
     public void setPlaytime() {
         playtime = System.currentTimeMillis() - startTime;
+    }
+
+    /**
+     * @param name sets name for this Score
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return returns this Score's name
+     */
+    public String getName() {
+        return name;
     }
 
     /**

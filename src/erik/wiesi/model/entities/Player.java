@@ -5,18 +5,15 @@ import javafx.scene.canvas.Canvas;
 
 public class Player extends Entity {
 
-    private final String name;
 
     /**
-     * Constructs new Player Entity with given Body Parts from PlayerSprite and Selected Name by Player
+     * Constructs new Player Entity with given Body Parts from PlayerSprite
      * @param canvas Requires Canvas given by PlayerSprite Class
-     * @param name Name selected by the Player
      */
-    public Player(Canvas canvas, String name) {
+    public Player(Canvas canvas) {
         super();
         this.setCanvas(canvas);
         this.setHealth(100);
-        this.name = name;
     }
 
     /**

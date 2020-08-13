@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicReference;
@@ -47,6 +48,7 @@ public class PlaySoloScene {
         playerSprite = playerModel;
         generateSpriteList();
         generateMap();
+        score = new Score();
         setPlayer();
         Handler.setMainPane(mainPane);
 
@@ -78,7 +80,6 @@ public class PlaySoloScene {
         ImageView scorePanel = new ImageView(new Image(getClass().getResource(panelBackground).toString(), 150, 100, false, false));
         ImageView healthPanel = new ImageView(new Image(getClass().getResource(panelBackground).toString(), 150, 50, false, false));
         healthBar = new InfoPanel(Integer.toString(player.getHealth()));
-        score = new Score();
         mainPane.getChildren().add(scorePanel);
         scorePanel.setLayoutX(1400);
         scorePanel.setLayoutY(50);
@@ -232,7 +233,8 @@ public class PlaySoloScene {
     }
 
     private void setPlayer() {
-        this.player = new Player(playerSprite.getCanvas(), "Klaus");
+        this.player = new Player(playerSprite.getCanvas());
+        score.setName("Klaus");
         mainPane.getChildren().add(player.getCanvas());
         player.getCanvas().setScaleX(rescaleFactor * 2);
         player.getCanvas().setScaleY(rescaleFactor * 2);
@@ -253,7 +255,11 @@ public class PlaySoloScene {
         int gameLengthMinutes = (int) gameLengthMillis / 60000;
         int gameLengthSeconds = (int) (gameLengthMillis / 1000) % 60;
 
-//        Handler.sendData(playerSprite, score);
+        try {
+            Handler.sendData(playerSprite, score);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         ShrineSurvivalSubScene gameEndPanel = new ShrineSurvivalSubScene();
         mainPane.getChildren().add(gameEndPanel);

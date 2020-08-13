@@ -1,6 +1,5 @@
 package erik.wiesi.view.playSolo.handler;
 
-import com.google.gson.GsonBuilder;
 import erik.wiesi.model.entities.Enemy;
 import erik.wiesi.model.entities.Entity;
 import erik.wiesi.model.entities.Player;
@@ -15,10 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Arc;
 import javafx.util.Duration;
 
-import java.sql.Connection;
+import java.sql.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.google.gson.Gson;
 
 public abstract class Handler {
 
@@ -244,10 +242,29 @@ public abstract class Handler {
         }
     }
 
-    public static void sendData(PlayerSprite playerSprite, Score score) {
-//        Connection con = new DatabaseConnection().getConnection();
+    /**
+     * Sends PlayerSprite and Score to the Database
+     * @param playerSprite PlayerSprite used in Game
+     * @param score Score at end of Game
+     */
+    public static void sendData(PlayerSprite playerSprite, Score score) throws SQLException {
+        Connection con = new DatabaseConnection().getConnection();
 
-//        String json = playerSprite.toJSON();
-//        System.out.println(json);
+        String playerModel = playerSprite.toJSON();
+        String sql = "REPLACE INTO player_model" +
+                "(player_model)" +
+                "VALUES" +
+                "('"+playerModel+"');";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.execute();
+        stmt = con.prepareStatement("SELECT player_model_id" +
+                                          "FROM player_model" +
+                                          "WHERE player_model = '" + playerModel + "';");
+        stmt.execute();
+        ResultSet result = stmt.getResultSet();
+        int res = result.getInt("player_model_id");
+        sql = "INSERT INTO score" +
+              "('player_model_id', 'player_name', 'score', 'defeated_enemies', 'waves'" +
+              "VALUES ('" + result + "' , '" + score.getName() + "', " + score.getScore() + ", " + score.getDefeatedEnemies() + ", " + score.getWaves() + ");"
     }
 }
