@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -104,7 +105,11 @@ public class MenuScene {
                 infoPanel = new InfoPanel("Multiplayer");
             }
             case "scoresButton" -> {
-                subScene = new ScoresSubScene();
+                try {
+                    subScene = new ScoresSubScene();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 infoPanel = new InfoPanel("Scores");
             }
             case "creditsButton" -> {
@@ -121,7 +126,7 @@ public class MenuScene {
         subScene.setLayoutY((mainPane.getHeight() / 2) - (subScene.getHeight() / 2));
         mainPane.getChildren().add(subScene);
         infoPanel.setLayoutX(40);
-        infoPanel.setLayoutY(0);
+        infoPanel.setLayoutY(30);
         subScene.getPane().getChildren().add(infoPanel);
     }
 }

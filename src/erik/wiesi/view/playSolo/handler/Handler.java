@@ -250,21 +250,51 @@ public abstract class Handler {
     public static void sendData(PlayerSprite playerSprite, Score score) throws SQLException {
         Connection con = new DatabaseConnection().getConnection();
 
-        String playerModel = playerSprite.toJSON();
-        String sql = "REPLACE INTO player_model" +
-                "(player_model)" +
-                "VALUES" +
-                "('"+playerModel+"');";
+        int[] body = playerSprite.getBodyModel();
+        int[] pants = playerSprite.getPants();
+        int[] shoes = playerSprite.getShoes();
+        int[] top = playerSprite.getTop();
+        int[] head = playerSprite.getHead();
+
+
+        String sql = ("SELECT player_model_id FROM player_model WHERE " +
+                "body_x = %d AND body_y = %d AND " +
+                "pants_x = %d AND pants_y = %d AND " +
+                "shoes_x = %d AND shoes_y = %d AND " +
+                "top_x = %d AND top_y = %d AND " +
+                "head_x = %d AND head_y = %d;")
+                .formatted(body[0], body[1], pants[0], pants[1], shoes[0], shoes[1], top[0], top[1], head[0], head[1]);
+
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.execute();
-        stmt = con.prepareStatement("SELECT player_model_id" +
-                                          "FROM player_model" +
-                                          "WHERE player_model = '" + playerModel + "';");
-        stmt.execute();
         ResultSet result = stmt.getResultSet();
-        int res = result.getInt("player_model_id");
-        sql = "INSERT INTO score" +
-              "('player_model_id', 'player_name', 'score', 'defeated_enemies', 'waves'" +
-              "VALUES ('" + result + "' , '" + score.getName() + "', " + score.getScore() + ", " + score.getDefeatedEnemies() + ", " + score.getWaves() + ");"
+        if (!result.next()) {
+            sql = ("INSERT INTO player_model(body_x, body_y, pants_x, pants_y, shoes_x, shoes_y, top_x, top_y, head_x, head_y)VALUES(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d);")
+                    .formatted(body[0], body[1], pants[0], pants[1], shoes[0], shoes[1], top[0], top[1], head[0], head[1]);
+            stmt = con.prepareStatement(sql);
+            stmt.execute();
+
+            sql = ("SELECT player_model_id FROM player_model WHERE " +
+                    "body_x = %d AND body_y = %d AND " +
+                    "pants_x = %d AND pants_y = %d AND " +
+                    "shoes_x = %d AND shoes_y = %d AND " +
+                    "top_x = %d AND top_y = %d AND " +
+                    "head_x = %d AND head_y = %d;")
+                    .formatted(body[0], body[1], pants[0], pants[1], shoes[0], shoes[1], top[0], top[1], head[0], head[1]);
+            stmt = con.prepareStatement(sql);
+            stmt.execute();
+            result = stmt.getResultSet();
+            result.next();
+        }
+        int modelId = result.getInt("player_model_id");
+
+        sql = "INSERT INTO score(player_model_id, player_name, score, play_time, defeated_enemies, waves) VALUES (%d , '%s', %d, '%s', %d, %d);"
+                .formatted(modelId, score.getName(), score.getScore(), score.getPlayTime(), score.getDefeatedEnemies(), score.getWaves());
+        stmt = con.prepareStatement(sql);
+        stmt.execute();
+
+        result.close();
+        stmt.close();
+        con.close();
     }
 }

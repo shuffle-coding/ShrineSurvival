@@ -43,6 +43,20 @@ public class PlayerSprite {
         this.top = top;
         this.head = head;
         player = new Sprite(spritesheet);
+        setSprite();
+    }
+
+//    public PlayerSprite(String json) {
+//        this.bodyModel = bodyModel;
+//        this.pants = pants;
+//        this.shoes = shoes;
+//        this.top = top;
+//        this.head = head;
+//        player = new Sprite(spritesheet);
+//        setSprite();
+//    }
+
+    private void setSprite() {
         player.addSprite(bodyModel[0], bodyModel[1]);
         player.addSprite(pants[0], pants[1]);
         player.addSprite(shoes[0], shoes[1]);
@@ -64,16 +78,37 @@ public class PlayerSprite {
     }
 
     /**
-     * Builds JSON String from Object
-     * @return returns JSON String
+     * @return returns int[] bodyModel
      */
-    public String toJSON() {
+    public int[] getBodyModel() {
+        return bodyModel;
+    }
 
-        String result = "{\"bodyModel\": [%s, %s],\"pants\": [%s, %s],\"shoes\": [%s, %s],\"top\": [%s, %s],\"head\": [%s, %s]}\n".formatted(bodyModel[0], bodyModel[1],
-                pants[0], pants[1],
-                shoes[0], shoes[1],
-                top[0], top[1],
-                head[0], head[1]);
-        return result;
+    /**
+     * @return returns int[] pants
+     */
+    public int[] getPants() {
+        return pants;
+    }
+
+    /**
+     * @return returns int[] shoes
+     */
+    public int[] getShoes() {
+        return shoes;
+    }
+
+    /**
+     * @return returns int[] top
+     */
+    public int[] getTop() {
+        return top;
+    }
+
+    /**
+     * @return returns int[] head
+     */
+    public int[] getHead() {
+        return head;
     }
 }

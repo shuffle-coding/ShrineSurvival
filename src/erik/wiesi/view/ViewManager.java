@@ -55,12 +55,12 @@ public class ViewManager {
      * needs PlayerSprite to be shown in Game
      * @param playerSprite Player's chosen PlayerSprite
      */
-    public static void switchToPlaySoloScene(PlayerSprite playerSprite) {
+    public static void switchToPlaySoloScene(PlayerSprite playerSprite, String playerName) {
         mainPane = null;
         mainPane = new AnchorPane();
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
         mainStage.setScene(scene);
-        new PlaySoloScene(mainPane, playerSprite);
+        new PlaySoloScene(mainPane, playerSprite, playerName);
     }
 
     /**

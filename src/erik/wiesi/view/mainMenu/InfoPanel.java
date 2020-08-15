@@ -17,7 +17,7 @@ public class InfoPanel extends Label {
      */
     public InfoPanel(String text) {
         setPrefWidth(600);
-        setPrefHeight(100);
+        setPrefHeight(25);
         setPadding(new Insets(5,5,5,5));
         setText(text);
         setWrapText(true);

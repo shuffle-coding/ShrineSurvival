@@ -7,6 +7,7 @@ import erik.wiesi.sprites.PlayerSprite;
 import erik.wiesi.sprites.Sprite;
 import erik.wiesi.sprites.Spritesheet;
 import erik.wiesi.view.ViewManager;
+import erik.wiesi.view.mainMenu.InfoPanel;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -18,13 +19,14 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
 
     private final Spritesheet CHARS = new Spritesheet("/SpriteSheets/roguelikeChar_transparent.png");
     private final List<ShrineSurvivalButton> buttonList = new ArrayList<>();
-    Pane pane = this.getPane();
+    private Pane pane = this.getPane();
+    ShrineSurvivalTextField nameField;
     private final Sprite previewSprite;
-    Creator body;
-    Creator head;
-    Creator top;
-    Creator pants;
-    Creator shoes;
+    private Creator body;
+    private Creator head;
+    private Creator top;
+    private Creator pants;
+    private Creator shoes;
 
     /**
      * Creats new PlaySoloSubScene
@@ -41,6 +43,7 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
         previewSprite = new Sprite(CHARS);
         addButtons();
         addStartButton();
+        addNameTextField();
         buttonActions();
 
         previewSprite.addSprite(body.getX(), body.getY());
@@ -77,11 +80,33 @@ public class PlaySoloSubScene extends ShrineSurvivalSubScene {
     private void addStartButton() {
         ShrineSurvivalButton start = new ShrineSurvivalButton("start", "startButton");
 
-        start.setOnAction(actionEvent -> ViewManager.switchToPlaySoloScene(new PlayerSprite(CHARS, body.getXY(), pants.getXY(), shoes.getXY(), top.getXY(), head.getXY())));
+        start.setOnAction(actionEvent -> {
+            if (nameField.getText().equals("")) {
+                noPlayerName();
+            } else {
+                ViewManager.switchToPlaySoloScene(new PlayerSprite(CHARS, body.getXY(), pants.getXY(), shoes.getXY(), top.getXY(), head.getXY()), nameField.getText());
+            }
+        });
 
         pane.getChildren().add(start);
-        start.setLayoutX(this.getPane().getWidth() / 10);
-        start.setLayoutY(this.getPane().getHeight() / 1.2);
+        start.setLayoutX(pane.getWidth() / 10);
+        start.setLayoutY(pane.getHeight() / 10 * 8);
+    }
+
+    private void addNameTextField() {
+        nameField = new ShrineSurvivalTextField("name");
+
+        pane.getChildren().add(nameField);
+        nameField.setLayoutX(pane.getWidth() / 10);
+        nameField.setLayoutY(pane.getHeight() / 10 * 2);
+    }
+
+    private void noPlayerName() {
+        InfoPanel text = new InfoPanel("Input Name to Start!");
+        pane.getChildren().add(text);
+        text.setLayoutX(pane.getWidth() / 10);
+        text.setLayoutY(pane.getHeight() / 10);
+
     }
 
     private void buttonActions() {

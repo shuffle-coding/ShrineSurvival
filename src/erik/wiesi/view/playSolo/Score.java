@@ -11,12 +11,13 @@ public class Score {
     private Integer waves;
     private final InfoPanel wavesPanel;
     private final long startTime;
-    private long playtime;
+    private String playtime;
 
     /**
      * Creats new Score Object and creats new Starting Time in MilliSeconds
      */
-    public Score() {
+    public Score(String name) {
+        this.name = name;
         score = 0;
         scorePanel = new InfoPanel(score.toString());
         defeatedEnemies = 0;
@@ -29,14 +30,11 @@ public class Score {
      * Sets Total Play Time
      */
     public void setPlaytime() {
-        playtime = System.currentTimeMillis() - startTime;
-    }
+        long gameLengthMillis = System.currentTimeMillis() - startTime;
+        int gameLengthMinutes = (int) gameLengthMillis / 60000;
+        int gameLengthSeconds = (int) (gameLengthMillis / 1000) % 60;
 
-    /**
-     * @param name sets name for this Score
-     */
-    public void setName(String name) {
-        this.name = name;
+        playtime = gameLengthMinutes + ":" + gameLengthSeconds;
     }
 
     /**
@@ -84,7 +82,7 @@ public class Score {
     /**
      * @return returns total Playtime in Milliseconds
      */
-    public long getPlayTime() {
+    public String getPlayTime() {
         return playtime;
     }
 

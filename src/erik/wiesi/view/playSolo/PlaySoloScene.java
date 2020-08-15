@@ -41,14 +41,14 @@ public class PlaySoloScene {
      * @param mainPane AnchorPane to be drawn at
      * @param playerModel Generated PlayerSprite chosen by Player
      */
-    public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerModel) {
+    public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerModel, String playerName) {
 
         PlaySoloScene.mainPane = mainPane;
 
         playerSprite = playerModel;
         generateSpriteList();
         generateMap();
-        score = new Score();
+        score = new Score(playerName);
         setPlayer();
         Handler.setMainPane(mainPane);
 
@@ -234,7 +234,6 @@ public class PlaySoloScene {
 
     private void setPlayer() {
         this.player = new Player(playerSprite.getCanvas());
-        score.setName("Klaus");
         mainPane.getChildren().add(player.getCanvas());
         player.getCanvas().setScaleX(rescaleFactor * 2);
         player.getCanvas().setScaleY(rescaleFactor * 2);
@@ -251,14 +250,11 @@ public class PlaySoloScene {
     public static void gameOver() {
         gameLoop.stop();
         score.setPlaytime();
-        long gameLengthMillis = score.getPlayTime();
-        int gameLengthMinutes = (int) gameLengthMillis / 60000;
-        int gameLengthSeconds = (int) (gameLengthMillis / 1000) % 60;
 
         try {
             Handler.sendData(playerSprite, score);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         ShrineSurvivalSubScene gameEndPanel = new ShrineSurvivalSubScene();
@@ -268,7 +264,7 @@ public class PlaySoloScene {
         gameEndPanel.setOpacity(0.7);
 
         Map<InfoPanel, InfoPanel> panels = new HashMap<>();
-        panels.put(new InfoPanel("Time Played:"), new InfoPanel(gameLengthMinutes + ":" + gameLengthSeconds));
+        panels.put(new InfoPanel("Time Played:"), new InfoPanel(score.getPlayTime()));
         panels.put(new InfoPanel("Score: "), new InfoPanel(Integer.toString(score.getScore())));
         panels.put(new InfoPanel("Wave: "), new InfoPanel(Integer.toString(score.getWaves())));
         panels.put(new InfoPanel("Defeated Enemies: "), new InfoPanel(Integer.toString(score.getDefeatedEnemies())));

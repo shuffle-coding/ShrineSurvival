@@ -16,10 +16,4 @@ public class Player extends Entity {
         this.setHealth(100);
     }
 
-    /**
-     * @return returns Name
-     */
-    public String getName() {
-        return name;
-    }
 }
