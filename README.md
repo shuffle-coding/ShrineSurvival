@@ -71,5 +71,5 @@ For now, enemies are only generated with a single sprite and dont add any layers
 The Map is generated on the same principle, except the generated Sprite has the same Resolution as the ViewManager (In my case 1600 x 900).  
 
 Here is an example Spritesheet used in the game:  
-![Character Sheet](/usedAssets/roguelikeChar_transparent.png)
+![Character Sheet](/usedAssets/SpriteSheets/roguelikeChar_transparent.png)
 
