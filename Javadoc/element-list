@@ -1,0 +1,12 @@
+module:erik.wiesi
+erik.wiesi.main
+erik.wiesi.model
+erik.wiesi.model.characterBuilder
+erik.wiesi.model.entities
+erik.wiesi.sprites
+erik.wiesi.statics
+erik.wiesi.view
+erik.wiesi.view.mainMenu
+erik.wiesi.view.mainMenu.subScenes
+erik.wiesi.view.playSolo
+erik.wiesi.view.playSolo.handler
