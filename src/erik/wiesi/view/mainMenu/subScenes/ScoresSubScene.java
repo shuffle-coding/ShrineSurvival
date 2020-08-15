@@ -19,6 +19,7 @@ public class ScoresSubScene  extends ShrineSurvivalSubScene {
     /**
      * Shows Top 10 Scores and thier player Sprites
      * gets Data from Database
+     * @throws SQLException throws SQLException if Connection to DB fails
      */
     public ScoresSubScene() throws SQLException {
         Connection con = new DatabaseConnection().getConnection();

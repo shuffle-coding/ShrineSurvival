@@ -15,6 +15,7 @@ public class Score {
 
     /**
      * Creats new Score Object and creats new Starting Time in MilliSeconds
+     * @param name player's chosen name
      */
     public Score(String name) {
         this.name = name;

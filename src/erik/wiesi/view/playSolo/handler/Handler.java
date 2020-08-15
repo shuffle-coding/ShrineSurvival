@@ -246,6 +246,7 @@ public abstract class Handler {
      * Sends PlayerSprite and Score to the Database
      * @param playerSprite PlayerSprite used in Game
      * @param score Score at end of Game
+     * @throws SQLException throws SQLException if Connection fails
      */
     public static void sendData(PlayerSprite playerSprite, Score score) throws SQLException {
         Connection con = new DatabaseConnection().getConnection();

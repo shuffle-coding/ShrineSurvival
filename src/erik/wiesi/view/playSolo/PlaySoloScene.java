@@ -40,6 +40,7 @@ public class PlaySoloScene {
     /**
      * @param mainPane AnchorPane to be drawn at
      * @param playerModel Generated PlayerSprite chosen by Player
+     * @param playerName player's chosen name
      */
     public PlaySoloScene(AnchorPane mainPane, PlayerSprite playerModel, String playerName) {
 
