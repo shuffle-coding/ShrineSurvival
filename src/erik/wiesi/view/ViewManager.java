@@ -44,7 +44,7 @@ public class ViewManager {
         Scene mainScene = new Scene(mainPane, WIDTH, HEIGHT);
         mainStage = new Stage();
         mainStage.setResizable(false);
-        mainStage.setTitle("Project Platinum Bee");
+        mainStage.setTitle("Shrine Survival");
         mainStage.setScene(mainScene);
 
         new MenuScene(mainPane);

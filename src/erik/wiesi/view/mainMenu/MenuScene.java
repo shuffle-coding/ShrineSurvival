@@ -43,7 +43,7 @@ public class MenuScene {
         buttonList.add(new ShrineSurvivalButton("multiplayer", "playmultiplayerButton"));
         buttonList.add(new ShrineSurvivalButton("scores", "scoresButton"));
         buttonList.add(new ShrineSurvivalButton("credits", "creditsButton"));
-        buttonList.add(new ShrineSurvivalButton("settings", "settingsButton"));
+//        buttonList.add(new ShrineSurvivalButton("settings", "settingsButton"));
         buttonList.add(new ShrineSurvivalButton("exit", "exitButton"));
 
         int totalSize = buttonList.size() * 70;
